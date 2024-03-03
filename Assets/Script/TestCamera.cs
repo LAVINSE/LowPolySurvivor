@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class TestCamera : MonoBehaviour
 {
+    #region 변수
     public GameObject Player;
+    #endregion // 변수
 
-    void LateUpdate()
+    /** 초기화 => 상태를 갱신한다 */
+    private void LateUpdate()
     {
-        // Player는 싱글톤이기에 전역적으로 접근할 수 있습니다.
-        Vector3 direction = (Player.transform.position - transform.position).normalized;
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, Mathf.Infinity,
-                            1 << LayerMask.NameToLayer("EnvironmentObject"));
+        // 레이캐스트 방향
+        Vector3 direction = (Player.transform.position - this.transform.position).normalized;
 
+        // 무한대로 발사되는 레이캐스트 EnvironmentObject만 반응
+        RaycastHit[] hits = Physics.RaycastAll(this.transform.position, direction, Mathf.Infinity,
+            LayerMask.GetMask("EnvironmentObject"));
+
+        // 충돌한 객체들을 반복
         for (int i = 0; i < hits.Length; i++)
         {
+            // 충동한 객체 안에 있는 컴포넌트 가져오기
             Test[] obj = hits[i].transform.GetComponentsInChildren<Test>();
 
             for (int j = 0; j < obj.Length; j++)
             {
+                // 오브젝트를 투명하게 만든다
                 obj[j]?.BecomeTransparent();
             }
         }
