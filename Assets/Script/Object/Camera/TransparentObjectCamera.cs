@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestCamera : MonoBehaviour
+public class TransparentObjectCamera : MonoBehaviour
 {
     #region 변수
     public GameObject Player;
@@ -22,7 +22,7 @@ public class TestCamera : MonoBehaviour
         for (int i = 0; i < hits.Length; i++)
         {
             // 충동한 객체 안에 있는 컴포넌트 가져오기
-            Test[] obj = hits[i].transform.GetComponentsInChildren<Test>();
+            TransparentObject[] obj = hits[i].transform.GetComponentsInChildren<TransparentObject>();
 
             for (int j = 0; j < obj.Length; j++)
             {

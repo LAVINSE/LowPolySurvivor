@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Test : MonoBehaviour
+public class TransparentObject : MonoBehaviour
 {
     #region 변수
     // 오브젝트 렌더러 저장
