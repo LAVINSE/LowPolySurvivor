@@ -11,6 +11,11 @@ public class TransparentObjectCamera : MonoBehaviour
     /** 초기화 => 상태를 갱신한다 */
     private void LateUpdate()
     {
+        RaycastObject();
+    }
+
+    private void RaycastObject()
+    {
         // 레이캐스트 방향
         Vector3 direction = (Player.transform.position - this.transform.position).normalized;
 
