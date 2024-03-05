@@ -1563,7 +1563,7 @@ GameObject:
   m_Component:
   - component: {fileID: 544136511}
   m_Layer: 0
-  m_Name: 9:35
+  m_Name: 11:09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1576,13 +1576,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 544136510}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: 37, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 951.5949, y: 84.53778, z: 26.18123}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 796159990}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &553390428
 PrefabInstance:
@@ -2305,6 +2305,38 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2309203221929738420, guid: 2840de4cb216ef149b1c64b177ff188f, type: 3}
   m_PrefabInstance: {fileID: 787483779}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &796159989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 796159990}
+  m_Layer: 0
+  m_Name: https://www.youtube.com/watch?v=oJAE6CbsQQA&t=575s
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &796159990
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796159989}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.405111, y: -47.537785, z: -26.18123}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 544136511}
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &844627787
 GameObject:
   m_ObjectHideFlags: 0
@@ -4619,6 +4651,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InventoryItem
       objectReference: {fileID: 0}
+    - target: {fileID: 4010946919263487577, guid: eeb7f4032770a96429ccc0bb12bf62de, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 11400000, guid: 5abbd12fec8755749b36532e082e9e13, type: 2}
     - target: {fileID: 4010946919263487577, guid: eeb7f4032770a96429ccc0bb12bf62de, type: 3}
       propertyPath: image
       value: 
