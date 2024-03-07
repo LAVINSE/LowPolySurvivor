@@ -31,7 +31,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         ItemStackCountSetting();
     }
 
-    /** 인벤토리 아이템 스텍 수 설정 */
+    /** 인벤토리 아이템 스텍 수 설정 및 텍스트 */
     public void ItemStackCountSetting()
     {
         // 텍스트에 표시

@@ -54,48 +54,60 @@ public class InventoryManager : MonoBehaviour
     /** 아이템을 추가한다 */
     public bool AddItem(ItemSO item)
     {
-        // Check if any slot has the same item with count lower than max
+        // 모든 슬롯 반복
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             InventorySlot slot = inventorySlots[i];
-            InventoryItem itemInslot = slot.GetComponentInChildren<InventoryItem>();
+            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
 
-            if (itemInslot != null && itemInslot.ItemSO == item && itemInslot.ItemCount < maxStackedItems
-                && itemInslot.ItemSO.stackable == true)
+            // 인벤토리에 아이템이 존재하고, 아이템 데이터가 추가하는 아이템과 같고, 아이템의 개수가 최대 개수를 넘지 않고, 합칠 수 있을 경우
+            if (inventoryItem != null && inventoryItem.ItemSO == item && inventoryItem.ItemCount < maxStackedItems
+                && inventoryItem.ItemSO.stackable == true)
             {
-                itemInslot.ItemCount++;
+                // 아이템 개수 증가
+                inventoryItem.ItemCount++;
 
-                // 인벤토리 아이템 스텍 수 설정
-                itemInslot.ItemStackCountSetting();
+                // 인벤토리 아이템 스텍 수 설정 및 텍스트
+                inventoryItem.ItemStackCountSetting();
+
+                // 성공
                 return true;
             }
         }
 
-        // Find any empty slot
+        // 모든 슬롯 반복
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             InventorySlot slot = inventorySlots[i];
-            InventoryItem itemInslot = slot.GetComponentInChildren<InventoryItem>();
+            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
 
-            if(itemInslot == null)
+            // 인벤토리에 아이템이 없을 경우
+            if(inventoryItem == null)
             {
-                SpawnNewItem(item, slot);
+                // 인벤토리에 아이템 생성
+                SpawnInventoryNewItem(item, slot);
+
+                // 성공
                 return true;
             }
         }
 
+        // 실패
         return false;
     }
 
-    private void SpawnNewItem(ItemSO item, InventorySlot slot)
+    /** 인벤토리에 아이템을 생성한다 */
+    private void SpawnInventoryNewItem(ItemSO item, InventorySlot slot)
     {
-        GameObject newItemGo = Instantiate(inventoryItemPrefab, slot.transform);
-        InventoryItem inventoryItem = newItemGo.GetComponent<InventoryItem>();
+        // 슬롯 자식에 생성
+        GameObject inventoryNewItem = Instantiate(inventoryItemPrefab, slot.transform);
+        InventoryItem inventoryItem = inventoryNewItem.GetComponent<InventoryItem>();
 
         // 인벤토리 아이템 기본설정
         inventoryItem.InitItem(item);
     }
 
+    /** 선택된 아이템을 가져온다 */
     public ItemSO GetSelectedItem(bool use)
     {
         InventorySlot slot = inventorySlots[selectedSlot];
