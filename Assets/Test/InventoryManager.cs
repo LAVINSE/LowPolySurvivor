@@ -5,43 +5,53 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     #region 변수
-    public int maxStackedItems = 4;
-    public InventorySlot[] inventorySlots;
-    public GameObject inventoryItemPrefab;
+    [SerializeField] private int maxStackedItems = 4; // 아이템 스택 최대 개수
+    [SerializeField] private InventorySlot[] inventorySlots; // 인벤토리 슬롯 배열
+    [SerializeField] private GameObject inventoryItemPrefab; // 인벤토리 아이템 프리팹
 
-    private int selectedSlot = -1;
+    private int selectedSlot = -1; // 선택된 슬롯 번호 (-1은 초기값)
+    private int maxNumber = 7; // 선택된 슬롯 번호 최대 값
     #endregion // 변수
 
-    #region 함수
-    private void Start()
-    {
-        ChangeSelectedSlot(0);
-    }
+    #region 프로퍼티
+    #endregion // 프로퍼티
 
+    #region 함수
+    /** 초기화 => 상태를 갱신한다 */
     private void Update()
     {
+        // 입력된 값이 있을 경우
         if(Input.inputString != null)
         {
+            // 입력된 문자열을 가져와 정수로 변환을 시도하고 성공하면 true, 실패하면 false
             bool isNumber = int.TryParse(Input.inputString, out int number);
-            if(isNumber && number > 0 && number < 8)
+
+            //  변환에 성공 했을 경우, 0보다 크고, 최대값 보다작을 경우 
+            if(isNumber && number > 0 && number <= maxNumber)
             {
+                // 슬롯을 선택하고, 선택된 슬롯을 number - 1로 변경한다
                 ChangeSelectedSlot(number - 1);
             }
         }
     }
 
-    private void ChangeSelectedSlot(int newValue)
+    /** 슬롯을 선택하고, 선택된 슬롯을 변경한다 */
+    private void ChangeSelectedSlot(int slotNumber)
     {
-        // 전에 선택된 슬롯강조 원래대로
+        // 선택된 슬롯이 있을 경우
         if(selectedSlot >= 0)
         {
+            // 전에 선택된 슬롯강조 원래대로
             inventorySlots[selectedSlot].Deselcet();
         }
-        
-        inventorySlots[newValue].Select();
-        selectedSlot = newValue;
+
+        // slotNumber슬롯을 선택된 슬롯으로 설정한다
+        inventorySlots[slotNumber].Select();
+        // 선택된 슬롯 번호를 저장한다
+        selectedSlot = slotNumber;
     }
 
+    /** 아이템을 추가한다 */
     public bool AddItem(ItemSO item)
     {
         // Check if any slot has the same item with count lower than max
