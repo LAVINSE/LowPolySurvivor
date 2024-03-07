@@ -5,7 +5,7 @@ using UnityEngine;
 public class DemoScirpt : MonoBehaviour
 {
     public InventoryManager inventoryManager;
-    public Item[] itemsToPickup;
+    public ItemSO[] itemsToPickup;
 
     public void PickItem(int id)
     {
@@ -17,6 +17,34 @@ public class DemoScirpt : MonoBehaviour
         else
         {
             Debug.Log("Item Not add");
+        }
+    }
+
+    public void GetSelectedItem()
+    {
+        ItemSO receivedItem = inventoryManager.GetSelectedItem(false);
+
+        if(receivedItem != null)
+        {
+            Debug.Log("Received item");
+        }
+        else
+        {
+            Debug.Log("Received Not item");
+        }
+    }
+
+    public void UseSelectedItem()
+    {
+        ItemSO receivedItem = inventoryManager.GetSelectedItem(true);
+
+        if (receivedItem != null)
+        {
+            Debug.Log("use item");
+        }
+        else
+        {
+            Debug.Log("use Not item");
         }
     }
 }

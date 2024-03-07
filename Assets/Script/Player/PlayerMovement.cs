@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class PlayerMovement : MonoBehaviour
 {
     #region 변수
+    [Header(" 속도 설정 ")]
     [SerializeField] private float moveSpeed; // 이동 속도
     [SerializeField] private float rotationSpeed; // 회전 속도
 

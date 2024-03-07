@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Object/Item")]
-public class Item : ScriptableObject
+public class ItemSO : ScriptableObject
 {
     [Header("Only gameplay")]
     //public TileBase tile;

@@ -42,7 +42,7 @@ public class InventoryManager : MonoBehaviour
         selectedSlot = newValue;
     }
 
-    public bool AddItem(Item item)
+    public bool AddItem(ItemSO item)
     {
         // Check if any slot has the same item with count lower than max
         for (int i = 0; i < inventorySlots.Length; i++)
@@ -50,11 +50,13 @@ public class InventoryManager : MonoBehaviour
             InventorySlot slot = inventorySlots[i];
             InventoryItem itemInslot = slot.GetComponentInChildren<InventoryItem>();
 
-            if (itemInslot != null && itemInslot.item == item && itemInslot.count < maxStackedItems
-                && itemInslot.item.stackable == true)
+            if (itemInslot != null && itemInslot.ItemSO == item && itemInslot.ItemCount < maxStackedItems
+                && itemInslot.ItemSO.stackable == true)
             {
-                itemInslot.count++;
-                itemInslot.RefreshCount();
+                itemInslot.ItemCount++;
+
+                // 인벤토리 아이템 스텍 수 설정
+                itemInslot.ItemStackCountSetting();
                 return true;
             }
         }
@@ -75,12 +77,41 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
-    private void SpawnNewItem(Item item, InventorySlot slot)
+    private void SpawnNewItem(ItemSO item, InventorySlot slot)
     {
         GameObject newItemGo = Instantiate(inventoryItemPrefab, slot.transform);
         InventoryItem inventoryItem = newItemGo.GetComponent<InventoryItem>();
-        // Basic setting
-        inventoryItem.InitialiseItem(item);
+
+        // 인벤토리 아이템 기본설정
+        inventoryItem.InitItem(item);
+    }
+
+    public ItemSO GetSelectedItem(bool use)
+    {
+        InventorySlot slot = inventorySlots[selectedSlot];
+        InventoryItem itemInslot = slot.GetComponentInChildren<InventoryItem>();
+
+        if(itemInslot != null)
+        {
+            ItemSO item = itemInslot.ItemSO;
+            if(use == true)
+            {
+                itemInslot.ItemCount--;
+
+                if(itemInslot.ItemCount <= 0)
+                {
+                    Destroy(itemInslot.gameObject);
+                }
+                else
+                {
+                    // 인벤토리 아이템 스텍 수 설정
+                    itemInslot.ItemStackCountSetting();
+                }
+            }
+            return item;
+        }
+
+        return null;
     }
     #endregion // 함수
 }
