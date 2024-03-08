@@ -62,7 +62,7 @@ public class InventoryManager : MonoBehaviour
 
             // 인벤토리에 아이템이 존재하고, 아이템 데이터가 추가하는 아이템과 같고, 아이템의 개수가 최대 개수를 넘지 않고, 합칠 수 있을 경우
             if (inventoryItem != null && inventoryItem.ItemSO == item && inventoryItem.ItemCount < maxStackedItems
-                && inventoryItem.ItemSO.stackable == true)
+                && inventoryItem.ItemSO.isStack == true)
             {
                 // 아이템 개수 증가
                 inventoryItem.ItemCount++;
@@ -108,31 +108,43 @@ public class InventoryManager : MonoBehaviour
     }
 
     /** 선택된 아이템을 가져온다 */
-    public ItemSO GetSelectedItem(bool use)
+    public ItemSO GetSelectedItem(bool isItemUse)
     {
+        // 선택된 슬롯에 있는 아이템을 가져온다
         InventorySlot slot = inventorySlots[selectedSlot];
-        InventoryItem itemInslot = slot.GetComponentInChildren<InventoryItem>();
+        InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
 
-        if(itemInslot != null)
+        // 아이템이 있을 경우
+        if(inventoryItem != null)
         {
-            ItemSO item = itemInslot.ItemSO;
-            if(use == true)
-            {
-                itemInslot.ItemCount--;
+            // 아이템 데이터를 가져온다
+            ItemSO item = inventoryItem.ItemSO;
 
-                if(itemInslot.ItemCount <= 0)
+            // 아이템을 사용할 경우
+            if(isItemUse == true)
+            {
+                // 아이템 개수를 감소 시킨다
+                inventoryItem.ItemCount--;
+
+                // 아이템 개수가 0 이하일 경우
+                if(inventoryItem.ItemCount <= 0)
                 {
-                    Destroy(itemInslot.gameObject);
+                    // 아이템을 파괴시킨다
+                    Destroy(inventoryItem.gameObject);
                 }
+                // 아이템이 존재할 경우
                 else
                 {
                     // 인벤토리 아이템 스텍 수 설정
-                    itemInslot.ItemStackCountSetting();
+                    inventoryItem.ItemStackCountSetting();
                 }
             }
+            
+            // 아이템 데이터 반환
             return item;
         }
 
+        // null 반환
         return null;
     }
     #endregion // 함수

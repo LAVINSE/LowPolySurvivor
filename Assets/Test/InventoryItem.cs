@@ -25,7 +25,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void InitItem(ItemSO itemSO)
     {
         this.ItemSO = itemSO;
-        image.sprite = itemSO.image;
+        image.sprite = itemSO.itemImage;
 
         // 인벤토리 아이템 스텍 수 설정
         ItemStackCountSetting();

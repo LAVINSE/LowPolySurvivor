@@ -2,30 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Object/Item")]
+[CreateAssetMenu(fileName = "ItemSO",menuName = "Scriptable Objects/ItemSo/Item")]
 public class ItemSO : ScriptableObject
 {
-    [Header("Only gameplay")]
-    //public TileBase tile;
-    public ItemType type;
-    public ActionType actionType;
-    public Vector2Int range = new Vector2Int(5, 4);
+    public enum EItemType
+    {
+        None,
+    }
 
-    [Header("Only UI")]
-    public bool stackable = true;
+    [Header(" 아이템 타입 ")]
+    public EItemType type = EItemType.None;
 
-    [Header("Both")]
-    public Sprite image;
-}
-
-public enum ItemType
-{ 
-    BuildingBlock,
-    Tool
-}
-
-public enum ActionType
-{
-    Dig,
-    Mine
+    [Header(" 아이템 설정 ")]
+    [Tooltip(" 스택 가능한지 확인 ")] public bool isStack = true;
+    [Tooltip(" 아이템 이미지 ")] public Sprite itemImage;
 }
