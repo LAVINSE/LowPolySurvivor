@@ -19,12 +19,12 @@ public class Enemy : MonoBehaviour
     public bool IsAttack { get; set; } = false;
     public bool IsDie { get; set; } = false;
 
-    public PlayerMain Player { get; set; }
+    public PlayerMain Player;
     #endregion // 프로퍼티
 
     #region 함수
     /** 초기화 */
-    private void Awake()
+    private void Start()
     {
         Delay = attackDelay;
     }
@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
     }
 
     /** 플레이어와 거리를 체크하고 공격한다 */
-    public virtual void TargetSetting()
+    public void TargetSetting()
     {
         float distance = Vector3.Distance(Player.transform.position, this.transform.position);
 
@@ -45,11 +45,13 @@ public class Enemy : MonoBehaviour
         {
             // 딜레이 감소
             attackDelay -= Time.deltaTime;
+            Debug.Log(" 시간 감소 ");
         }
 
         // 적과 플레이어 거리가 적 공격사거리 보다 작거나 같을경우, 공격중이 아닐경우
         if (attackDelay <= 0 && distance <= attackRange && !IsAttack)
         {
+            Debug.Log(" 공격 시작 ");
             // 공격한다 
             Attack();
         }

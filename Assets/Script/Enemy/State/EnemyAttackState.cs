@@ -19,7 +19,7 @@ public class EnemyAttackState : BaseState
 
     public override void StateEnter()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void StateExit()
@@ -29,6 +29,6 @@ public class EnemyAttackState : BaseState
 
     public override void StateUpdate()
     {
-        
+        enemy.TargetSetting();
     }
 }

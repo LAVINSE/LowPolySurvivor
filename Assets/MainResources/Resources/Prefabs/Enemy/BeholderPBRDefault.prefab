@@ -1236,6 +1236,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6842627400152009799}
   - component: {fileID: 6842627400161600423}
+  - component: {fileID: 1677696882}
+  - component: {fileID: 1677696884}
+  - component: {fileID: 1677696881}
   m_Layer: 0
   m_Name: BeholderPBRDefault
   m_TagString: Untagged
@@ -1281,6 +1284,49 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &1677696882
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6842627400152240231}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 1.48, z: 0}
+--- !u!114 &1677696884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6842627400152240231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b88f2889ca15d3488df9d40606ad8dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1677696881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6842627400152240231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f55b193865ff6434fbac736a32616394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 4
+  maxHp: 0
+  attackRange: 4
+  attackDelay: 5
+  Player: {fileID: 0}
+  attackDamage: 0
 --- !u!1 &6842627400152240233
 GameObject:
   m_ObjectHideFlags: 0

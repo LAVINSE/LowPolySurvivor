@@ -24,6 +24,7 @@ public class BeholderEnemy : Enemy
 
         IsAttack = true;
         StartCoroutine(AttackCO());
+        Debug.Log(" 공격 진입  ");
     }
     #endregion // 함수
 
@@ -37,6 +38,7 @@ public class BeholderEnemy : Enemy
         yield return null;
         yield return new WaitForSeconds(2f);
 
+        Debug.Log(" 공격 종료 ");
         attackDelay = Delay;
         IsAttack = false; 
     }
