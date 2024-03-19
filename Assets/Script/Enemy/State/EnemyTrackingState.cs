@@ -17,16 +17,19 @@ public class EnemyTrackingState : BaseState
     }
     #endregion // 생성자
 
+    /** 상태 시작 */
     public override void StateEnter()
     {
         throw new System.NotImplementedException();
     }
 
+    /** 상태 종료 */
     public override void StateExit()
     {
         throw new System.NotImplementedException();
     }
 
+    /** 초기화 => 상태를 갱신한다 */
     public override void StateUpdate()
     {
         throw new System.NotImplementedException();

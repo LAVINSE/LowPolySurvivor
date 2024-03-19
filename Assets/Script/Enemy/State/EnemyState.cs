@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyState : MonoBehaviour
 {
+    // 상태 종류
     public enum EEnemyState
     {
         Tracking,
@@ -16,8 +17,8 @@ public class EnemyState : MonoBehaviour
     #endregion // 변수
 
     #region 프로퍼티
-    public BaseState[] stateArray { get; private set; }
-    public BaseState currentState { get; private set; }
+    public BaseState[] stateArray { get; private set; } // 상태 배열
+    public BaseState currentState { get; private set; } // 현재 상태
     #endregion // 프로퍼티
 
     #region 함수
@@ -29,6 +30,7 @@ public class EnemyState : MonoBehaviour
         // 상태 크기 설정
         stateArray = new BaseState[3];
 
+        // 상태
         stateArray[(int)EEnemyState.Tracking] = new EnemyTrackingState(this, enemy);
         stateArray[(int)EEnemyState.Attack] = new EnemyAttackState(this, enemy);
         stateArray[(int)EEnemyState.Die] = new EnemyDieState(this, enemy);
@@ -37,6 +39,7 @@ public class EnemyState : MonoBehaviour
     /** 초기화 */  
     private void Start()
     {
+        // 시작 상태
         currentState = stateArray[(int)EEnemyState.Attack];
         currentState.StateEnter();
     }
@@ -55,15 +58,19 @@ public class EnemyState : MonoBehaviour
         }
     }
 
+    /** 상태를 변경한다 */
     public void ChangeState(EEnemyState changeType)
     {
         if (stateArray[(int)changeType] == null) { return; }
 
+        // 현재 상태가 존재할 경우
         if (currentState != null)
         {
+            // 상태 종료
             currentState.StateExit();
         }
 
+        // 상태 변경
         currentState = stateArray[(int)changeType];
         currentState.StateEnter();
     }

@@ -17,16 +17,19 @@ public class EnemyAttackState : BaseState
     }
     #endregion // 생성자
 
+    /** 상태 시작 */
     public override void StateEnter()
     {
         
     }
 
+    /** 상태 종료 */
     public override void StateExit()
     {
         throw new System.NotImplementedException();
     }
 
+    /** 초기화 => 상태를 갱신한다 */
     public override void StateUpdate()
     {
         enemy.TargetSetting();
