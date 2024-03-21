@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SpawnManager : ScriptableObject
+public class SpawnManager : MonoBehaviour
 {
     
 }
