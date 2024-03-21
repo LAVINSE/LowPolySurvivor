@@ -5,13 +5,20 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     #region 변수
+    [Header("=====> 데이터 <=====")]
+    [SerializeField] protected EnemyDataSO enemyDataSO;
+
     [Header("=====> Enemy 변수 <=====")]
-    [SerializeField] protected float moveSpeed = 0;
-    [SerializeField] protected float maxHp = 0;
-    [SerializeField] protected float attackRange = 0;
+    [SerializeField] protected int moveSpeed = 0;
+    [SerializeField] protected int maxHp = 0;
     [SerializeField] protected float attackDelay = 0;
 
+    [Space]
+    [SerializeField] protected int currentHp = 0;
+    [SerializeField] protected float attackRange = 0;
+
     protected float Delay = 0;
+    protected Animator animator;
     #endregion // 변수
 
     #region 프로퍼티
@@ -23,16 +30,29 @@ public class Enemy : MonoBehaviour
     #endregion // 프로퍼티
 
     #region 함수
-    /** 초기화 */
-    private void Start()
+    private void OnDrawGizmos()
     {
-        Delay = attackDelay;
+        Debug.DrawRay(this.transform.position, this.transform.forward * attackRange, Color.green);
     }
 
-    /** 데미지를 준다 */
-    protected void TakeDamage()
+    /** 초기화 */
+    public virtual void Awake()
     {
-        // Do something
+        animator = GetComponent<Animator>();
+
+        // TODO : 테스트
+        Init(0);
+    }
+
+    /** 적 데이터 세팅 */
+    public void Init(int stageLevel)
+    {
+        moveSpeed = enemyDataSO.enemyDataStruct[stageLevel].moveSpeed;
+        maxHp = enemyDataSO.enemyDataStruct[stageLevel].maxHp;
+        attackDelay = enemyDataSO.enemyDataStruct[stageLevel].attackDelay;
+
+        currentHp = maxHp;
+        Delay = attackDelay;
     }
 
     /** 플레이어와 거리를 체크하고 공격한다 */

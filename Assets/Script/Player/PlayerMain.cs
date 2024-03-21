@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerMain : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #region 변수
+    [SerializeField] private float hp = 0;
+    #endregion // 변수
 
-    // Update is called once per frame
-    void Update()
+    #region 프로퍼티
+    public float HP
     {
-        
+        get => hp;
+        set => hp = value;
     }
+    #endregion // 프로퍼티
 }

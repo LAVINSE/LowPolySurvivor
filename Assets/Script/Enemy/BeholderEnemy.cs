@@ -6,15 +6,17 @@ public class BeholderEnemy : Enemy
 {
     #region 변수
     [Header("=====> Beholder 변수 <=====")]
-    [SerializeField] private float attackDamage = 0;
+    [SerializeField] private BoxCollider attackCollider = null;
 
     #endregion // 변수
 
     #region 함수
     /** 초기화 */
-    private void Awake()
+    public override void Awake()
     {
-        
+        base.Awake();
+
+        attackCollider.enabled = false;
     }
 
     /** 공격한다 */
@@ -32,13 +34,14 @@ public class BeholderEnemy : Enemy
     /** 기본 공격 */
     private IEnumerator AttackCO()
     {
-        // 공격 구현 예정
-        Debug.Log("공격중");
+        animator.SetTrigger("attackTrigger");
 
-        yield return null;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.3f);
+        attackCollider.enabled = true;
+        yield return new WaitForSeconds(0.2f);
+        attackCollider.enabled = false;
+        yield return new WaitForSeconds(0.1f);
 
-        Debug.Log(" 공격 종료 ");
         attackDelay = Delay;
         IsAttack = false; 
     }
