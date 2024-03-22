@@ -16,3 +16,9 @@ MonoBehaviour:
   - maxHp: 10
     moveSpeed: 4
     attackDelay: 4
+  - maxHp: 10
+    moveSpeed: 4
+    attackDelay: 4
+  - maxHp: 10
+    moveSpeed: 4
+    attackDelay: 4

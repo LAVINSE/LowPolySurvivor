@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f1d4314e3efe74c8369252af25df25, type: 3}
   m_Name: StageSO
   m_EditorClassIdentifier: 
-  asdf: []
+  asdf:
+  - stageLevel: 0
+    enemyPrefabs: []
