@@ -15,7 +15,7 @@ public class EnemyAttack : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             PlayerMain player = other.gameObject.GetComponent<PlayerMain>();
-            player.HP -= attackDamage;
+            player.CurrentHp -= attackDamage;
         }
     }
     #endregion // ÇÔ¼ö

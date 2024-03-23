@@ -6,13 +6,14 @@ using UnityEngine.EventSystems;
 public class PlayerMovement : MonoBehaviour
 {
     #region 변수
-    [Header(" 속도 설정 ")]
+    [Header("=====> 속도 설정 <=====")]
     [SerializeField] private float moveSpeed; // 이동 속도
     [SerializeField] private float rotationSpeed; // 회전 속도
 
     private Vector3 moveDirection = Vector3.zero;
 
     private Rigidbody rigidBody;
+    private Animator animator;
     #endregion // 변수
 
     #region 함수
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     /** 초기화 => 상태를 갱신한다 */
@@ -34,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // 플레이어 이동
         PlayerMove();
+        // 플레이어 이동 애니메이션
+        PlayerMoveAnimation();
     }
 
     /** 플레이어 입력처리 */
@@ -65,6 +69,19 @@ public class PlayerMovement : MonoBehaviour
 
         // 방향에 따라 이동속도 만큼 이동한다
         rigidBody.MovePosition(this.transform.position + moveDirection * moveSpeed * Time.deltaTime);
+    }
+
+    /** 플레이어 이동 애니메이션 */
+    private void PlayerMoveAnimation()
+    {
+        if(moveDirection != Vector3.zero)
+        {
+            animator.SetBool("isMove", true);
+        }
+        else
+        {
+            animator.SetBool("isMove", false);
+        }
     }
     #endregion // 함수
 }
