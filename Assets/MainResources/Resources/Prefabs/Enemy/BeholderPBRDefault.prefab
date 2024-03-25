@@ -1533,9 +1533,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4530003306004526970}
   - component: {fileID: 4530003305994672282}
+  - component: {fileID: 8706793994304339519}
   - component: {fileID: 8168367651420393961}
   - component: {fileID: 9106247545763764035}
-  - component: {fileID: 8706793994304339519}
   m_Layer: 0
   m_Name: BeholderPBRDefault
   m_TagString: Untagged
@@ -1582,6 +1582,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &8706793994304339519
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530003306004163418}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 1.38, z: 0}
 --- !u!114 &8168367651420393961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,24 +1622,11 @@ MonoBehaviour:
   enemyDataSO: {fileID: 11400000, guid: 1032ca341a587b947bc73518d626c21f, type: 2}
   moveSpeed: 0
   maxHp: 0
-  attackRange: 2.5
-  currentHp: 0
   attackDelay: 0
+  currentHp: 0
+  attackRange: 2.5
   Player: {fileID: 0}
   attackCollider: {fileID: 3064715128868609881}
---- !u!65 &8706793994304339519
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4530003306004163418}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 1.38, z: 0}
 --- !u!1 &4530003306004163420
 GameObject:
   m_ObjectHideFlags: 0

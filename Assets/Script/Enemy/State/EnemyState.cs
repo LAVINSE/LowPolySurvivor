@@ -9,7 +9,6 @@ public class EnemyState : MonoBehaviour
     {
         Tracking,
         Attack,
-        Die,
     }
 
     #region 변수
@@ -33,7 +32,6 @@ public class EnemyState : MonoBehaviour
         // 상태
         stateArray[(int)EEnemyState.Tracking] = new EnemyTrackingState(this, enemy);
         stateArray[(int)EEnemyState.Attack] = new EnemyAttackState(this, enemy);
-        stateArray[(int)EEnemyState.Die] = new EnemyDieState(this, enemy);
     }
 
     /** 초기화 */  
