@@ -7,11 +7,13 @@ public class CharacterSelect : MonoBehaviour
 {
     #region 변수
     [SerializeField] private List<GameObject> modelList = new List<GameObject>();
+
+    private int selectionIndex = 0; // 캐릭터 선택창, 기본 값 0 
+    private int changeIndex = 0; // 버튼으로 값 변경
     #endregion // 변수
 
     #region 프로퍼티
     public static CharacterSelect Instance { get; private set; }
-    public int selectionIndex { get; set; } = 0; // 캐릭터 선택창, 기본 값 0 
     #endregion // 프로퍼티
 
     /** 초기화 */
@@ -31,9 +33,6 @@ public class CharacterSelect : MonoBehaviour
 
         // 선택된 모델 활성화
         modelList[selectionIndex].SetActive(true);
-
-        // TODO : 테스트 모델 선택
-        SelectModel(1);
     }
 
     /** 모델을 선택한다 */
@@ -62,5 +61,29 @@ public class CharacterSelect : MonoBehaviour
 
         // 씬 변경
         SceneManager.LoadScene("MainScene");
+    }
+
+    /** 다음 버튼 */
+    public void NextButton()
+    {
+        if (++changeIndex > modelList.Count - 1)
+        {
+            changeIndex = 0;
+        }
+
+        SelectModel(changeIndex);
+        Debug.Log(changeIndex);
+    }
+
+    /** 이전 버튼 */
+    public void PrevButton()
+    {
+        if (--changeIndex < 0)
+        {
+            changeIndex = modelList.Count - 1;
+        }
+
+        SelectModel(changeIndex);
+        Debug.Log(changeIndex);
     }
 }
