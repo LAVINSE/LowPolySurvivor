@@ -5,8 +5,13 @@ using UnityEngine;
 public class PlayerMain : MonoBehaviour
 {
     #region 변수
+    [Header("=====> 장착 장비 <=====")]
+    [SerializeField] private List<EquipDataSO> equipDataSOList = new List<EquipDataSO>();
+
     [Header("=====> 플레이어 정보 <=====")]
     [SerializeField] private float maxHp;
+
+    private Dictionary<EquipDataSO, bool> useEquipDataDict = new Dictionary<EquipDataSO, bool>();
     #endregion // 변수
 
     #region 프로퍼티

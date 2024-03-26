@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyState : MonoBehaviour
 {
     // 상태 종류
-    public enum EEnemyState
+    public enum eEnemyState
     {
         Tracking,
         Attack,
@@ -30,15 +30,15 @@ public class EnemyState : MonoBehaviour
         stateArray = new BaseState[3];
 
         // 상태
-        stateArray[(int)EEnemyState.Tracking] = new EnemyTrackingState(this, enemy);
-        stateArray[(int)EEnemyState.Attack] = new EnemyAttackState(this, enemy);
+        stateArray[(int)eEnemyState.Tracking] = new EnemyTrackingState(this, enemy);
+        stateArray[(int)eEnemyState.Attack] = new EnemyAttackState(this, enemy);
     }
 
     /** 초기화 */  
     private void Start()
     {
         // 시작 상태
-        currentState = stateArray[(int)EEnemyState.Attack];
+        currentState = stateArray[(int)eEnemyState.Attack];
         currentState.StateEnter();
     }
 
@@ -57,7 +57,7 @@ public class EnemyState : MonoBehaviour
     }
 
     /** 상태를 변경한다 */
-    public void ChangeState(EEnemyState changeType)
+    public void ChangeState(eEnemyState changeType)
     {
         if (stateArray[(int)changeType] == null) { return; }
 

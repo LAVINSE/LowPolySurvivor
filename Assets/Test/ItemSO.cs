@@ -5,13 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemSO",menuName = "Scriptable Objects/ItemSo/Item")]
 public class ItemSO : ScriptableObject
 {
-    public enum EItemType
+    public enum eItemType
     {
         None,
     }
 
     [Header(" 아이템 타입 ")]
-    public EItemType type = EItemType.None;
+    public eItemType type = eItemType.None;
 
     [Header(" 아이템 설정 ")]
     [Tooltip(" 스택 가능한지 확인 ")] public bool isStack = true;

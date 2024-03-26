@@ -5,14 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemDataSO", menuName = "Scriptable Objects/ItemDataSO/ItemData")]
 public class ItemDataSO : ScriptableObject
 {
-    public enum EItemType
+    public enum eItemType
     {
         None,
         Exp,
         Upgrade,
     }
 
-    public EItemType itemtype = EItemType.None;
+    public eItemType itemtype = eItemType.None;
     public string itemName = string.Empty;
     public GameObject itemPrefab = null;
     public int dropChance = -1;
