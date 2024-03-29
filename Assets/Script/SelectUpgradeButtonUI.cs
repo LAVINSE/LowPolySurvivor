@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static SelectUpgradeButtonUI;
-using static UnityEditor.Progress;
 
 public class SelectUpgradeButtonUI : MonoBehaviour
 {
@@ -27,11 +25,16 @@ public class SelectUpgradeButtonUI : MonoBehaviour
     [SerializeField] private Weapon weapon;
     [SerializeField] private PlayerMain playerMain;
 
-    private float percent = 0f;
-    private int count = 0;
+    [SerializeField] private int minNumber = 2;
+    [SerializeField] private int MaxNumber = 6;
+
+    private float damagePercent = 0;
+    private float reloadPercent = 0;
+    private int count = 1;
     #endregion // 변수
 
     #region 함수
+    /** 이미지 기본 설정 */
     private void InitData()
     {
         // TODO : 무기 이미지 추가해야됨
@@ -39,20 +42,39 @@ public class SelectUpgradeButtonUI : MonoBehaviour
         upgradeDescText.text = weapon.WeaponDesc;
     }
 
-    private void luckTest()
+    /** 플레이어 행운 수치에 따라 업그레이드 수치가 달라진다 */
+    private int luckDice()
     {
-        // 랜덤 숫자가 아이템의 드랍 확률보다 작거나 같을경우
-        if (Random.Range(0, 21) <= playerMain.luck)
+        if(Random.Range(0, 101) < playerMain.luck)
         {
-            // 해당 아이템을 추가한다
-            // 퍼센트 증가
+            int dice = Random.Range(minNumber, MaxNumber);
+
+            switch (dice)
+            {
+                case 2:
+                    return 2;
+                case 3:
+                    return 3;
+                case 4:
+                    return 4;
+                case 5:
+                    return 5;
+            }
         }
+
+        return 1;
     }
 
-    public void test()
+    /** 버튼 기본설정 */
+    public void InitButton()
     {
         int randomType = Random.Range((int)eUpgradeType.None, (int)eUpgradeType.Max_Value);
         upgradeType = (eUpgradeType)randomType;
+
+        if(weapon.Level > weapon.MaxLevel)
+        {
+            upgradeType = eUpgradeType.None;
+        }
 
         switch (upgradeType)
         {
@@ -60,17 +82,23 @@ public class SelectUpgradeButtonUI : MonoBehaviour
                 upgradeInfoText.text = "아무것도 없다";
                 break;
             case eUpgradeType.Damage:
-                upgradeInfoText.text = "무기 데미지";
+                InitData();
+                damagePercent = luckDice() * 10;
+                upgradeInfoText.text = $"무기 데미지 {damagePercent} 증가";
                 break;
             case eUpgradeType.Reload:
-                upgradeInfoText.text = "무기 재장전";
+                InitData();
+                reloadPercent = luckDice() * 10;
+                upgradeInfoText.text = $"무기 재장전 {reloadPercent} 증가";
                 break;
             case eUpgradeType.Count:
-                upgradeInfoText.text = "무기 투사체 수";
+                InitData();
+                upgradeInfoText.text = $"무기 투사체 수 {count} 증가";
                 break;
         }
-    }
+    } 
 
+    /** 버튼을 클릭했을때 발생하는 업그레이드 */
     private void OnClickUpgrade()
     {
         switch (upgradeType)
@@ -79,12 +107,13 @@ public class SelectUpgradeButtonUI : MonoBehaviour
                 upgradeInfoText.text = "아무것도 없다";
                 break;
             case eUpgradeType.Damage:
+                weapon.Damage *= damagePercent;
                 break;
             case eUpgradeType.Reload:
-                upgradeInfoText.text = "무기 재장전";
+                weapon.ReloadTime *= reloadPercent;
                 break;
             case eUpgradeType.Count:
-                upgradeInfoText.text = "무기 투사체 수";
+                weapon.Count += count;
                 break;
         }
 
