@@ -6,12 +6,13 @@ public class PlayerMain : MonoBehaviour
 {
     #region 변수
     [Header("=====> 장착 장비 <=====")]
-    [SerializeField] private List<EquipDataSO> equipDataSOList = new List<EquipDataSO>();
+    [SerializeField] private List<EquipWeaponDataSO> equipDataSOList = new List<EquipWeaponDataSO>();
 
     [Header("=====> 플레이어 정보 <=====")]
     [SerializeField] private float maxHp;
+    [SerializeField] public int luck;
 
-    private Dictionary<EquipDataSO, bool> useEquipDataDict = new Dictionary<EquipDataSO, bool>();
+    private Dictionary<EquipWeaponDataSO, bool> useEquipDataDict = new Dictionary<EquipWeaponDataSO, bool>();
     #endregion // 변수
 
     #region 프로퍼티
