@@ -18,7 +18,6 @@ public class Enemy : MonoBehaviour
 
     [Header("=====> 인스펙터 확인 <=====")]
     [Space]
-    [SerializeField] protected float currentHp = 0;
     [SerializeField] protected float attackRange = 0;
 
     protected float Delay = 0;
@@ -30,6 +29,8 @@ public class Enemy : MonoBehaviour
     public bool IsTracking { get; set; } = false;
     public bool IsAttack { get; set; } = false;
     public bool IsDie { get; set; } = false;
+
+    public float CurrentHp { get; set; } = 0;
 
     public PlayerMain Player;
     #endregion // 프로퍼티
@@ -57,7 +58,7 @@ public class Enemy : MonoBehaviour
         maxHp = enemyDataSO.enemyDataStruct[stageLevel].maxHp;
         attackDelay = enemyDataSO.enemyDataStruct[stageLevel].attackDelay;
 
-        currentHp = maxHp;
+        CurrentHp = maxHp;
         Delay = attackDelay;
     }
 
@@ -94,9 +95,9 @@ public class Enemy : MonoBehaviour
     {
         animator.SetTrigger("hitTrigger");
 
-        currentHp -= damage;
+        CurrentHp -= damage;
 
-        if(currentHp <= 0)
+        if(CurrentHp <= 0)
         {
             // 죽음
             Die();

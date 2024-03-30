@@ -7,11 +7,12 @@ public class GameManager : MonoBehaviour
 {
     #region 변수
     [SerializeField] private List<GameObject> playerPrefabsList = new List<GameObject>();
+    [SerializeField] private ObjectPoolManager poolManager;
     #endregion // 변수
 
     #region 프로퍼티
     public static GameManager Instance { get; private set; }
-    public ObjectPoolManager PoolManager { get; private set; }
+    public ObjectPoolManager PoolManager => poolManager;
     public int playerId;
     #endregion // 프로퍼티
 
@@ -20,9 +21,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
-        PoolManager = Factory.CreateObject<ObjectPoolManager>("ObjectPoolManager", this.gameObject,
-            Vector3.zero, Vector3.one, Vector3.zero);
     }
 
     private void Start()

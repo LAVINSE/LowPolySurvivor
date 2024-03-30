@@ -25,9 +25,6 @@ public class SelectUpgradeButtonUI : MonoBehaviour
     [SerializeField] private Weapon weapon;
     [SerializeField] private PlayerMain playerMain;
 
-    [SerializeField] private int minNumber = 2;
-    [SerializeField] private int MaxNumber = 6;
-
     private float damagePercent = 0;
     private float reloadPercent = 0;
     private int count = 1;
@@ -47,18 +44,23 @@ public class SelectUpgradeButtonUI : MonoBehaviour
     {
         if(Random.Range(0, 101) < playerMain.luck)
         {
-            int dice = Random.Range(minNumber, MaxNumber);
+            int dice = Random.Range(0, 101);
 
-            switch (dice)
+            if(dice <= 5) // 5 %
             {
-                case 2:
-                    return 2;
-                case 3:
-                    return 3;
-                case 4:
-                    return 4;
-                case 5:
-                    return 5;
+                return 5;
+            }
+            else if(dice <= 30) // 25 %
+            {
+                return 4;
+            }
+            else if(dice <= 60) // 30 %
+            {
+                return 3;
+            }
+            else if(dice <= 100) // 40 %
+            {
+                return 2;
             }
         }
 
