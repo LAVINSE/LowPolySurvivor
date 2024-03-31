@@ -6,6 +6,7 @@ public class PlayerMain : MonoBehaviour
 {
     #region 변수
     [Header("=====> 장착 장비 <=====")]
+    [SerializeField] private GameObject weaponObject;
     [SerializeField] private List<EquipWeaponDataSO> equipDataSOList = new List<EquipWeaponDataSO>();
 
     [Header("=====> 플레이어 정보 <=====")]
@@ -16,6 +17,7 @@ public class PlayerMain : MonoBehaviour
     #endregion // 변수
 
     #region 프로퍼티
+    public Weapon[] WeaponArray { get; set; }
     public float CurrentHp { get; set; }
     #endregion // 프로퍼티
 
@@ -25,6 +27,11 @@ public class PlayerMain : MonoBehaviour
     {
         // 현재 체력 설정
         CurrentHp = maxHp;
+    }
+
+    private void AddWeapon()
+    {
+
     }
     #endregion // 함수
 }

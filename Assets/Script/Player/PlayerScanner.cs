@@ -7,7 +7,7 @@ public class PlayerScanner : MonoBehaviour
     #region 변수
     [SerializeField] private float scanRange = 0f;
     [SerializeField] private LayerMask targetLayer;
-    [SerializeField] private RaycastHit[] targets;
+    [SerializeField] public RaycastHit[] targets;
     [SerializeField] private Transform nearTarget;
     #endregion // 변수
 

@@ -22,11 +22,15 @@ public class Weapon : MonoBehaviour
     public float Range { get; set; } = 0f;
     public float Rate { get; set; } = 0f;
     public GameObject prefab;
+
+    public PlayerScanner PlayerScanner { get; set; }
     #endregion // 프로퍼티
 
     #region 함수
     public virtual void Awake()
     {
+        PlayerScanner = GetComponentInParent<PlayerScanner>();
+
         Init();
     }
 

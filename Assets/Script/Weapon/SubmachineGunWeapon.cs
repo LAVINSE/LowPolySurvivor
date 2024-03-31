@@ -33,6 +33,9 @@ public class SubmachineGunWeapon : Weapon
     #region 코루틴
     private IEnumerator ShotSubmachineGunCO()
     {
+        // 주변에 몹이 있을때 실행
+        yield return new WaitUntil(() => PlayerScanner.targets != null);
+
         while (Ammo > 0)
         {
             GameObject bullet = GameManager.Instance.PoolManager.Get(0);
