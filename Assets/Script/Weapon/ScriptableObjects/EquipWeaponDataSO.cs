@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum eEquipType
+{
+    None,
+    SubmachineGun,
+
+}
+
 [CreateAssetMenu(fileName = "EquipWeaponDataSO", menuName = "Scriptable Objects/EquipWeaponDataSO/EquipWeaponData")]
 public class EquipWeaponDataSO : ScriptableObject
 {
-    public enum eEquipType
-    {
-        None,
-        bullet,
-
-    }
-
     public eEquipType equipType = eEquipType.None;
 
     [Space]

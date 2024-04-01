@@ -48,7 +48,6 @@ public class Enemy : MonoBehaviour
 
         // TODO : 테스트
         Init(0);
-        Die();
     }
 
     /** 적 데이터 세팅 */

@@ -34,7 +34,7 @@ public class SubmachineGunWeapon : Weapon
     private IEnumerator ShotSubmachineGunCO()
     {
         // 주변에 몹이 있을때 실행
-        yield return new WaitUntil(() => PlayerScanner.targets != null);
+        yield return new WaitUntil(() => PlayerScanner.IsTarget == true);
 
         while (Ammo > 0)
         {

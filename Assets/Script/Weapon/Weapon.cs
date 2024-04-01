@@ -11,6 +11,7 @@ public class Weapon : MonoBehaviour
     #endregion // 변수
 
     #region 프로퍼티
+    public eEquipType EquipType { get; set; } = eEquipType.None;
     public string WeaponName { get; set; } = string.Empty;
     public string WeaponDesc { get; set; } = string.Empty;
     public int MaxLevel { get; set; } = 0;
@@ -21,7 +22,7 @@ public class Weapon : MonoBehaviour
     public float ReloadTime { get; set; } = 0f;
     public float Range { get; set; } = 0f;
     public float Rate { get; set; } = 0f;
-    public GameObject prefab;
+    public GameObject prefab { get; set; } = null;
 
     public PlayerScanner PlayerScanner { get; set; }
     #endregion // 프로퍼티
@@ -29,19 +30,18 @@ public class Weapon : MonoBehaviour
     #region 함수
     public virtual void Awake()
     {
-        PlayerScanner = GetComponentInParent<PlayerScanner>();
-
-        Init();
+        PlayerScanner = GetComponentInParent<PlayerScanner>(); 
     }
 
-    private void Start()
+    private void OnEnable()
     {
         WeaponUse();
     }
 
     /** 데이터 기본 설정 */
-    private void Init()
+    public void Init()
     {
+        EquipType = equipWeaponDataSO.equipType;
         WeaponName = equipWeaponDataSO.weaponName;
         WeaponDesc = equipWeaponDataSO.weaponDesc;
         Level = equipWeaponDataSO.baseLevel;
