@@ -6,7 +6,8 @@ using UnityEngine;
 public class SubmachineGunWeapon : Weapon
 {
     #region 변수
-    private Action routin;
+    private Action coroutin;
+    private Vector3 prevTargetPos;
     #endregion // 변수
 
     #region 함수
@@ -14,7 +15,7 @@ public class SubmachineGunWeapon : Weapon
     {
         base.Awake();
 
-        routin += test;
+        coroutin += test;
     }
 
     public override void WeaponUse()
@@ -25,7 +26,7 @@ public class SubmachineGunWeapon : Weapon
 
     private void test()
     {
-        Ammo = equipWeaponDataSO.baseAmmo;
+        Ammo = MaxAmmo;
         StartCoroutine(ShotSubmachineGunCO());
     }
     #endregion // 함수
@@ -38,15 +39,22 @@ public class SubmachineGunWeapon : Weapon
 
         while (Ammo > 0)
         {
+            Vector3 targetPos = PlayerScanner.NearTarget != null ? PlayerScanner.NearTarget.position : prevTargetPos;
+            prevTargetPos = targetPos;
+            Vector3 direction = prevTargetPos - this.transform.position;
+            direction = direction.normalized;
+
             GameObject bullet = GameManager.Instance.PoolManager.Get(0);
 
-            // TODO : 플레이어 방향에 따라 수정 또는 몬스터 위치로 자동 추적
-            bullet.GetComponent<Rigidbody>().AddForce(Vector3.forward * 5f, ForceMode.Impulse);
+            bullet.transform.position = this.transform.position;
+            bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
+            bullet.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+
             Ammo--;
             yield return new WaitForSeconds(Rate);
         }
 
-        StartCoroutine(CoolDownCO(ReloadTime, routin));
+        StartCoroutine(CoolDownCO(ReloadTime, coroutin));
         // TODO : 비활성화로 관리
     }
     #endregion // 코루틴

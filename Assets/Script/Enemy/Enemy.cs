@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected int moveSpeed = 0;
     [SerializeField] protected float maxHp = 0;
     [SerializeField] protected float attackDelay = 0;
+    [SerializeField] private GameObject meshBody;
 
     [Header("=====> 인스펙터 확인 <=====")]
     [Space]
@@ -26,6 +27,8 @@ public class Enemy : MonoBehaviour
     #endregion // 변수
 
     #region 프로퍼티
+    public Transform MeshTransform { get; set; }
+
     public bool IsTracking { get; set; } = false;
     public bool IsAttack { get; set; } = false;
     public bool IsDie { get; set; } = false;
@@ -45,7 +48,7 @@ public class Enemy : MonoBehaviour
     public virtual void Awake()
     {
         animator = GetComponent<Animator>();
-
+        MeshTransform = meshBody.transform;
         // TODO : 테스트
         Init(0);
     }

@@ -17,10 +17,12 @@ MonoBehaviour:
   weaponDesc: "\uAE30\uAD00\uB2E8\uCD1D \uD14C\uC2A4\uD2B8"
   maxLevel: 30
   baseLevel: 0
-  baseAmmo: 2
-  baseCount: 1
+  baseMaxAmmo: 2
+  baseWeaponCount: 0
+  basePenetrate: 0
   baseReloadTime: 2
-  baseRange: 5
+  baseRange: -1
   baseDamage: 10
   baseRate: 1
+  baseBulletVelocity: 12
   prefab: {fileID: 7221961804468371141, guid: 447f665a2036cc04fb9182669e78984e, type: 3}

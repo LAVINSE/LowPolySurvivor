@@ -9,9 +9,12 @@ public class SelectUpgradeButtonUI : MonoBehaviour
     public enum eUpgradeType
     { 
         None,
-        Damage,
-        Reload,
+        Ammo,
         Count,
+        Damage,
+        Reload, 
+        Range,
+        Rate,
         Max_Value
     }
 
@@ -27,6 +30,9 @@ public class SelectUpgradeButtonUI : MonoBehaviour
 
     private float damagePercent = 0;
     private float reloadPercent = 0;
+    private float rangePercent = 0;
+    private float ratePercent = 0;
+    private int Ammo = 3;
     private int count = 1;
     #endregion // 변수
 
@@ -39,41 +45,13 @@ public class SelectUpgradeButtonUI : MonoBehaviour
         upgradeDescText.text = weapon.WeaponDesc;
     }
 
-    /** 플레이어 행운 수치에 따라 업그레이드 수치가 달라진다 */
-    private int luckDice()
-    {
-        if(Random.Range(0, 101) < playerMain.luck)
-        {
-            int dice = Random.Range(0, 101);
-
-            if(dice <= 5) // 5 %
-            {
-                return 5;
-            }
-            else if(dice <= 30) // 25 %
-            {
-                return 4;
-            }
-            else if(dice <= 60) // 30 %
-            {
-                return 3;
-            }
-            else if(dice <= 100) // 40 %
-            {
-                return 2;
-            }
-        }
-
-        return 1;
-    }
-
     /** 버튼 기본설정 */
     public void InitButton()
     {
         int randomType = Random.Range((int)eUpgradeType.None, (int)eUpgradeType.Max_Value);
         upgradeType = (eUpgradeType)randomType;
 
-        if(weapon.Level > weapon.MaxLevel)
+        if(weapon.Level >= weapon.MaxLevel)
         {
             upgradeType = eUpgradeType.None;
         }
@@ -81,45 +59,69 @@ public class SelectUpgradeButtonUI : MonoBehaviour
         switch (upgradeType)
         {
             case eUpgradeType.None:
+                // TODO : 로직 추가 예정
                 upgradeInfoText.text = "아무것도 없다";
                 break;
-            case eUpgradeType.Damage:
+            case eUpgradeType.Ammo:
                 InitData();
-                damagePercent = luckDice() * 10;
-                upgradeInfoText.text = $"무기 데미지 {damagePercent} 증가";
-                break;
-            case eUpgradeType.Reload:
-                InitData();
-                reloadPercent = luckDice() * 10;
-                upgradeInfoText.text = $"무기 재장전 {reloadPercent} 증가";
+                upgradeInfoText.text = $" 탄창 {Ammo} 증가 ";
                 break;
             case eUpgradeType.Count:
                 InitData();
                 upgradeInfoText.text = $"무기 투사체 수 {count} 증가";
                 break;
+            case eUpgradeType.Damage:
+                InitData();
+                damagePercent = weapon.LuckDice();
+                upgradeInfoText.text = $"무기 데미지 {damagePercent * 10} 증가";
+                break;
+            case eUpgradeType.Reload:
+                InitData();
+                reloadPercent = weapon.LuckDice();
+                upgradeInfoText.text = $"무기 재장전 {reloadPercent * 10} 증가";
+                break;
+            case eUpgradeType.Range:
+                InitData();
+                rangePercent = weapon.LuckDice();
+                upgradeInfoText.text = $"무기 사거리 {rangePercent * 10} 증가";
+                break;
+            case eUpgradeType.Rate:
+                InitData();
+                ratePercent = weapon.LuckDice();
+                upgradeInfoText.text = $"무기 연사속도 {ratePercent * 10} 증가";
+                break;
         }
     } 
 
     /** 버튼을 클릭했을때 발생하는 업그레이드 */
-    private void OnClickUpgrade()
+    public void OnClickUpgrade()
     {
         switch (upgradeType)
         {
             case eUpgradeType.None:
-                upgradeInfoText.text = "아무것도 없다";
+                // TODO : 로직 추가 예정
                 break;
-            case eUpgradeType.Damage:
-                weapon.Damage *= damagePercent;
-                break;
-            case eUpgradeType.Reload:
-                weapon.ReloadTime *= reloadPercent;
+            case eUpgradeType.Ammo:
+                weapon.AmmoUpgrade(Ammo);
                 break;
             case eUpgradeType.Count:
-                weapon.Count += count;
+                weapon.CountUpgrade(count);
+                break;
+            case eUpgradeType.Damage:
+                weapon.DamageUpgrade(damagePercent);
+                break;
+            case eUpgradeType.Reload:
+                weapon.ReloadTimeUpgrade(reloadPercent);
+                break;
+            case eUpgradeType.Range:
+                weapon.RangeUpgrade(rangePercent);
+                break;
+            case eUpgradeType.Rate:
+                weapon.RateUpgrade(ratePercent);
                 break;
         }
 
-        weapon.Level++;
+        weapon.LevelUpgrade();
     }
     #endregion // 함수
 }

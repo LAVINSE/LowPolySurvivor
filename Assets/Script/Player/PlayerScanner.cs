@@ -13,6 +13,7 @@ public class PlayerScanner : MonoBehaviour
     #region 프로퍼티
     public bool IsTarget { get; set; } = false;
     public Collider[] ColliderArray { get; set; }
+    public Transform NearTarget => nearTarget;
     #endregion // 프로퍼티
 
     #region 함수
@@ -52,12 +53,12 @@ public class PlayerScanner : MonoBehaviour
                 if(distance1 > distance2)
                 {
                     distance1 = distance2;
-                    return collider.transform;
+                    return collider.GetComponent<Enemy>().MeshTransform;
                 }
             }
         }
 
-        return ColliderArray[0].transform;
+        return ColliderArray[0].GetComponent<Enemy>().MeshTransform;
     }
     #endregion // 함수
 }
