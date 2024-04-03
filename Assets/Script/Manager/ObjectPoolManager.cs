@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 프리팹 배열이랑 똑같은 번호로 맞추기
+public enum ObjectType
+{
+    SubmachineGunBullet = 0,
+    AssaultGunBullet,
+    ShotGunBullet,
+}
+
 public class ObjectPoolManager : MonoBehaviour
 {
     #region 변수

@@ -6,7 +6,9 @@ public enum eEquipType
 {
     None,
     SubmachineGun,
-
+    AssaultGun,
+    ShotGun,
+    MachineGun,
 }
 
 [CreateAssetMenu(fileName = "EquipWeaponDataSO", menuName = "Scriptable Objects/EquipWeaponDataSO/EquipWeaponData")]

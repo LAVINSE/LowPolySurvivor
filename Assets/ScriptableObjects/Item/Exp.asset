@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59db01eea0352dc4b8cf4a3e6f631526, type: 3}
   m_Name: Exp
   m_EditorClassIdentifier: 
-  itemtype: 0
+  itemtype: 1
   itemName: "\uACBD\uD5D8\uCE58"
   itemPrefab: {fileID: 4108656834845181492, guid: f0321064b135a5f468092419cb504ae1, type: 3}
   dropChance: 100

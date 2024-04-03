@@ -8,6 +8,7 @@ public class BeholderEnemy : Enemy
     [Header("=====> Beholder 변수 <=====")]
     [SerializeField] private BoxCollider attackCollider = null;
 
+    private BoxCollider boxCollider;
     #endregion // 변수
 
     #region 함수
@@ -15,7 +16,7 @@ public class BeholderEnemy : Enemy
     public override void Awake()
     {
         base.Awake();
-
+        boxCollider = GetComponent<BoxCollider>();
         attackCollider.enabled = false;
     }
 
@@ -27,6 +28,30 @@ public class BeholderEnemy : Enemy
         IsAttack = true;
         StartCoroutine(AttackCO());
         Debug.Log(" 공격 진입  ");
+    }
+
+    /** 데미지를 받는다 */
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+    }
+
+    /** 몬스터 죽음 */
+    public override void Die()
+    {
+        base.Die();
+
+        // TODO : 중력 X, 콜라이더 isTrigger 해제 설정해야됨 
+        rigid.useGravity = false;
+        boxCollider.enabled = false;
+
+        // 아이템 드랍
+        InstantiateDropItem(this.transform.position);
+
+        Debug.Log(" 죽음 ");
+
+        // TODO : 비활성화 처리, 테스트용으로 삭제 처리함
+        Destroy(this.gameObject);
     }
     #endregion // 함수
 

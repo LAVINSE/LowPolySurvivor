@@ -21,9 +21,10 @@ public class Enemy : MonoBehaviour
     [Space]
     [SerializeField] protected float attackRange = 0;
 
-    protected float Delay = 0;
     protected Animator animator;
+    protected float Delay = 0;
     protected bool isDie = false;
+    protected Rigidbody rigid;
     #endregion // 변수
 
     #region 프로퍼티
@@ -47,6 +48,7 @@ public class Enemy : MonoBehaviour
     /** 초기화 */
     public virtual void Awake()
     {
+        rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         MeshTransform = meshBody.transform;
         // TODO : 테스트
@@ -93,39 +95,47 @@ public class Enemy : MonoBehaviour
     }
 
     /** 데미지를 받는다 */
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         animator.SetTrigger("hitTrigger");
 
         CurrentHp -= damage;
 
         if(CurrentHp <= 0)
-        {
+        { 
             // 죽음
             Die();
         }
-
-        Debug.Log(" 맞음 ");
     }
 
     /** 몬스터 죽음 */
-    private void Die()
+    public virtual void Die()
     {
         // TODO : 테스트용 코드
         if(IsDie == true) { return; }
 
         isDie = true;
         animator.SetBool("isDie", true);
+    }
 
-        // TODO : 중력 X, 콜라이더 isTrigger 해제 설정해야됨 
+    /** 드랍 아이템 리스트에서 아이템을 생성한다 */
+    protected void InstantiateDropItem(Vector3 spawnPosition)
+    {
+        // 드랍 아이템 리스트를 반환한다
+        List<ItemDataSO> dropItemList = GetDropItem();
 
-        // 아이템 드랍
-        InstantiateDropItem(this.transform.position);
+        if (dropItemList.Count == 0) { return; }
 
-        Debug.Log(" 죽음 ");
+        foreach (ItemDataSO dropItemData in dropItemList)
+        {
+            // 아이템 프리팹을 생성한다
+            GameObject dropItem = Instantiate(dropItemData.itemPrefab, spawnPosition, Quaternion.identity);
 
-        // TODO : 비활성화 처리, 테스트용으로 삭제 처리함
-        Destroy(this.gameObject);
+            // 드랍할때 가할 힘의 세기와 방향 설정
+            float dropForce = 5f;
+            Vector3 dropDirection = new Vector3(Random.Range(-1f, 1f), 3f, Random.Range(-1f, 1f));
+            dropItem.GetComponent<Rigidbody>().AddForce(dropDirection * dropForce, ForceMode.Impulse);
+        }
     }
 
     /** 드랍 아이템 리스트를 반환한다 */
@@ -153,27 +163,6 @@ public class Enemy : MonoBehaviour
 
         // 아이템이 없을경우 null 반환
         return null;
-    }
-
-    /** 드랍 아이템 리스트에서 아이템을 생성한다 */
-    private void InstantiateDropItem(Vector3 spawnPosition)
-    {
-        // 드랍 아이템 리스트를 반환한다
-        List<ItemDataSO> dropItemList = GetDropItem();
-
-        if(dropItemList.Count == 0) { return; }
-
-
-        foreach(ItemDataSO dropItemData in dropItemList)
-        {
-            // 아이템 프리팹을 생성한다
-            GameObject dropItem = Instantiate(dropItemData.itemPrefab, spawnPosition, Quaternion.identity);
-
-            // 드랍할때 가할 힘의 세기와 방향 설정
-            float dropForce = 5f;
-            Vector3 dropDirection = new Vector3(Random.Range(-1f, 1f), 3f, Random.Range(-1f, 1f));
-            dropItem.GetComponent<Rigidbody>().AddForce(dropDirection * dropForce, ForceMode.Impulse);
-        }
     }
     #endregion // 함수
 }

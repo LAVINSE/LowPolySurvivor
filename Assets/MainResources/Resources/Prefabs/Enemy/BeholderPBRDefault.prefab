@@ -1641,7 +1641,7 @@ MonoBehaviour:
   moveSpeed: 0
   maxHp: 0
   attackDelay: 0
-  meshBody: {fileID: 4530003306004163416}
+  meshBody: {fileID: 4530003306004163396}
   attackRange: 2.5
   Player: {fileID: 0}
   attackCollider: {fileID: 3064715128868609881}
