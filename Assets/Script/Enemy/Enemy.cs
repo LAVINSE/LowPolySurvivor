@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
 // 상속해서 사용하기
 public class Enemy : MonoBehaviour
@@ -12,23 +15,25 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected List<ItemDataSO> dropItemList = new List<ItemDataSO>();
 
     [Header("=====> Enemy 변수 <=====")]
-    [SerializeField] protected int moveSpeed = 0;
-    [SerializeField] protected float maxHp = 0;
-    [SerializeField] protected float attackDelay = 0;
-    [SerializeField] private GameObject meshBody;
+    [SerializeField] protected float attackRange = 0f;
+    [SerializeField] private Transform rootTransform;
+    [SerializeField] private float correctStoppingDistance = 0.26f; // 보정값 0.26f 이하로
 
     [Header("=====> 인스펙터 확인 <=====")]
     [Space]
-    [SerializeField] protected float attackRange = 0;
+    [SerializeField] protected float moveSpeed = 0;
+    [SerializeField] protected float maxHp = 0;
+    [SerializeField] protected float attackDelay = 0;
 
     protected Animator animator;
-    protected float Delay = 0;
-    protected bool isDie = false;
     protected Rigidbody rigid;
+    protected NavMeshAgent navMeshAgent;
+
+    protected bool isDie = false;
     #endregion // 변수
 
     #region 프로퍼티
-    public Transform MeshTransform { get; set; }
+    public Transform MeshTransform => rootTransform;
 
     public bool IsTracking { get; set; } = false;
     public bool IsAttack { get; set; } = false;
@@ -42,7 +47,9 @@ public class Enemy : MonoBehaviour
     #region 함수
     private void OnDrawGizmos()
     {
-        Debug.DrawRay(this.transform.position, this.transform.forward * attackRange, Color.green);
+        Debug.DrawRay(new Vector3(rootTransform.transform.position.x, rootTransform.transform.position.y,
+            rootTransform.transform.position.z),
+            this.transform.forward * attackRange, Color.green);
     }
 
     /** 초기화 */
@@ -50,9 +57,13 @@ public class Enemy : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        MeshTransform = meshBody.transform;
+        navMeshAgent = GetComponent<NavMeshAgent>();
+
         // TODO : 테스트
         Init(0);
+
+        navMeshAgent.speed = moveSpeed;
+        navMeshAgent.stoppingDistance = attackRange + correctStoppingDistance;
     }
 
     /** 적 데이터 세팅 */
@@ -63,28 +74,52 @@ public class Enemy : MonoBehaviour
         attackDelay = enemyDataSO.enemyDataStruct[stageLevel].attackDelay;
 
         CurrentHp = maxHp;
-        Delay = attackDelay;
+    }
+
+    /** NavMesh 대상을 정한다 */
+    public void NavMeshSetDestination()
+    {
+        navMeshAgent.SetDestination(Player.transform.position);
+    }
+
+    /** 공격 사거리에 들어왔는지 확인한다 */
+    public bool CheckattackChangeRange()
+    {
+        RaycastHit hit;
+        Vector3 pos = new Vector3(this.transform.position.x, rootTransform.position.y, this.transform.position.z);
+
+        // 적 방향으로 레이캐스트 발사
+        if (Physics.Raycast(rootTransform.position, Player.transform.position - pos, out hit, attackRange))
+        {
+            // 레이캐스트가 적에게 충돌한 경우
+            if (hit.collider.CompareTag("Player"))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /** 플레이어와 거리를 체크하고 공격한다 */
     public void TargetSetting()
     {
-        float distance = Vector3.Distance(Player.transform.position, this.transform.position);
+        RaycastHit hit;
 
-        // 딜레이가 0보다 클 경우
-        if (attackDelay >= 0)
-        {
-            // 딜레이 감소
-            attackDelay -= Time.deltaTime;
-            Debug.Log(" 시간 감소 ");
-        }
+        Vector3 pos = new Vector3(this.transform.position.x, rootTransform.position.y, this.transform.position.z);
 
-        // 적과 플레이어 거리가 적 공격사거리 보다 작거나 같을경우, 공격중이 아닐경우
-        if (attackDelay <= 0 && distance <= attackRange && !IsAttack)
+        // 적 방향으로 레이캐스트 발사
+        if (Physics.Raycast(rootTransform.position, Player.transform.position - pos, out hit, attackRange))
         {
-            Debug.Log(" 공격 시작 ");
-            // 공격한다 
-            Attack();
+            // 레이캐스트가 적에게 충돌한 경우
+            if (hit.collider.CompareTag("Player"))
+            {
+                if (!IsAttack)
+                {
+                    Debug.Log(" 공격 시작 ");
+                    Attack();
+                }
+            }
         }
     }
 
@@ -133,7 +168,7 @@ public class Enemy : MonoBehaviour
 
             // 드랍할때 가할 힘의 세기와 방향 설정
             float dropForce = 5f;
-            Vector3 dropDirection = new Vector3(Random.Range(-1f, 1f), 3f, Random.Range(-1f, 1f));
+            Vector3 dropDirection = new Vector3(UnityEngine.Random.Range(-1f, 1f), 3f, UnityEngine.Random.Range(-1f, 1f));
             dropItem.GetComponent<Rigidbody>().AddForce(dropDirection * dropForce, ForceMode.Impulse);
         }
     }
@@ -147,7 +182,7 @@ public class Enemy : MonoBehaviour
         foreach(ItemDataSO item in dropItemList)
         {
             // 랜덤 숫자가 아이템의 드랍 확률보다 작거나 같을경우
-            if(Random.Range(1, 101) <= item.dropChance)
+            if(UnityEngine.Random.Range(1, 101) <= item.dropChance)
             {
                 // 해당 아이템을 추가한다
                 pickitems.Add(item);
@@ -165,4 +200,22 @@ public class Enemy : MonoBehaviour
         return null;
     }
     #endregion // 함수
+
+    #region 코루틴
+    /** 쿨타임 적용 */
+    protected IEnumerator CoolDownCO(float CoolTime, Action callback)
+    {
+        float CurrentTime = 0.0f;
+        CurrentTime = CoolTime;
+
+        while (CurrentTime > 0.0f)
+        {
+            CurrentTime -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        callback?.Invoke();
+    }
+    #endregion // 코루틴
 }

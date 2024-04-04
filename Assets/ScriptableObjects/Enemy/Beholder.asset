@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyDataStruct:
   - maxHp: 10
-    moveSpeed: 4
+    moveSpeed: 3.5
     attackDelay: 4
   - maxHp: 10
     moveSpeed: 4

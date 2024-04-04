@@ -9,7 +9,7 @@ public class EnemyDataSO : ScriptableObject
     public struct EnemyDataStruct
     {
         public int maxHp;
-        public int moveSpeed;
+        public float moveSpeed;
         public float attackDelay;
     }
 

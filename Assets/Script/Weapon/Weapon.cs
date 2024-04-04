@@ -158,7 +158,7 @@ public class Weapon : MonoBehaviour
                 SkillImg.fillAmount = (CurrentTime / CoolTime);
             }
 
-            yield return new WaitForFixedUpdate();
+            yield return null;
         }
 
 

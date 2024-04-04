@@ -38,7 +38,7 @@ public class EnemyState : MonoBehaviour
     private void Start()
     {
         // 시작 상태
-        currentState = stateArray[(int)eEnemyState.Attack];
+        currentState = stateArray[(int)eEnemyState.Tracking];
         currentState.StateEnter();
     }
 

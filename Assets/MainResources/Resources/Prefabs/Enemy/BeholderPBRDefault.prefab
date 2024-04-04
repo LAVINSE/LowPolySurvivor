@@ -1533,7 +1533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4530003306004526970}
   - component: {fileID: 4530003305994672282}
-  - component: {fileID: 8706793994304339519}
+  - component: {fileID: 8692366110555749294}
   - component: {fileID: 7486454471014646405}
   - component: {fileID: 3793638758734108120}
   - component: {fileID: 8168367651420393961}
@@ -1584,8 +1584,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!65 &8706793994304339519
-BoxCollider:
+--- !u!136 &8692366110555749294
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1594,8 +1594,9 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.52
+  m_Height: 1.15
+  m_Direction: 1
   m_Center: {x: 0, y: 1.38, z: 0}
 --- !u!54 &7486454471014646405
 Rigidbody:
@@ -1611,7 +1612,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!195 &3793638758734108120
 NavMeshAgent:
@@ -1626,13 +1627,13 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_AngularSpeed: 360
+  m_StoppingDistance: 2.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
+  m_Height: 1.05
+  m_BaseOffset: -0.85
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &8168367651420393961
@@ -1660,12 +1661,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyDataSO: {fileID: 11400000, guid: 1032ca341a587b947bc73518d626c21f, type: 2}
-  dropItemList: []
-  moveSpeed: 0
+  dropItemList:
+  - {fileID: 11400000, guid: 7b97d31ffb1db0341ab01904d13e103d, type: 2}
+  attackRange: 0.99
+  rootTransform: {fileID: 4530003306004526948}
+  correctStoppingDistance: 0.26
+  moveSpeed: 3.5
   maxHp: 0
-  attackDelay: 0
-  meshBody: {fileID: 4530003306004163396}
-  attackRange: 2.5
+  attackDelay: 4
   Player: {fileID: 0}
   attackCollider: {fileID: 3064715128868609881}
 --- !u!1 &4530003306004163420
@@ -1758,7 +1761,7 @@ GameObject:
   - component: {fileID: 2970576786568702502}
   - component: {fileID: 3064715128868609881}
   - component: {fileID: 5378931446344092756}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1773,7 +1776,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8406431145068695280}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.4, z: 0.327}
+  m_LocalPosition: {x: 0, y: 1.4, z: 0.466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
