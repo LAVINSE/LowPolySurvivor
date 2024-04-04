@@ -8,6 +8,7 @@ public enum ObjectType
     SubmachineGunBullet = 0,
     AssaultGunBullet,
     ShotGunBullet,
+    MachineGunBullet,
 }
 
 public class ObjectPoolManager : MonoBehaviour

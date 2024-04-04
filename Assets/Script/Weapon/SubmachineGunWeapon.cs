@@ -50,13 +50,15 @@ public class SubmachineGunWeapon : Weapon
                     count = PlayerScanner.NearTargetArray.Length - 1;
                 }
 
+                if (PlayerScanner.NearTargetArray[count] == null) { break; }
+
                 Transform target = PlayerScanner.NearTargetArray[count];
 
                 Vector3 targetPos = target.position;
                 Vector3 direction = targetPos - this.transform.position;
                 direction = direction.normalized;
 
-                // 0 >> ±â°ü´ÜÃÑ ÃÑ¾Ë
+                // ±â°ü´ÜÃÑ ÃÑ¾Ë
                 GameObject bullet = GameManager.Instance.PoolManager.Get((int)ObjectType.SubmachineGunBullet);
 
                 bullet.transform.position = this.transform.position;

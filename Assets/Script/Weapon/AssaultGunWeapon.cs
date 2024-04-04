@@ -20,31 +20,31 @@ public class AssaultGunWeapon : Weapon
     public override void WeaponUse()
     {
         base.WeaponUse();
-        StartCoroutine(ShotSubmachineGunCO());
+        StartCoroutine(AssaultGunGunCO());
     }
 
     private void test()
     {
         Ammo = MaxAmmo;
-        StartCoroutine(ShotSubmachineGunCO());
+        StartCoroutine(AssaultGunGunCO());
     }
     #endregion // 함수
 
     #region 코루틴
-    private IEnumerator ShotSubmachineGunCO()
+    private IEnumerator AssaultGunGunCO()
     {
         // 주변에 몹이 있을때 실행
         yield return new WaitUntil(() => PlayerScanner.IsTarget == true);
 
         while(Ammo > 0)
         {
-            Transform target = PlayerScanner.NearTarget;
+            if(PlayerScanner.NearTarget == null) { break; }
 
-            Vector3 targetPos = target.position;
+            Vector3 targetPos = PlayerScanner.NearTarget.position;
             Vector3 direction = targetPos - this.transform.position;
             direction = direction.normalized;
 
-            // 1 >> 돌격소총 총알
+            // 돌격소총 총알
             GameObject bullet = GameManager.Instance.PoolManager.Get((int)ObjectType.AssaultGunBullet);
 
             bullet.transform.position = this.transform.position;

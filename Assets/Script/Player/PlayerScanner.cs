@@ -1,21 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerScanner : MonoBehaviour
 {
     #region 변수
     [SerializeField] private float scanRange = 0f;
+    [SerializeField] private float sacnRangeForward = 0f;
+    [SerializeField] private float detectAngle = 45f;
     [SerializeField] private LayerMask targetLayer;
     [SerializeField] private Transform nearTarget;
     [SerializeField] private Transform[] nearTargetArray;
+    [SerializeField] private Transform[] forwardNearTargetArray;
+    [SerializeField] private Transform forwardNearTarget;
     #endregion // 변수
 
     #region 프로퍼티
     public bool IsTarget { get; set; } = false;
+    public bool IsTargetForward { get; set; } = false;
     public Collider[] ColliderArray { get; set; }
+
+    // 전체
     public Transform NearTarget => nearTarget;
     public Transform[] NearTargetArray => nearTargetArray;
+
+    // 정면
+    public Transform ForwardNearTarget => forwardNearTarget;
+    public Transform[] ForwardNearTargetArray => forwardNearTargetArray;
     #endregion // 프로퍼티
 
     #region 함수
@@ -23,6 +35,19 @@ public class PlayerScanner : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(this.transform.position, scanRange);
+
+
+        Gizmos.color = Color.green;
+        Vector3 direction = transform.forward;
+        Quaternion leftRayRotation = Quaternion.AngleAxis(-detectAngle / 2, Vector3.up);
+        Quaternion rightRayRotation = Quaternion.AngleAxis(detectAngle / 2, Vector3.up);
+        Vector3 leftRayDirection = leftRayRotation * direction;
+        Vector3 rightRayDirection = rightRayRotation * direction;
+
+        Gizmos.DrawLine(transform.position, transform.position + leftRayDirection * sacnRangeForward);
+        Gizmos.DrawLine(transform.position, transform.position+ rightRayDirection * sacnRangeForward);
+        Gizmos.DrawLine(transform.position+ leftRayDirection * sacnRangeForward,
+            transform.position+ rightRayDirection * sacnRangeForward);
     }
 
     /** 초기화 => 상태를 갱신한다 */
@@ -30,42 +55,74 @@ public class PlayerScanner : MonoBehaviour
     {
         ColliderArray = Physics.OverlapSphere(transform.position, scanRange, targetLayer);
 
-        IsTarget = ColliderArray.Length > 0;
+        // 가장 가까운 적 설정 (전체)
+        SetNearTarget();
+        // 가장 가까운 적 설정 (정면)
+        SetNearTargetForward();
 
+        IsTarget = ColliderArray.Length > 0;
+        IsTargetForward = forwardNearTargetArray.Length > 0;
+    }
+
+    /** 가장 가까운 적 설정 (전체) */
+    private void SetNearTarget()
+    {
         nearTargetArray = SortEnemyList();
 
-        if(nearTargetArray.Length > 0)
+        if (nearTargetArray.Length > 0)
         {
             nearTarget = nearTargetArray[0];
         }
+        else
+        {
+            nearTarget = null;
+        }
     }
 
-    /** 플레이어와 위치를 비교하여 가장가까운 적을 찾는다 */
-    private Transform GetNear()
+    /** 가장 가까운 적 설정 (정면) */
+    private void SetNearTargetForward()
     {
-        if (ColliderArray.Length == 0)
-        {
-            return null;
-        }
+        forwardNearTargetArray = ForwardNearTargetList();
 
-        Transform nearEnemy = null;
-        float shortestDistance = Mathf.Infinity;
+        if (forwardNearTargetArray.Length > 0)
+        {
+            forwardNearTarget = NearTargetArray[0];
+        }
+        else
+        {
+            forwardNearTarget = null;
+        }
+    }
+
+    /** 플레이어와 위치를 비교하여 가장가까운 순서대로 정렬한다 (정면) */
+    private Transform[] ForwardNearTargetList()
+    {
+        List<Transform> sortList = new List<Transform>();
 
         foreach (Collider collider in ColliderArray)
         {
-            float distance = Vector3.Distance(transform.position, collider.transform.position);
+            Transform enemyTransform = collider.transform;
 
-            if (distance < shortestDistance)
+            // 정면 부채꼴 범위 안에 적이 있는지 확인
+            if (IsEnemyInDetectionCone(enemyTransform))
             {
-                shortestDistance = distance;
-                nearEnemy = collider.GetComponent<Enemy>().MeshTransform;
+                sortList.Add(enemyTransform);
             }
         }
 
-        return nearEnemy;
+        // 거리를 기준으로 정렬, 오름차순
+        sortList.Sort((aPos, bPos) =>
+        {
+            float distanceA = Vector3.Distance(this.transform.position, aPos.position);
+            float distanceB = Vector3.Distance(this.transform.position, bPos.position);
+
+            return distanceA.CompareTo(distanceB);
+        });
+
+        return sortList.ToArray(); 
     }
 
-    /** 플레이어와 위치를 비교하여 가장가까운 순서대로 정렬한다 */
+    /** 플레이어와 위치를 비교하여 가장가까운 순서대로 정렬한다 (전체) */
     private Transform[] SortEnemyList()
     {
         List<Transform> sortList = new List<Transform>();
@@ -87,6 +144,29 @@ public class PlayerScanner : MonoBehaviour
 
         // 정렬된 적들을 배열로 변환하여 반환합니다.
         return sortList.ToArray();
+    }
+
+    /** 정면 부채꼴 범위 안에 적이 있는지 확인한다 */
+    private bool IsEnemyInDetectionCone(Transform enemyTransform)
+    {
+        Vector3 direction = (enemyTransform.position - transform.position).normalized;
+        float angle = Vector3.Angle(transform.forward, direction);
+
+        // 계산된 각도가 정해진 각도 안에 있을 경우
+        if (angle < detectAngle / 2)
+        {
+            Collider[] colliders = Physics.OverlapSphere(this.transform.position, sacnRangeForward, targetLayer);
+            foreach(Collider collider in colliders)
+            {
+                if(collider.transform == enemyTransform)
+                {
+                    return true;
+                }
+            }
+        }
+
+        // 적이 감지 범위 내에 없거나 가림막이 있음
+        return false; 
     }
     #endregion // 함수
 }
