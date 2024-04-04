@@ -13,31 +13,49 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] public int luck;
 
     private Dictionary<eEquipType, GameObject> weaponDict = new Dictionary<eEquipType, GameObject>();
+    private Animator animator;
     #endregion // 변수
 
     #region 프로퍼티
-    public Weapon[] WeaponArray { get; set; }
-    public float CurrentHp { get; set; }
+    public List<Weapon> WeaponList { get; set; } = new List<Weapon>();
+    public float CurrentHp;
     #endregion // 프로퍼티
 
     #region 함수
     /** 초기화 */
     private void Awake()
     {
+        animator = GetComponent<Animator>();
+
         // 현재 체력 설정
         CurrentHp = maxHp;
 
-        test();
+        InitWeapon();
+        //ActiveAddWeapon(eEquipType.SubmachineGun);
+    }
 
-        // TODO : 테스트
-        if (weaponDict.ContainsKey(eEquipType.SubmachineGun))
+    /** 데미지를 받는다 */
+    public void TakeDamage(float damage)
+    {
+        animator.SetTrigger("hitTrigger");
+
+        CurrentHp -= damage;
+
+        if (CurrentHp <= 0)
         {
-            GameObject asdf = weaponDict[eEquipType.SubmachineGun];
-            //asdf.SetActive(true);
+            // 죽음
+            Die();
         }
     }
 
-    private void test()
+    /** 플레이어 죽음 */
+    private void Die()
+    {
+
+    }
+
+    /** 무기 데이터 설정 및 딕셔너리에 추가한다 */
+    private void InitWeapon()
     {
         foreach(Transform weapon in weaponObject.transform)
         {
@@ -47,9 +65,15 @@ public class PlayerMain : MonoBehaviour
         }
     }
 
-    public void AddWeapon(eEquipType type)
+    /** 활성화 할 무기를 정한다 */
+    public void ActiveAddWeapon(eEquipType type)
     {
-        
+        if (weaponDict.ContainsKey(type))
+        {
+            GameObject weapon = weaponDict[type];
+            weapon.SetActive(true);
+            WeaponList.Add(weapon.GetComponent<Weapon>());
+        }
     }
     #endregion // 함수
 }

@@ -76,16 +76,20 @@ public class BeholderEnemy : Enemy
         isBasicAttack = true;
         IsAttack = true;
         navMeshAgent.isStopped = true;
+
+        attackCollider.GetComponent<EnemyAttack>().Init(attackdamage);
+
         animator.SetTrigger("attackTrigger");
 
-        yield return new WaitForSeconds(0.3f);
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.2f);
         attackCollider.enabled = false;
         yield return new WaitForSeconds(0.1f);
-        navMeshAgent.isStopped = false;
 
+        // 쿨타임 시작
         StartCoroutine(CoolDownCO(attackDelay, complete));
+
+        navMeshAgent.isStopped = false;
         IsAttack = false;
     }
     #endregion // 코루틴

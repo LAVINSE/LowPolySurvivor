@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     #region 변수
-    [SerializeField] private float attackDamage = 0;
+    private float attackDamage = 0;
     #endregion // 변수
 
     #region 함수
@@ -15,8 +15,14 @@ public class EnemyAttack : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             PlayerMain player = other.gameObject.GetComponent<PlayerMain>();
-            player.CurrentHp -= attackDamage;
+            player.TakeDamage(attackDamage);
         }
+    }
+
+    /** 기본 설정 */
+    public void Init(float damage)
+    {
+        attackDamage = damage;
     }
     #endregion // 함수
 }

@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float moveSpeed = 0;
     [SerializeField] protected float maxHp = 0;
     [SerializeField] protected float attackDelay = 0;
+    [SerializeField] protected float attackdamage = 0;
 
     protected Animator animator;
     protected Rigidbody rigid;
@@ -72,11 +73,12 @@ public class Enemy : MonoBehaviour
         moveSpeed = enemyDataSO.enemyDataStruct[stageLevel].moveSpeed;
         maxHp = enemyDataSO.enemyDataStruct[stageLevel].maxHp;
         attackDelay = enemyDataSO.enemyDataStruct[stageLevel].attackDelay;
+        attackdamage = enemyDataSO.enemyDataStruct[stageLevel].attackDamage;
 
         CurrentHp = maxHp;
     }
 
-    /** NavMesh 대상을 정한다 */
+    /** NavMesh 플레이어를 추적한다 */
     public void NavMeshSetDestination()
     {
         navMeshAgent.SetDestination(Player.transform.position);

@@ -11,6 +11,7 @@ public class EnemyDataSO : ScriptableObject
         public int maxHp;
         public float moveSpeed;
         public float attackDelay;
+        public float attackDamage;
     }
 
     public EnemyDataStruct[] enemyDataStruct;
