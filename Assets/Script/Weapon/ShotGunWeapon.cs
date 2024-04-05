@@ -55,7 +55,7 @@ public class ShotGunWeapon : Weapon
                 Quaternion rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, currentAngle, 0);
 
                 // ¼¦°Ç ÃÑ¾Ë
-                GameObject bullet = GameManager.Instance.PoolManager.Get((int)ObjectType.ShotGunBullet);
+                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.ShotGunBullet);
 
                 bullet.transform.position = this.transform.position;
                 bullet.transform.rotation = rotation;

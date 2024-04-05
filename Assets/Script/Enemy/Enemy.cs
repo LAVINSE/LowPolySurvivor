@@ -38,7 +38,6 @@ public class Enemy : MonoBehaviour
 
     public bool IsTracking { get; set; } = false;
     public bool IsAttack { get; set; } = false;
-    public bool IsDie { get; set; } = false;
 
     public float CurrentHp { get; set; } = 0;
 
@@ -149,7 +148,7 @@ public class Enemy : MonoBehaviour
     public virtual void Die()
     {
         // TODO : 테스트용 코드
-        if(IsDie == true) { return; }
+        if(isDie == true) { return; }
 
         isDie = true;
         animator.SetBool("isDie", true);

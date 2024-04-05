@@ -7,14 +7,17 @@ public class PlayerMovement : MonoBehaviour
 {
     #region 변수
     [Header("=====> 속도 설정 <=====")]
-    [SerializeField] private float moveSpeed; // 이동 속도
-    [SerializeField] private float rotationSpeed; // 회전 속도
+    [SerializeField] private float rotationSpeed = 360f; // 회전 속도
 
     private Vector3 moveDirection = Vector3.zero;
 
     private Rigidbody rigidBody;
     private Animator animator;
     #endregion // 변수
+
+    #region 프로퍼티
+    public float moveSpeed { get; set; } // 이동 속도
+    #endregion // 프로퍼티
 
     #region 함수
     /** 초기화 */

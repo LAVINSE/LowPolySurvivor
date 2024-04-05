@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class PlayerMain : MonoBehaviour
@@ -9,11 +10,21 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] private GameObject weaponObject;
 
     [Header("=====> 플레이어 정보 <=====")]
+    [SerializeField] private PlayerDataSO playerDataSO;
     [SerializeField] private float maxHp;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float itemPickRange;
+    [SerializeField] private float expPercent;
     [SerializeField] public int luck;
+
+    private PlayerMovement playerMovement;
 
     private Dictionary<eEquipType, GameObject> weaponDict = new Dictionary<eEquipType, GameObject>();
     private Animator animator;
+    private Rigidbody rigid;
+    private CapsuleCollider capsuleCollider;
+
+    private bool isDie = false;
     #endregion // 변수
 
     #region 프로퍼티
@@ -25,13 +36,28 @@ public class PlayerMain : MonoBehaviour
     /** 초기화 */
     private void Awake()
     {
+        playerMovement = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
 
-        // 현재 체력 설정
-        CurrentHp = maxHp;
+        Init();
 
         InitWeapon();
         //ActiveAddWeapon(eEquipType.SubmachineGun);
+    }
+
+    /** 플레이어 데이터 세팅 */
+    private void Init()
+    {
+        maxHp = playerDataSO.maxHp;
+        moveSpeed = playerDataSO.moveSpeed;
+        itemPickRange = playerDataSO.itemPickRange;
+        expPercent = playerDataSO.expPercent;
+        luck = playerDataSO.luck;
+
+        CurrentHp = maxHp;
+        playerMovement.moveSpeed = moveSpeed;
     }
 
     /** 데미지를 받는다 */
@@ -51,7 +77,15 @@ public class PlayerMain : MonoBehaviour
     /** 플레이어 죽음 */
     private void Die()
     {
+        // TODO : 테스트용 코드
+        if (isDie == true) { return; }
 
+        isDie = true;
+        animator.SetBool("isDie", true);
+
+        // TODO : 중력 X, 콜라이더 isTrigger 해제 설정해야됨 
+        rigid.useGravity = false;
+        capsuleCollider.enabled = false;
     }
 
     /** 무기 데이터 설정 및 딕셔너리에 추가한다 */

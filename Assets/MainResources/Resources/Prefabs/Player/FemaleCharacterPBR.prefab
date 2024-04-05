@@ -2382,8 +2382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4326525f106e17498581bab51cb4567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  rotationSpeed: 100
+  rotationSpeed: 360
 --- !u!114 &951347685882663227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2397,8 +2396,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponObject: {fileID: 8650293738821347191}
+  playerDataSO: {fileID: 11400000, guid: 6f072139d688b2344af5ec4359f3b3d3, type: 2}
   maxHp: 0
+  moveSpeed: 0
+  itemPickRange: 0
+  expPercent: 0
   luck: 0
+  CurrentHp: 0
 --- !u!114 &2032767000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2412,11 +2416,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scanRange: 10
+  sacnRangeForward: 0
+  detectAngle: 45
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
   nearTarget: {fileID: 0}
   nearTargetArray: []
+  forwardNearTargetArray: []
+  forwardNearTarget: {fileID: 0}
 --- !u!1 &7667767699941656935
 GameObject:
   m_ObjectHideFlags: 0

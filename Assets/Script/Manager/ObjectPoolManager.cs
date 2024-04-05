@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 프리팹 배열이랑 똑같은 번호로 맞추기
-public enum ObjectType
+public enum BulletType
 {
     SubmachineGunBullet = 0,
     AssaultGunBullet,
@@ -11,30 +11,45 @@ public enum ObjectType
     MachineGunBullet,
 }
 
+public enum EnemyType
+{
+
+}
+
 public class ObjectPoolManager : MonoBehaviour
 {
     #region 변수
-    [SerializeField] private GameObject[] prefabs;
+    [SerializeField] private GameObject[] bulletPrefabArray;
+    [SerializeField] private GameObject[] enemyPrefabArray;
 
-    private List<GameObject>[] pools;
+    private List<GameObject>[] bulletPoolList;
+    private List<GameObject>[] enemyPoolList;
     #endregion // 변수
 
     #region 함수
     private void Awake()
     {
-        pools = new List<GameObject>[prefabs.Length];
+        bulletPoolList = new List<GameObject>[bulletPrefabArray.Length];
 
-        for(int i = 0; i< pools.Length; i++)
+        for(int i = 0; i < bulletPoolList.Length; i++)
         {
-            pools[i] = new List<GameObject>();
+            bulletPoolList[i] = new List<GameObject>();
+        }
+
+
+        enemyPoolList = new List<GameObject>[enemyPrefabArray.Length];
+
+        for(int i = 0; i < enemyPoolList.Length; i++)
+        {
+            enemyPoolList[i] = new List<GameObject>();
         }
     }
 
-    public GameObject Get(int index)
+    public GameObject GetBullet(int index)
     {
         GameObject select = null;
 
-        foreach(GameObject item in pools[index])
+        foreach(GameObject item in bulletPoolList[index])
         {
             if (!item.activeSelf)
             {
@@ -46,8 +61,31 @@ public class ObjectPoolManager : MonoBehaviour
 
         if(select == null)
         {
-            select = Instantiate(prefabs[index], this.transform);
-            pools[index].Add(select);
+            select = Instantiate(bulletPrefabArray[index], this.transform);
+            bulletPoolList[index].Add(select);
+        }
+
+        return select;
+    }
+
+    public GameObject GetEnemy(int index)
+    {
+        GameObject select = null;
+
+        foreach (GameObject item in enemyPoolList[index])
+        {
+            if (!item.activeSelf)
+            {
+                select = item;
+                select.SetActive(true);
+                break;
+            }
+        }
+
+        if (select == null)
+        {
+            select = Instantiate(enemyPrefabArray[index], this.transform);
+            enemyPoolList[index].Add(select);
         }
 
         return select;
