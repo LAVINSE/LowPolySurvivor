@@ -45,7 +45,7 @@ public class ObjectPoolManager : MonoBehaviour
         }
     }
 
-    public GameObject GetBullet(int index)
+    public GameObject GetBullet(int index, Vector3 spawnPos)
     {
         GameObject select = null;
 
@@ -54,6 +54,7 @@ public class ObjectPoolManager : MonoBehaviour
             if (!item.activeSelf)
             {
                 select = item;
+                select.transform.position = spawnPos;
                 select.SetActive(true);
                 break;
             }
@@ -61,14 +62,15 @@ public class ObjectPoolManager : MonoBehaviour
 
         if(select == null)
         {
-            select = Instantiate(bulletPrefabArray[index], this.transform);
+            select = Instantiate(bulletPrefabArray[index], spawnPos, Quaternion.identity);
+            select.transform.SetParent(this.transform);
             bulletPoolList[index].Add(select);
         }
 
         return select;
     }
 
-    public GameObject GetEnemy(int index)
+    public GameObject GetEnemy(int index, Vector3 spawnPos)
     {
         GameObject select = null;
 
@@ -77,6 +79,7 @@ public class ObjectPoolManager : MonoBehaviour
             if (!item.activeSelf)
             {
                 select = item;
+                select.transform.position = spawnPos;
                 select.SetActive(true);
                 break;
             }
@@ -84,7 +87,8 @@ public class ObjectPoolManager : MonoBehaviour
 
         if (select == null)
         {
-            select = Instantiate(enemyPrefabArray[index], this.transform);
+            select = Instantiate(enemyPrefabArray[index], spawnPos, Quaternion.identity);
+            select.transform.SetParent(this.transform);
             enemyPoolList[index].Add(select);
         }
 

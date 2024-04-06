@@ -36,7 +36,6 @@ public class PlayerScanner : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(this.transform.position, scanRange);
 
-
         Gizmos.color = Color.green;
         Vector3 direction = transform.forward;
         Quaternion leftRayRotation = Quaternion.AngleAxis(-detectAngle / 2, Vector3.up);

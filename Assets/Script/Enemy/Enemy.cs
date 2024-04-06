@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
     public float CurrentHp { get; set; } = 0;
 
     public PlayerMain Player;
+    public Vector3 pos;
     #endregion // 프로퍼티
 
     #region 함수

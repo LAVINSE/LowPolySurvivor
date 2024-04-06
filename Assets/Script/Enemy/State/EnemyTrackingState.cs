@@ -39,9 +39,5 @@ public class EnemyTrackingState : BaseState
         {
             enemyState.ChangeState(EnemyState.eEnemyState.Attack);
         }
-        else
-        {
-            Debug.Log(" ¿Ö ¾ÈµÊ");
-        }
     }
 }

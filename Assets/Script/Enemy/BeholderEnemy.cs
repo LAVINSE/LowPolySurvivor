@@ -12,7 +12,7 @@ public class BeholderEnemy : Enemy
     private Action complete;
     private bool isBasicAttack = false;
 
-    private BoxCollider boxCollider;
+    private CapsuleCollider capsuleCollider;
     #endregion // 변수
 
     #region 함수
@@ -20,7 +20,7 @@ public class BeholderEnemy : Enemy
     public override void Awake()
     {
         base.Awake();
-        boxCollider = GetComponent<BoxCollider>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
         attackCollider.enabled = false;
 
         complete = OnCompleteBasicAttack;
@@ -51,7 +51,7 @@ public class BeholderEnemy : Enemy
 
         // TODO : 중력 X, 콜라이더 isTrigger 해제 설정해야됨 
         rigid.useGravity = false;
-        boxCollider.enabled = false;
+        capsuleCollider.enabled = false;
 
         // 아이템 드랍
         InstantiateDropItem(this.transform.position);
