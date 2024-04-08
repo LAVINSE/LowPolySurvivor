@@ -8,6 +8,10 @@ public class CharacterSelect : MonoBehaviour
     #region 변수
     [SerializeField] private List<GameObject> modelList = new List<GameObject>();
 
+    [SerializeField] private List<EquipSelect> equipSelectList = new List<EquipSelect>();
+
+    public List<eEquipType> equipTypeList = new List<eEquipType>();
+
     private int selectionIndex = 0; // 캐릭터 선택창, 기본 값 0 
     private int changeIndex = 0; // 버튼으로 값 변경
     #endregion // 변수
@@ -85,5 +89,13 @@ public class CharacterSelect : MonoBehaviour
 
         SelectModel(changeIndex);
         Debug.Log(changeIndex);
+    }
+
+    public void equiptype()
+    {
+        for (int i = 0; i < equipSelectList.Count; ++i)
+        {
+            equipTypeList.Add(equipSelectList[i].equipType);
+        }
     }
 }
