@@ -1663,12 +1663,13 @@ MonoBehaviour:
   enemyDataSO: {fileID: 11400000, guid: 1032ca341a587b947bc73518d626c21f, type: 2}
   dropItemList:
   - {fileID: 11400000, guid: 7b97d31ffb1db0341ab01904d13e103d, type: 2}
-  attackRange: 0.99
   rootTransform: {fileID: 4530003306004526948}
-  correctStoppingDistance: 0.26
+  correctStoppingDistance: 0.2
   moveSpeed: 3.5
   maxHp: 0
   attackDelay: 4
+  attackdamage: 0
+  attackRange: 0.99
   Player: {fileID: 0}
   attackCollider: {fileID: 3064715128868609881}
 --- !u!1 &4530003306004163420
@@ -1808,4 +1809,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3a475e5a711a1f4aa8ab49978550ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 3

@@ -15,4 +15,5 @@ public class EnemyDataSO : ScriptableObject
     }
 
     public EnemyDataStruct[] enemyDataStruct;
+    public float attackRange = 0f;
 }

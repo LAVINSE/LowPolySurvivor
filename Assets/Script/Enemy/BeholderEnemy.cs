@@ -7,12 +7,12 @@ public class BeholderEnemy : Enemy
 {
     #region 변수
     [Header("=====> Beholder 변수 <=====")]
-    [SerializeField] private BoxCollider attackCollider = null;
+    [SerializeField] private BoxCollider attackCollider = null; // 공격 콜라이더
 
-    private Action complete;
-    private bool isBasicAttack = false;
+    private Action complete; // 공격이 완료 됐는지, 델리게이트
+    private bool isBasicAttack = false; // 기본 공격 확인
 
-    private CapsuleCollider capsuleCollider;
+    private CapsuleCollider capsuleCollider; // 콜라이더
     #endregion // 변수
 
     #region 함수
@@ -81,6 +81,7 @@ public class BeholderEnemy : Enemy
 
         animator.SetTrigger("attackTrigger");
 
+        yield return new WaitForSeconds(0.1f);
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.2f);
         attackCollider.enabled = false;

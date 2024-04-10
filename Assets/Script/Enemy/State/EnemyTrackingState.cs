@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyTrackingState : BaseState
 {
@@ -20,7 +21,7 @@ public class EnemyTrackingState : BaseState
     /** 상태 시작 */
     public override void StateEnter()
     {
-        
+        enemy.navMeshAgent.stoppingDistance = 0;
     }
 
     /** 상태 종료 */
@@ -35,7 +36,7 @@ public class EnemyTrackingState : BaseState
         enemy.NavMeshSetDestination();
 
         Debug.Log("추적");
-        if (enemy.CheckattackChangeRange())
+        if (enemy.CheckAttackRange() == true)
         {
             enemyState.ChangeState(EnemyState.eEnemyState.Attack);
         }

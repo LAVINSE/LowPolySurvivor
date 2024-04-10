@@ -20,7 +20,7 @@ public class EnemyAttackState : BaseState
     /** 상태 시작 */
     public override void StateEnter()
     {
-        
+        enemy.navMeshAgent.stoppingDistance = enemy.StoppingDistance;
     }
 
     /** 상태 종료 */
@@ -35,7 +35,7 @@ public class EnemyAttackState : BaseState
         enemy.TargetSetting();
 
         Debug.Log("공격");
-        if (!enemy.CheckattackChangeRange())
+        if (enemy.CheckAttackRange() == false)
         {
             enemyState.ChangeState(EnemyState.eEnemyState.Tracking);
         }

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,10 +42,25 @@ public class SelectEquipUI : MonoBehaviour
     public void MoveScroll(GameObject scroll)
     {
         bool setActive = !scroll.activeSelf;
-        scroll.SetActive(setActive);
 
-        float targetPosition = setActive ? 310f : 1110f;
-        scroll.transform.DOLocalMoveX(targetPosition, 0.6f).SetEase(Ease.Unset);
+        if (setActive)
+        {
+            float targetPosition = 310f;
+            scroll.SetActive(setActive);
+            scroll.transform.DOLocalMoveX(targetPosition, 0.6f).SetEase(Ease.Unset);
+        }
+        else
+        {
+            float targetPosition = 1110f;
+            
+            scroll.transform.DOLocalMoveX(targetPosition, 0.6f).SetEase(Ease.Unset).OnComplete(() =>
+            {
+                scroll.SetActive(setActive);
+            });
+        }
     }
     #endregion // 窃荐
+
+    #region 内风凭
+    #endregion // 内风凭
 }

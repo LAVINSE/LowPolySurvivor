@@ -11,13 +11,12 @@ public class Enemy : MonoBehaviour
 {
     #region 변수
     [Header("=====> 데이터 <=====")]
-    [SerializeField] protected EnemyDataSO enemyDataSO;
-    [SerializeField] protected List<ItemDataSO> dropItemList = new List<ItemDataSO>();
+    [SerializeField] protected EnemyDataSO enemyDataSO; // 데이터
+    [SerializeField] protected List<ItemDataSO> dropItemList = new List<ItemDataSO>(); // 드랍 아이템
 
     [Header("=====> Enemy 변수 <=====")]
-    [SerializeField] protected float attackRange = 0f;
     [SerializeField] private Transform rootTransform;
-    [SerializeField] private float correctStoppingDistance = 0.26f; // 보정값 0.26f 이하로
+    [SerializeField] private float correctStoppingDistance = 0.20f; // 보정값 0.26f 이하로
 
     [Header("=====> 인스펙터 확인 <=====")]
     [Space]
@@ -25,30 +24,31 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float maxHp = 0;
     [SerializeField] protected float attackDelay = 0;
     [SerializeField] protected float attackdamage = 0;
+    [SerializeField] protected float attackRange = 0f;
 
     protected Animator animator;
     protected Rigidbody rigid;
-    protected NavMeshAgent navMeshAgent;
-
-    protected bool isDie = false;
+    
+    protected bool isDie = false; // 죽음 확인
     #endregion // 변수
 
     #region 프로퍼티
-    public Transform MeshTransform => rootTransform;
+    public NavMeshAgent navMeshAgent { get; set; }
+    public Transform MeshTransform => rootTransform; // 위치 정보
 
-    public bool IsTracking { get; set; } = false;
-    public bool IsAttack { get; set; } = false;
+    public bool IsTracking { get; set; } = false; // 추적 확인
+    public bool IsAttack { get; set; } = false; // 공격 확인
 
-    public float CurrentHp { get; set; } = 0;
+    public float CurrentHp { get; set; } = 0; // 현재 체력
+    public float StoppingDistance { get; set; }
 
-    public PlayerMain Player;
-    public Vector3 pos;
+    public PlayerMain Player; // 플레이어
     #endregion // 프로퍼티
 
     #region 함수
     private void OnDrawGizmos()
     {
-        Debug.DrawRay(new Vector3(rootTransform.transform.position.x, rootTransform.transform.position.y,
+        Debug.DrawRay(new Vector3(this.transform.position.x, rootTransform.transform.position.y,
             rootTransform.transform.position.z),
             this.transform.forward * attackRange, Color.green);
     }
@@ -64,7 +64,8 @@ public class Enemy : MonoBehaviour
         Init(0);
 
         navMeshAgent.speed = moveSpeed;
-        navMeshAgent.stoppingDistance = attackRange + correctStoppingDistance;
+        StoppingDistance = attackRange + correctStoppingDistance;
+        navMeshAgent.stoppingDistance = StoppingDistance;
     }
 
     /** 적 데이터 세팅 */
@@ -75,6 +76,7 @@ public class Enemy : MonoBehaviour
         attackDelay = enemyDataSO.enemyDataStruct[stageLevel].attackDelay;
         attackdamage = enemyDataSO.enemyDataStruct[stageLevel].attackDamage;
 
+        attackRange = enemyDataSO.attackRange;
         CurrentHp = maxHp;
     }
 
@@ -85,13 +87,12 @@ public class Enemy : MonoBehaviour
     }
 
     /** 공격 사거리에 들어왔는지 확인한다 */
-    public bool CheckattackChangeRange()
+    public bool CheckAttackRange()
     {
         RaycastHit hit;
-        Vector3 pos = new Vector3(this.transform.position.x, rootTransform.position.y, this.transform.position.z);
 
         // 적 방향으로 레이캐스트 발사
-        if (Physics.Raycast(rootTransform.position, Player.transform.position - pos, out hit, attackRange))
+        if (Physics.Raycast(rootTransform.position, this.transform.forward, out hit, attackRange))
         {
             // 레이캐스트가 적에게 충돌한 경우
             if (hit.collider.CompareTag("Player"))
@@ -108,10 +109,8 @@ public class Enemy : MonoBehaviour
     {
         RaycastHit hit;
 
-        Vector3 pos = new Vector3(this.transform.position.x, rootTransform.position.y, this.transform.position.z);
-
         // 적 방향으로 레이캐스트 발사
-        if (Physics.Raycast(rootTransform.position, Player.transform.position - pos, out hit, attackRange))
+        if (Physics.Raycast(rootTransform.position, this.transform.forward, out hit, attackRange))
         {
             // 레이캐스트가 적에게 충돌한 경우
             if (hit.collider.CompareTag("Player"))

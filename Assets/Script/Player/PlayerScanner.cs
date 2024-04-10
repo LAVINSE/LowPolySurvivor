@@ -129,7 +129,7 @@ public class PlayerScanner : MonoBehaviour
         // 범위에 있는 적들을 정렬 리스트에 추가한다
         foreach (Collider collider in ColliderArray)
         {
-            sortList.Add(collider.GetComponent<Enemy>().MeshTransform);
+            sortList.Add(collider.GetComponent<Enemy>().transform);
         }
 
         // 거리를 기준으로 정렬, 오름차순
