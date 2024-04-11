@@ -161,8 +161,6 @@ public class Weapon : MonoBehaviour
             yield return null;
         }
 
-
-        Debug.Log(" 쿨타미 끝");
         Callback?.Invoke();
     }
     #endregion // 코루틴

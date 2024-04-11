@@ -76,7 +76,6 @@ public class CharacterSelect : MonoBehaviour
         }
 
         SelectModel(changeIndex);
-        Debug.Log(changeIndex);
     }
 
     /** 이전 버튼 */
@@ -88,7 +87,6 @@ public class CharacterSelect : MonoBehaviour
         }
 
         SelectModel(changeIndex);
-        Debug.Log(changeIndex);
     }
 
     public void equiptype()

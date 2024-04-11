@@ -35,7 +35,6 @@ public class EnemyTrackingState : BaseState
     {
         enemy.NavMeshSetDestination();
 
-        Debug.Log("ÃßÀû");
         if (enemy.CheckAttackRange() == true)
         {
             enemyState.ChangeState(EnemyState.eEnemyState.Attack);

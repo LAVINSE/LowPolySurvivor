@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 // 상속해서 사용하기
 public class Enemy : MonoBehaviour
@@ -26,13 +27,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float attackdamage = 0;
     [SerializeField] protected float attackRange = 0f;
 
-    protected Animator animator;
     protected Rigidbody rigid;
     
     protected bool isDie = false; // 죽음 확인
     #endregion // 변수
 
     #region 프로퍼티
+    public Animator Animator { get; set; }
     public NavMeshAgent navMeshAgent { get; set; }
     public Transform MeshTransform => rootTransform; // 위치 정보
 
@@ -46,7 +47,7 @@ public class Enemy : MonoBehaviour
     #endregion // 프로퍼티
 
     #region 함수
-    private void OnDrawGizmos()
+    public virtual void OnDrawGizmos()
     {
         Debug.DrawRay(new Vector3(this.transform.position.x, rootTransform.transform.position.y,
             rootTransform.transform.position.z),
@@ -57,7 +58,7 @@ public class Enemy : MonoBehaviour
     public virtual void Awake()
     {
         rigid = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         // TODO : 테스트
@@ -117,15 +118,15 @@ public class Enemy : MonoBehaviour
             {
                 if (!IsAttack)
                 {
-                    Debug.Log(" 공격 시작 ");
-                    Attack();
+                    navMeshAgent.stoppingDistance = StoppingDistance;
+                    Attack(hit);
                 }
             }
         }
     }
 
     /** 공격한다 */
-    public virtual void Attack()
+    public virtual void Attack(RaycastHit hit)
     {
 
     }
@@ -133,7 +134,7 @@ public class Enemy : MonoBehaviour
     /** 데미지를 받는다 */
     public virtual void TakeDamage(float damage)
     {
-        animator.SetTrigger("hitTrigger");
+        Animator.SetTrigger("hitTrigger");
 
         CurrentHp -= damage;
 
@@ -151,7 +152,7 @@ public class Enemy : MonoBehaviour
         if(isDie == true) { return; }
 
         isDie = true;
-        animator.SetBool("isDie", true);
+        Animator.SetBool("isDie", true);
     }
 
     /** 드랍 아이템 리스트에서 아이템을 생성한다 */

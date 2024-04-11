@@ -20,13 +20,13 @@ public class EnemyAttackState : BaseState
     /** 상태 시작 */
     public override void StateEnter()
     {
-        enemy.navMeshAgent.stoppingDistance = enemy.StoppingDistance;
+        enemy.Animator.SetBool("isIdle", true);
     }
 
     /** 상태 종료 */
     public override void StateExit()
     {
-        
+        enemy.Animator.SetBool("isIdle", false);
     }
 
     /** 초기화 => 상태를 갱신한다 */
@@ -34,8 +34,7 @@ public class EnemyAttackState : BaseState
     {
         enemy.TargetSetting();
 
-        Debug.Log("공격");
-        if (enemy.CheckAttackRange() == false)
+        if (enemy.CheckAttackRange() == false && enemy.IsAttack == false)
         {
             enemyState.ChangeState(EnemyState.eEnemyState.Tracking);
         }
