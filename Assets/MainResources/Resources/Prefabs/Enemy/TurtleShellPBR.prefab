@@ -643,7 +643,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyDataSO: {fileID: 11400000, guid: de2baa7a95efc8044b6b30f078bf1434, type: 2}
-  dropItemList: []
+  dropItemList:
+  - {fileID: 11400000, guid: 7b97d31ffb1db0341ab01904d13e103d, type: 2}
   rootTransform: {fileID: 4904020275497282}
   correctStoppingDistance: 0.2
   moveSpeed: 0
