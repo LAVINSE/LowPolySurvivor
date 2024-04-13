@@ -20,13 +20,13 @@ public class EnemyAttackState : BaseState
     /** 상태 시작 */
     public override void StateEnter()
     {
-        enemy.Animator.SetBool("isIdle", true);
+        
     }
 
     /** 상태 종료 */
     public override void StateExit()
     {
-        enemy.Animator.SetBool("isIdle", false);
+        
     }
 
     /** 초기화 => 상태를 갱신한다 */

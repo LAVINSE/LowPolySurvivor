@@ -35,6 +35,9 @@ public class BeholderEnemy : Enemy
         {
             isBasicAttack = true;
             IsAttack = true;
+            navMeshAgent.isStopped = true;
+            Animator.SetBool("isWalk", false);
+
             StartCoroutine(BasicAttackCO());
         }
     }
@@ -72,9 +75,7 @@ public class BeholderEnemy : Enemy
     /** 기본 공격 */
     private IEnumerator BasicAttackCO()
     {
-        navMeshAgent.isStopped = true;
-
-        attackCollider.GetComponent<EnemyAttack>().Init(attackdamage);
+        attackCollider.GetComponent<EnemyAttack>().Init(attackDamage);
 
         Animator.SetTrigger("attackTrigger");
 

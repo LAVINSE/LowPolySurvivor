@@ -42,7 +42,10 @@ public class SlimeEnemy : Enemy
         if (isBasicAttack == false)
         {
             isBasicAttack = true;
-            IsAttack = true;
+            IsAttack = true; 
+            navMeshAgent.isStopped = true;
+            Animator.SetBool("isWalk", false);
+
             StartCoroutine(BoomAttackCO());
         }
     }
@@ -80,9 +83,7 @@ public class SlimeEnemy : Enemy
     /** ÀÚÆø °ø°Ý */
     private IEnumerator BoomAttackCO()
     {
-        navMeshAgent.isStopped = true;
-
-        attackCollider.GetComponent<EnemyAttack>().Init(attackdamage);
+        attackCollider.GetComponent<EnemyAttack>().Init(attackDamage);
 
         Animator.SetTrigger("BoomTrigger");
 

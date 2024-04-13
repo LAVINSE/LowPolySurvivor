@@ -22,7 +22,7 @@ MonoBehaviour:
   basePenetrate: 0
   baseReloadTime: 2
   baseRange: -1
-  baseDamage: 1
+  baseDamage: 0
   baseRate: 0.5
   baseBulletVelocity: 15
   prefab: {fileID: 7221961804468371141, guid: 4ad7d842af1d05a438cd29ee85ae2cd2, type: 3}

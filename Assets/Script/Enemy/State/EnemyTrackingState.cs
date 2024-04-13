@@ -21,7 +21,7 @@ public class EnemyTrackingState : BaseState
     /** 상태 시작 */
     public override void StateEnter()
     {
-        enemy.navMeshAgent.stoppingDistance = 0;
+        enemy.Animator.SetBool("isWalk", true);
     }
 
     /** 상태 종료 */

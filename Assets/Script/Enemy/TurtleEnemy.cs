@@ -47,6 +47,8 @@ public class TurtleEnemy : Enemy
         {
             isBasicAttack = true;
             IsAttack = true;
+            navMeshAgent.isStopped = true;
+            Animator.SetBool("isWalk", false);
 
             float distance = Vector3.Distance(hit.collider.transform.position, this.transform.position);
 
@@ -94,9 +96,7 @@ public class TurtleEnemy : Enemy
     /** 기본 공격 */
     private IEnumerator BasicAttackCO()
     {
-        navMeshAgent.isStopped = true;
-
-        basicAttackCollider.GetComponent<EnemyAttack>().Init(attackdamage);
+        basicAttackCollider.GetComponent<EnemyAttack>().Init(attackDamage);
 
         Animator.SetTrigger("BasicAttackTrigger");
 
@@ -104,7 +104,6 @@ public class TurtleEnemy : Enemy
         basicAttackCollider.enabled = true;
         yield return new WaitForSeconds(0.2f);
         basicAttackCollider.enabled = false;
-
 
         yield return new WaitForSeconds(0.1f);
 
@@ -118,9 +117,7 @@ public class TurtleEnemy : Enemy
     /** 돌진 공격 */
     private IEnumerator RushAttackCO()
     {
-        navMeshAgent.isStopped = true;
-
-        rushAttackCollider.GetComponent<EnemyAttack>().Init(attackdamage);
+        rushAttackCollider.GetComponent<EnemyAttack>().Init(attackDamage);
 
         Animator.SetTrigger("RushAttackTrigger");
 

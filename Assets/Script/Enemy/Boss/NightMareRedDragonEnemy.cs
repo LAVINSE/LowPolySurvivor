@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class NightMareRedDragonEnemy : Enemy
 {
@@ -10,6 +11,7 @@ public class NightMareRedDragonEnemy : Enemy
     [Header("=====> Turtle 변수 <=====")]
     [SerializeField] private BoxCollider clawAttackCollider = null; // 기본 공격 콜라이더
     [SerializeField] private BoxCollider jumpAttackCollider = null; // 돌진 공격 콜라이더
+    [SerializeField] private SphereCollider screamAttackCollider = null; // 돌진 공격 콜라이더
 
     private Action complete; // 공격이 완료 됐는지, 델리게이트
     private bool isBasicAttack = false; // 기본 공격 확인
@@ -28,8 +30,10 @@ public class NightMareRedDragonEnemy : Enemy
     {
         base.Awake();
         boxCollider = GetComponent<BoxCollider>();
+
         clawAttackCollider.enabled = false;
         jumpAttackCollider.enabled = false;
+        screamAttackCollider.enabled = false;
 
         complete = OnCompleteBasicAttack;
     }
@@ -43,22 +47,24 @@ public class NightMareRedDragonEnemy : Enemy
         {
             isBasicAttack = true;
             IsAttack = true;
+            navMeshAgent.isStopped = true;
+            Animator.SetBool("isWalk", false);
 
             int random = UnityEngine.Random.Range(1, 101);
 
             if (random <= 10) // 10%
             {
-                // 자버프
-                StartCoroutine(ScreamBuffCO());
+                Debug.Log("비명");
+                StartCoroutine(ScreamAttackCO());
             }
             else if (random <= 35) // 25%
             {
-                // 점프 공격
+                Debug.Log("점프");
                 StartCoroutine(JumpAttackCO());
             }
             else // 65 %
             {
-                // 기본 공격
+                Debug.Log("기본");
                 StartCoroutine(ClawAttackCO());
             }
         }
@@ -94,14 +100,21 @@ public class NightMareRedDragonEnemy : Enemy
     #endregion // 함수
 
     #region 코루틴
-    /** 각종 버프를 사용한다 */
-    private IEnumerator ScreamBuffCO()
+    /** 비명 공격 */
+    private IEnumerator ScreamAttackCO()
     {
-        navMeshAgent.isStopped = true;
+        screamAttackCollider.GetComponent<EnemyAttack>().Init(attackDamage);
 
-        Animator.SetTrigger("screamBuffTrigger");
+        Animator.SetTrigger("screamTrigger");
 
-        yield return null;
+        yield return new WaitForSeconds(1.9f);
+        screamAttackCollider.enabled = true;
+        yield return new WaitForSeconds(0.4f);
+        screamAttackCollider.enabled = false;
+        yield return new WaitForSeconds(0.1f);
+
+        // 쿨타임 시작
+        StartCoroutine(CoolDownCO(attackDelay, complete));
 
         navMeshAgent.isStopped = false;
         IsAttack = false;
@@ -110,13 +123,16 @@ public class NightMareRedDragonEnemy : Enemy
     /** 점프 공격 */
     private IEnumerator JumpAttackCO()
     {
-        navMeshAgent.isStopped = true;
-
-        jumpAttackCollider.GetComponent<EnemyAttack>().Init(attackdamage);
+        jumpAttackCollider.GetComponent<EnemyAttack>().Init(attackDamage);
 
         Animator.SetTrigger("jumpAttackTrigger");
 
-        yield return null;
+        yield return new WaitForSeconds(1.3f);
+        jumpAttackCollider.enabled = true;
+        yield return new WaitForSeconds(0.8f);
+        jumpAttackCollider.enabled = false;
+
+        yield return new WaitForSeconds(0.1f);
 
         // 쿨타임 시작
         StartCoroutine(CoolDownCO(attackDelay, complete));
@@ -128,13 +144,15 @@ public class NightMareRedDragonEnemy : Enemy
     /** 기본 공격 */
     private IEnumerator ClawAttackCO()
     {
-        navMeshAgent.isStopped = true;
-
-        clawAttackCollider.GetComponent<EnemyAttack>().Init(attackdamage);
+        clawAttackCollider.GetComponent<EnemyAttack>().Init(attackDamage);
 
         Animator.SetTrigger("clawAttackTrigger");
+        yield return new WaitForSeconds(1.6f);
+        clawAttackCollider.enabled = true;
+        yield return new WaitForSeconds(0.7f);
+        clawAttackCollider.enabled = false;
 
-        yield return null;
+        yield return new WaitForSeconds(0.1f);
 
         // 쿨타임 시작
         StartCoroutine(CoolDownCO(attackDelay, complete));

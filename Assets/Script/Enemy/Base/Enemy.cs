@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float moveSpeed = 0;
     [SerializeField] protected float maxHp = 0;
     [SerializeField] protected float attackDelay = 0;
-    [SerializeField] protected float attackdamage = 0;
+    [SerializeField] protected float attackDamage = 0;
     [SerializeField] protected float attackRange = 0f;
 
     protected Rigidbody rigid;
@@ -36,12 +36,12 @@ public class Enemy : MonoBehaviour
     public Animator Animator { get; set; }
     public NavMeshAgent navMeshAgent { get; set; }
     public Transform MeshTransform => rootTransform; // 위치 정보
+    public Rigidbody Rigid => rigid;
 
     public bool IsTracking { get; set; } = false; // 추적 확인
     public bool IsAttack { get; set; } = false; // 공격 확인
 
     public float CurrentHp { get; set; } = 0; // 현재 체력
-    public float StoppingDistance { get; set; }
 
     public PlayerMain Player; // 플레이어
     #endregion // 프로퍼티
@@ -71,14 +71,12 @@ public class Enemy : MonoBehaviour
         moveSpeed = enemyDataSO.enemyDataStruct[stageLevel].moveSpeed;
         maxHp = enemyDataSO.enemyDataStruct[stageLevel].maxHp;
         attackDelay = enemyDataSO.enemyDataStruct[stageLevel].attackDelay;
-        attackdamage = enemyDataSO.enemyDataStruct[stageLevel].attackDamage;
+        attackDamage = enemyDataSO.enemyDataStruct[stageLevel].attackDamage;
 
         attackRange = enemyDataSO.attackRange;
         CurrentHp = maxHp;
 
         navMeshAgent.speed = moveSpeed;
-        StoppingDistance = attackRange + correctStoppingDistance;
-        navMeshAgent.stoppingDistance = StoppingDistance;
     }
 
     /** NavMesh 플레이어를 추적한다 */
@@ -118,7 +116,6 @@ public class Enemy : MonoBehaviour
             {
                 if (!IsAttack)
                 {
-                    navMeshAgent.stoppingDistance = StoppingDistance;
                     Attack(hit);
                 }
             }
@@ -128,7 +125,7 @@ public class Enemy : MonoBehaviour
     /** 공격한다 */
     public virtual void Attack(RaycastHit hit)
     {
-
+        
     }
 
     /** 데미지를 받는다 */

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     #region 변수
-    private Rigidbody rigid;
+    protected Rigidbody rigid;
     #endregion // 변수
 
     #region 프로퍼티
@@ -21,7 +21,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
     /** 접촉했을 경우 (트리거) */
-    public virtual void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
@@ -33,6 +33,7 @@ public class PlayerAttack : MonoBehaviour
 
                 if (Penetrate == 0)
                 {
+                    Attack(enemy);
                     rigid.velocity = Vector3.zero;
                     this.gameObject.SetActive(false);
                 }
@@ -49,6 +50,11 @@ public class PlayerAttack : MonoBehaviour
             rigid.velocity = Vector3.zero;
             this.gameObject.SetActive(false);
         }
+    }
+
+    public virtual void Attack(Enemy enemy)
+    {
+
     }
 
     /** 기본설정 */
