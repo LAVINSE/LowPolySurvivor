@@ -15,10 +15,11 @@ public class PlayerAttack : MonoBehaviour
 
     #region 함수
     /** 초기화 */
-    private void Awake()
+    protected virtual void Awake()
     {
         rigid = GetComponent<Rigidbody>();
     }
+
 
     /** 접촉했을 경우 (트리거) */
     public void OnTriggerEnter(Collider other)
@@ -33,9 +34,7 @@ public class PlayerAttack : MonoBehaviour
 
                 if (Penetrate == 0)
                 {
-                    Attack(enemy);
-                    rigid.velocity = Vector3.zero;
-                    this.gameObject.SetActive(false);
+                    Attack(enemy); 
                 }
 
                 if (Penetrate != -1)
@@ -47,15 +46,13 @@ public class PlayerAttack : MonoBehaviour
 
         if (other.gameObject.CompareTag("Ground"))
         {
-            rigid.velocity = Vector3.zero;
-            this.gameObject.SetActive(false);
+            Ground();
         }
     }
 
-    public virtual void Attack(Enemy enemy)
-    {
+    public virtual void Attack(Enemy enemy) { }
 
-    }
+    public virtual void Ground() { }
 
     /** 기본설정 */
     public void Init(float attackDamage, int Penetrate, Vector3 direction, float rate = 0)

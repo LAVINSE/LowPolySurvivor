@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d20958910464d74795b37abd935297f, type: 3}
+  m_Name: GrenadeGunWeapon
+  m_EditorClassIdentifier: 
+  equipType: 5
+  weaponName: "\uAE30\uAD00\uB2E8\uCD1D"
+  weaponDesc: "\uAE30\uAD00\uB2E8\uCD1D"
+  maxLevel: 30
+  baseLevel: 0
+  baseMaxAmmo: 6
+  baseWeaponCount: 1
+  basePenetrate: 0
+  baseReloadTime: 2
+  baseRange: -1
+  baseDamage: 0
+  baseRate: 1
+  baseBulletVelocity: 1
+  prefab: {fileID: 7221961804468371141, guid: 447f665a2036cc04fb9182669e78984e, type: 3}

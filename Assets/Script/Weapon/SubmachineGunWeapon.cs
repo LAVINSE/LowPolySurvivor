@@ -71,7 +71,6 @@ public class SubmachineGunWeapon : Weapon
         }
 
         StartCoroutine(CoolDownCO(ReloadTime, coroutin));
-        // TODO : 厚劝己拳肺 包府
     }
     #endregion // 内风凭
 }
