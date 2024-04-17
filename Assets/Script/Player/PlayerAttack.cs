@@ -20,6 +20,11 @@ public class PlayerAttack : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
     }
 
+    /** 초기화 */
+    protected virtual void Start()
+    {
+
+    }
 
     /** 접촉했을 경우 (트리거) */
     public void OnTriggerEnter(Collider other)
@@ -30,11 +35,12 @@ public class PlayerAttack : MonoBehaviour
 
             if(enemy != null)
             {
-                enemy.TakeDamage(AttackDamage);
+                Attack(enemy);
 
                 if (Penetrate == 0)
                 {
-                    Attack(enemy); 
+                    rigid.velocity = Vector3.zero;
+                    this.gameObject.SetActive(false);
                 }
 
                 if (Penetrate != -1)
@@ -50,8 +56,10 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    /** 공격 */
     public virtual void Attack(Enemy enemy) { }
 
+    /** Ground 태그에 충돌 했을 경우 */
     public virtual void Ground() { }
 
     /** 기본설정 */

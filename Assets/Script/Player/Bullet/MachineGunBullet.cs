@@ -11,9 +11,7 @@ public class MachineGunBullet : PlayerAttack
     public override void Attack(Enemy enemy)
     {
         base.Attack(enemy);
-
-        rigid.velocity = Vector3.zero;
-        this.gameObject.SetActive(false);
+        enemy.TakeDamage(AttackDamage);
     }
 
     public override void Ground()

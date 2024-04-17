@@ -12,11 +12,8 @@ public class ShotGunBullet : PlayerAttack
     public override void Attack(Enemy enemy)
     {
         base.Attack(enemy);
-
+        enemy.TakeDamage(AttackDamage);
         StartCoroutine(KnockBackCO(enemy));
-
-        rigid.velocity = Vector3.zero;
-        this.gameObject.SetActive(false);
     }
 
     public override void Ground()

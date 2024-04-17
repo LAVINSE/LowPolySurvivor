@@ -134,6 +134,7 @@ public class Enemy : MonoBehaviour
         Animator.SetTrigger("hitTrigger");
 
         CurrentHp -= damage;
+        Debug.Log("ÇÇ°Ý");
 
         if(CurrentHp <= 0)
         { 
