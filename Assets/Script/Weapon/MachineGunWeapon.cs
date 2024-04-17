@@ -38,27 +38,36 @@ public class MachineGunWeapon : Weapon
 
         while (Ammo > 0)
         {
-            if (PlayerScanner.ForwardNearTarget == null) { break; }
+            int minCount = Mathf.Min(WeaponCount, PlayerScanner.ForwardNearTargetArray.Length - 1);
 
-            Transform target = PlayerScanner.ForwardNearTarget;
+            for(int i = 0; i <= minCount; i++)
+            {
+                int count = i;
 
-            Vector3 targetPos = target.position;
-            Vector3 direction = targetPos - this.transform.position;
-            direction = direction.normalized;
+                if (PlayerScanner.ForwardNearTargetArray.Length - 1 < i)
+                {
+                    count = PlayerScanner.ForwardNearTargetArray.Length - 1;
+                }
 
-            // ±â°üÃÑ ÃÑ¾Ë
-            GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.MachineGunBullet, this.transform.position);
+                if (PlayerScanner.ForwardNearTargetArray[count] == null) { break; }
 
-            bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
-            bullet.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+                Vector3 targetPos = PlayerScanner.ForwardNearTargetArray[count].position;
+                Vector3 direction = targetPos - this.transform.position;
+                direction = direction.normalized;
 
-            Ammo--;
+                // ±â°üÃÑ ÃÑ¾Ë
+                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.MachineGunBullet, this.transform.position);
+
+                bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
+                bullet.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+
+                Ammo--;
+            }
 
             yield return new WaitForSeconds(Rate);
         }
 
         StartCoroutine(CoolDownCO(ReloadTime, coroutin));
-        // TODO : ºñÈ°¼ºÈ­·Î °ü¸®
     }
     #endregion // ÄÚ·çÆ¾
 }

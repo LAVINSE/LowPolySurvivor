@@ -6,7 +6,9 @@ using UnityEngine;
 public class ShotGunWeapon : Weapon
 {
     #region 변수
+    [SerializeField] ShotGunDataSO shotGunDataSO;
     [SerializeField] private float shotAngle = 30f;
+    [SerializeField] private float knockBackPower = 2f;
 
     private Action coroutin;
     #endregion // 변수
@@ -15,8 +17,14 @@ public class ShotGunWeapon : Weapon
     public override void Awake()
     {
         base.Awake();
-
         coroutin += test;
+    }
+
+    public override void Init()
+    {
+        base.Init();
+        shotAngle = shotGunDataSO.shotAngle;
+        knockBackPower = shotGunDataSO.knockBackPower;
     }
 
     public override void WeaponUse()
@@ -61,6 +69,7 @@ public class ShotGunWeapon : Weapon
 
                 // 해당 위치로 부채꼴 공격
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, bullet.transform.forward, bulletVelocity);
+                bullet.GetComponent<ShotGunBullet>().InitShotGun(knockBackPower);
 
                 Ammo--;
             }

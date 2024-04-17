@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d20958910464d74795b37abd935297f, type: 3}
+  m_Name: RockGunWeapon
+  m_EditorClassIdentifier: 
+  equipType: 6
+  weaponName: "\uB3CC\uB369\uC774"
+  weaponDesc: "\uB3CC\uB369\uC774"
+  maxLevel: 30
+  baseLevel: 0
+  baseMaxAmmo: 1
+  baseWeaponCount: 0
+  basePenetrate: -1
+  baseReloadTime: 5
+  baseRange: -1
+  baseDamage: 0
+  baseRate: 1
+  baseBulletVelocity: 1
+  prefab: {fileID: 7221961804468371141, guid: 06485ef392fda604bb35ebf6c783bb81, type: 3}

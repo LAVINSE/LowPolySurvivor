@@ -38,25 +38,38 @@ public class AssaultGunWeapon : Weapon
 
         while(Ammo > 0)
         {
-            if(PlayerScanner.NearTarget == null) { break; }
+            int minCount = Mathf.Min(WeaponCount, PlayerScanner.NearTargetArray.Length - 1);
 
-            Vector3 targetPos = PlayerScanner.NearTarget.position;
-            Vector3 direction = targetPos - this.transform.position;
-            direction = direction.normalized;
+            for(int i = 0; i <= minCount; i++)
+            {
+                int count = i;
 
-            // 돌격소총 총알
-            GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.AssaultGunBullet, this.transform.position);
+                if (PlayerScanner.NearTargetArray.Length - 1 < i)
+                {
+                    count = PlayerScanner.NearTargetArray.Length - 1;
+                }
 
-            bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
-            bullet.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+                if (PlayerScanner.NearTargetArray[count] == null) { break; }
 
-            Ammo--;
+                Vector3 targetPos = PlayerScanner.NearTargetArray[count].position;
+                Vector3 direction = targetPos - this.transform.position;
+                direction = direction.normalized;
+
+                // 돌격소총 총알
+                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.AssaultGunBullet, this.transform.position);
+
+                bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
+                bullet.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+
+                Ammo--;
+            }
+
+           
 
             yield return new WaitForSeconds(Rate);
         }
 
         StartCoroutine(CoolDownCO(ReloadTime, coroutin));
-        // TODO : 비활성화로 관리
     }
     #endregion // 코루틴
 }

@@ -5,15 +5,19 @@ using UnityEngine;
 public class ShotGunBullet : PlayerAttack
 {
     #region 변수
-    [SerializeField] private float knockBackpower = 1.3f;
+    [SerializeField] private float knockBackPower = 2f;
     #endregion // 변수
 
     #region 함수
+    public void InitShotGun(float knockBackPower)
+    {
+        this.knockBackPower = knockBackPower;
+    }
+
     public override void Attack(Enemy enemy)
     {
         base.Attack(enemy);
-        enemy.TakeDamage(AttackDamage);
-        StartCoroutine(KnockBackCO(enemy));
+        enemy.TakeDamage(AttackDamage, knockBackPower, true);
     }
 
     public override void Ground()
@@ -22,19 +26,6 @@ public class ShotGunBullet : PlayerAttack
 
         rigid.velocity = Vector3.zero;
         this.gameObject.SetActive(false);
-    }
-
-    /** 넉백 */
-    private IEnumerator KnockBackCO(Enemy enemy)
-    {
-        Vector3 direction = enemy.transform.position - this.transform.position;
-        direction.y = 0;
-
-        enemy.Rigid.AddForce(direction.normalized * knockBackpower, ForceMode.Impulse);
-
-        yield return null;
-
-        enemy.Rigid.velocity = Vector3.zero;
     }
     #endregion // 함수
 }

@@ -64,9 +64,9 @@ public class TurtleEnemy : Enemy
     }
 
     /** 데미지를 받는다 */
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, float knockBackPower = 0, bool isKnockBack = false)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, knockBackPower, isKnockBack);
     }
 
     /** 몬스터 죽음 */

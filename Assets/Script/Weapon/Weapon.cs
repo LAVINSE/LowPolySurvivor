@@ -46,7 +46,7 @@ public class Weapon : MonoBehaviour
     }
 
     /** 데이터 기본 설정 */
-    public void Init()
+    public virtual void Init()
     {
         EquipType = equipWeaponDataSO.equipType;
         WeaponName = equipWeaponDataSO.weaponName;

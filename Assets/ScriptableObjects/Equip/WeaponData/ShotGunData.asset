@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ea116d825817e4aa7ce06c2515d73f, type: 3}
+  m_Name: ShotGunData
+  m_EditorClassIdentifier: 
+  equipType: 3
+  weaponName: "\uC0F7\uAC74"
+  weaponDesc: "\uC0F7\uAC74"
+  maxLevel: 30
+  baseLevel: 0
+  baseMaxAmmo: 20
+  baseWeaponCount: 5
+  basePenetrate: 0
+  baseReloadTime: 2
+  baseRange: -1
+  baseDamage: 0
+  baseRate: 0.5
+  baseBulletVelocity: 15
+  prefab: {fileID: 7221961804468371141, guid: 4ad7d842af1d05a438cd29ee85ae2cd2, type: 3}
+  shotAngle: 30
+  knockBackPower: 2

@@ -10,6 +10,7 @@ public enum BulletType
     ShotGunBullet,
     MachineGunBullet,
     GrenadeBullet,
+    RockBullet,
 }
 
 public enum EnemyType

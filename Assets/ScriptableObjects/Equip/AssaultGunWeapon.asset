@@ -18,11 +18,11 @@ MonoBehaviour:
   maxLevel: 30
   baseLevel: 0
   baseMaxAmmo: 4
-  baseWeaponCount: 0
+  baseWeaponCount: 2
   basePenetrate: 1
   baseReloadTime: 2
   baseRange: -1
-  baseDamage: 1
+  baseDamage: 0
   baseRate: 1
   baseBulletVelocity: 12
   prefab: {fileID: 7221961804468371141, guid: 06485ef392fda604bb35ebf6c783bb81, type: 3}

@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
-using static UnityEngine.EventSystems.EventTrigger;
+
 
 // 상속해서 사용하기
 public class Enemy : MonoBehaviour
@@ -30,6 +28,9 @@ public class Enemy : MonoBehaviour
     protected Rigidbody rigid;
     
     protected bool isDie = false; // 죽음 확인
+    private bool isKnockBack = false;
+    private float knockbackTimer = 0f; // 넉백 지속 시간을 계산하는 타이머
+    public float knockbackDuration = 0.5f; // 넉백 지속 시간
     #endregion // 변수
 
     #region 프로퍼티
@@ -40,6 +41,7 @@ public class Enemy : MonoBehaviour
 
     public bool IsTracking { get; set; } = false; // 추적 확인
     public bool IsAttack { get; set; } = false; // 공격 확인
+    public bool isDamage { get; set; } = false;
 
     public float CurrentHp { get; set; } = 0; // 현재 체력
 
@@ -64,6 +66,23 @@ public class Enemy : MonoBehaviour
         // TODO : 테스트
         Init(0); 
     }
+
+    /** 초기화 상태를 갱신한다 */
+    private void Update()
+    {
+        // 넉백 상태인 경우 타이머를 업데이트하고 지속 시간이 끝나면 넉백 상태 해제
+        if (isKnockBack)
+        {
+            knockbackTimer -= Time.deltaTime;
+
+            if (knockbackTimer <= 0)
+            {
+                rigid.velocity = Vector3.zero;
+                navMeshAgent.isStopped = false;
+                isKnockBack = false;
+            }
+        }
+    } 
 
     /** 적 데이터 세팅 */
     public void Init(int stageLevel = 0)
@@ -129,9 +148,18 @@ public class Enemy : MonoBehaviour
     }
 
     /** 데미지를 받는다 */
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage, float knockBackPower = 0f, bool isKnockBack = false)
     {
+        if(isDamage == true) { return; }
+
+        isDamage = true;
+
         Animator.SetTrigger("hitTrigger");
+
+        if(isKnockBack == true && this.isKnockBack == false)
+        {
+            KnockBack();
+        }
 
         CurrentHp -= damage;
         Debug.Log("피격");
@@ -141,6 +169,20 @@ public class Enemy : MonoBehaviour
             // 죽음
             Die();
         }
+
+        isDamage = false;
+    }
+
+    public void KnockBack()
+    {
+        Debug.Log(" 넉백");
+        rigid.velocity = Vector3.zero;
+        Vector3 direction = this.transform.position - Player.transform.position;
+        navMeshAgent.isStopped = true;
+        rigid.AddForce(direction.normalized * 3f, ForceMode.Impulse);
+
+        isKnockBack = true;
+        knockbackTimer = knockbackDuration;
     }
 
     /** 몬스터 죽음 */

@@ -21,13 +21,13 @@ public class GrenadeGunWeapon : Weapon
     public override void WeaponUse()
     {
         base.WeaponUse();
-        StartCoroutine(ShotSubmachineGunCO());
+        StartCoroutine(GrenadeGunCO());
     }
 
     private void CompleteReloadCoolDown()
     {
         Ammo = MaxAmmo;
-        StartCoroutine(ShotSubmachineGunCO());
+        StartCoroutine(GrenadeGunCO());
     }
 
     /** 포물선 운동을 시뮬레이션하고 초기 속도를 계산하여 반환 */
@@ -62,22 +62,36 @@ public class GrenadeGunWeapon : Weapon
     #endregion // 함수
 
     #region 코루틴
-    private IEnumerator ShotSubmachineGunCO()
+    private IEnumerator GrenadeGunCO()
     {
         // 주변에 몹이 있을때 실행
         yield return new WaitUntil(() => PlayerScanner.IsTarget == true);
 
         while (Ammo > 0)
         {
-            if (PlayerScanner.NearTarget == null) { break; }
+            int minCount = Mathf.Min(WeaponCount, PlayerScanner.ForwardNearTargetArray.Length - 1);
 
-            Vector3 targetPos = PlayerScanner.NearTarget.position;
+            for ( int i = 0; i <= minCount; i++ )
+            {
+                int count = i;
 
-            // 수류탄 총알
-            GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.GrenadeBullet, this.transform.position);
-            Vector3 velocitay = GetVelocity(this.transform.position, targetPos, 45f);
+                if (PlayerScanner.NearTargetArray.Length - 1 < i)
+                {
+                    count = PlayerScanner.NearTargetArray.Length - 1;
+                }
 
-            bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, velocitay, bulletVelocity);
+                if (PlayerScanner.NearTargetArray[count] == null) { break; }
+
+                Vector3 targetPos = PlayerScanner.NearTargetArray[count].position;
+
+                // 수류탄 총알
+                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.GrenadeBullet, this.transform.position);
+                Vector3 velocitay = GetVelocity(this.transform.position, targetPos, 45f);
+
+                bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, velocitay, bulletVelocity);
+
+                Ammo--;
+            }
 
             yield return new WaitForSeconds(Rate);
         }

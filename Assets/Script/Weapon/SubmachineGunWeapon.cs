@@ -20,18 +20,18 @@ public class SubmachineGunWeapon : Weapon
     public override void WeaponUse()
     {
         base.WeaponUse();
-        StartCoroutine(ShotSubmachineGunCO());
+        StartCoroutine(SubmachineGunCO());
     }
 
     private void CompleteReloadCoolDown()
     {
         Ammo = MaxAmmo;
-        StartCoroutine(ShotSubmachineGunCO());
+        StartCoroutine(SubmachineGunCO());
     }
     #endregion // 함수
 
     #region 코루틴
-    private IEnumerator ShotSubmachineGunCO()
+    private IEnumerator SubmachineGunCO()
     {
         // 주변에 몹이 있을때 실행
         yield return new WaitUntil(() => PlayerScanner.IsTarget == true);
@@ -52,9 +52,7 @@ public class SubmachineGunWeapon : Weapon
 
                 if (PlayerScanner.NearTargetArray[count] == null) { break; }
 
-                Transform target = PlayerScanner.NearTargetArray[count];
-
-                Vector3 targetPos = target.position;
+                Vector3 targetPos = PlayerScanner.NearTargetArray[count].position;
                 Vector3 direction = targetPos - this.transform.position;
                 direction = direction.normalized;
 

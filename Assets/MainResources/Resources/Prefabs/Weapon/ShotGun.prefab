@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 285bcf14b4ff1e246a58901fdca0544b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipWeaponDataSO: {fileID: 11400000, guid: 288e45a188aacef4d91c7b5763634cef, type: 2}
+  equipWeaponDataSO: {fileID: 11400000, guid: 3efebaad9b5292340b622268008c6248, type: 2}
   shotAngle: 30
