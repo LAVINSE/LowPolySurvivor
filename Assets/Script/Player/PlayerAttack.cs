@@ -26,6 +26,16 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
+    protected virtual void OnEnable()
+    {
+
+    }
+
+    protected virtual void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     /** 접촉했을 경우 (트리거) */
     public void OnTriggerEnter(Collider other)
     {

@@ -54,12 +54,13 @@ public class MachineGunWeapon : Weapon
                 Vector3 targetPos = PlayerScanner.ForwardNearTargetArray[count].position;
                 Vector3 direction = targetPos - this.transform.position;
                 direction = direction.normalized;
+                direction.y = 0;
 
                 // ±â°üÃÑ ÃÑ¾Ë
                 GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.MachineGunBullet, this.transform.position);
 
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
-                bullet.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+                bullet.transform.rotation = Quaternion.FromToRotation(Vector3.left, direction);
 
                 Ammo--;
             }

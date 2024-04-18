@@ -57,6 +57,7 @@ public class ShotGunWeapon : Weapon
 
                 Vector3 target = PlayerScanner.ForwardNearTarget.position;
                 Vector3 direction = target - this.transform.position;
+                direction = direction.normalized;
 
                 // 총알 방향을 부채꼴 방향으로 회전 (왼쪽 시작 각도 계산, 발사체 수 만큼 각도 증가)
                 float currentAngle = -shotAngle / 2f + i * angleStep;
@@ -67,8 +68,11 @@ public class ShotGunWeapon : Weapon
 
                 bullet.transform.rotation = rotation;
 
+                Vector3 directionPos = bullet.transform.forward;
+                directionPos.y = 0;
+
                 // 해당 위치로 부채꼴 공격
-                bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, bullet.transform.forward, bulletVelocity);
+                bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, directionPos, bulletVelocity);
                 bullet.GetComponent<ShotGunBullet>().InitShotGun(knockBackPower);
 
                 Ammo--;

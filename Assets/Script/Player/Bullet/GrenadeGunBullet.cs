@@ -17,10 +17,9 @@ public class GrenadeGunBullet : PlayerAttack
         sphereCollider.enabled = false;
     }
 
-    /** 초기화 */
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
 
         StartCoroutine(ExplosionCO());
     }
@@ -37,6 +36,12 @@ public class GrenadeGunBullet : PlayerAttack
         rigid.velocity = Vector3.zero;
         this.gameObject.SetActive(false);
     }
+
+    private void Active()
+    {
+        rigid.velocity = Vector3.zero;
+        this.gameObject.SetActive(false);
+    }
     #endregion // 함수
 
     #region 코루틴
@@ -44,8 +49,8 @@ public class GrenadeGunBullet : PlayerAttack
     private IEnumerator ExplosionCO()
     {
         // 3초 대기
-        yield return new WaitForSeconds(10f);
-
+        yield return new WaitForSeconds(3f);
+        Debug.Log(" 펑 ");
         sphereCollider.GetComponent<PlayerWeaponAttack>().Init(AttackDamage);
 
         rigid.velocity = Vector3.zero;
@@ -58,7 +63,7 @@ public class GrenadeGunBullet : PlayerAttack
 
         sphereCollider.enabled = false;
 
-        this.gameObject.SetActive(false);
+        Active();
     }
     #endregion // 코루틴
 }

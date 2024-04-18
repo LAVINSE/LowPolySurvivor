@@ -23,6 +23,6 @@ MonoBehaviour:
   baseReloadTime: 2
   baseRange: -1
   baseDamage: 0
-  baseRate: 5
-  baseBulletVelocity: 1
+  baseRate: 2
+  baseBulletVelocity: 2
   prefab: {fileID: 0}

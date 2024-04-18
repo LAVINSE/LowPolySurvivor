@@ -69,7 +69,7 @@ public class GrenadeGunWeapon : Weapon
 
         while (Ammo > 0)
         {
-            int minCount = Mathf.Min(WeaponCount, PlayerScanner.ForwardNearTargetArray.Length - 1);
+            int minCount = Mathf.Min(WeaponCount, PlayerScanner.NearTargetArray.Length - 1);
 
             for ( int i = 0; i <= minCount; i++ )
             {
@@ -89,7 +89,7 @@ public class GrenadeGunWeapon : Weapon
                 Vector3 velocitay = GetVelocity(this.transform.position, targetPos, 45f);
 
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, velocitay, bulletVelocity);
-
+                Debug.Log(" ¼ö·ùÅº ");
                 Ammo--;
             }
 

@@ -40,7 +40,6 @@ public class SubmachineGunWeapon : Weapon
         {
             int minCount = Mathf.Min(WeaponCount, PlayerScanner.NearTargetArray.Length - 1);
 
-            // TODO : 배열 범위 벗어나지 않게 수정해야됨
             for (int i = 0; i <= minCount; i++)
             {
                 int count = i;
@@ -55,12 +54,13 @@ public class SubmachineGunWeapon : Weapon
                 Vector3 targetPos = PlayerScanner.NearTargetArray[count].position;
                 Vector3 direction = targetPos - this.transform.position;
                 direction = direction.normalized;
+                direction.y = 0;
 
                 // 기관단총 총알
                 GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.SubmachineGunBullet, this.transform.position);
 
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
-                bullet.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+                bullet.transform.rotation = Quaternion.FromToRotation(Vector3.left, direction);
 
                 Ammo--;
             }

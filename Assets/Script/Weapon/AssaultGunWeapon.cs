@@ -54,12 +54,13 @@ public class AssaultGunWeapon : Weapon
                 Vector3 targetPos = PlayerScanner.NearTargetArray[count].position;
                 Vector3 direction = targetPos - this.transform.position;
                 direction = direction.normalized;
+                direction.y = 0;
 
                 // µ¹°Ý¼ÒÃÑ ÃÑ¾Ë
                 GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.AssaultGunBullet, this.transform.position);
 
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
-                bullet.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+                bullet.transform.rotation = Quaternion.FromToRotation(Vector3.left, direction);
 
                 Ammo--;
             }
