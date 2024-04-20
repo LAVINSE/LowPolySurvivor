@@ -4,14 +4,16 @@ using UnityEngine;
 
 public enum eEquipType
 {
-    None,
-    SubmachineGun,
-    AssaultGun,
-    ShotGun,
-    MachineGun,
-    GrenadeGun,
-    RockGun,
+    None = 0,
+    SubmachineGun = 1,
+    AssaultGun = 2,
+    ShotGun = 3,
+    MachineGun = 4,
+    GrenadeGun = 5,
+    RockGun = 6,
+    Max_Value,
 }
+
 
 [CreateAssetMenu(fileName = "EquipWeaponDataSO", menuName = "Scriptable Objects/EquipWeaponDataSO/EquipWeaponDataSO")]
 public class EquipWeaponDataSO : ScriptableObject

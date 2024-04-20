@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 public class PlayerMain : MonoBehaviour
@@ -44,7 +43,6 @@ public class PlayerMain : MonoBehaviour
         Init();
 
         InitWeapon();
-        //ActiveAddWeapon(eEquipType.SubmachineGun);
     }
 
     /** 플레이어 데이터 세팅 */
