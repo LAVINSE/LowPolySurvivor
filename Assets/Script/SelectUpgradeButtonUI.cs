@@ -4,124 +4,195 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum eUpgradeWeaponType
+{
+    Count,
+    Ammo,
+    Damage,
+    Reload,
+    Range,
+    Rate,
+    Max_Value
+}
+
+public enum eUpgradePlayerType
+{
+    Luck,
+    MoveSpeed,
+    MaxHp,
+    itemPickRange,
+    Max_Value,
+}
+
 public class SelectUpgradeButtonUI : MonoBehaviour
 {
-    public enum eUpgradeType
-    { 
-        None,
-        Ammo,
-        Count,
-        Damage,
-        Reload, 
-        Range,
-        Rate,
-        Max_Value
-    }
-
     #region 변수
-    [SerializeField] private eUpgradeType upgradeType = eUpgradeType.None;
+    [SerializeField] private eUpgradeWeaponType upgradeWeaponType;
+    [SerializeField] private eUpgradePlayerType upgradePlayerType;
     [SerializeField] private Image upgradeImg;
     [SerializeField] private TMP_Text upgradeNameText;
     [SerializeField] private TMP_Text upgradeDescText;
     [SerializeField] private TMP_Text upgradeInfoText;
 
-    [SerializeField] private Weapon weapon;
-    [SerializeField] private PlayerMain playerMain;
+    private int randomIndex = -1;
 
-    private float damagePercent = 0;
-    private float reloadPercent = 0;
-    private float rangePercent = 0;
-    private float ratePercent = 0;
-    private int Ammo = 3;
-    private int count = 1;
+    private float weaponPercent = 0;
+    private int weaponInt = 0;
+
+    private float playerPercent = 0;
     #endregion // 변수
 
+    #region 프로퍼티
+    public Weapon Weapon { get; set; }
+    public PlayerMain PlayerMain { get; set; }
+    #endregion // 프로퍼티
+
     #region 함수
-    /** 이미지 기본 설정 */
-    private void InitData()
+    /** 플레이어 이미지 기본 설정 */
+    private void InitPlayerData()
     {
-        // TODO : 무기 이미지 추가해야됨
-        upgradeNameText.text = weapon.WeaponName;
-        upgradeDescText.text = weapon.WeaponDesc;
+        //upgradeImg.sprite =
+        //upgradeNameText.text =
+        //upgradeDescText.text =
+    }
+
+    /** 무기 이미지 기본 설정 */
+    private void InitWeaponData()
+    {
+        upgradeImg.sprite = Weapon.WeaponSprite;
+        upgradeNameText.text = Weapon.WeaponName;
+        upgradeDescText.text = Weapon.WeaponDesc;
     }
 
     /** 버튼 기본설정 */
     public void InitButton()
     {
-        int randomType = Random.Range((int)eUpgradeType.None, (int)eUpgradeType.Max_Value);
-        upgradeType = (eUpgradeType)randomType;
+        int randomWeaponType = Random.Range((int)eUpgradeWeaponType.Count, (int)eUpgradeWeaponType.Max_Value);
+        int randomPlayerType = Random.Range((int)eUpgradePlayerType.Luck, (int)eUpgradePlayerType.Max_Value);
 
-        if(weapon.Level >= weapon.MaxLevel)
+        randomIndex = Random.Range(0, 2);
+
+        upgradeWeaponType = (eUpgradeWeaponType)randomWeaponType;
+        upgradePlayerType = (eUpgradePlayerType)randomPlayerType;
+
+        // 현재 무기 레벨이 최대 레벨일 경우
+        if(Weapon.Level >= Weapon.MaxLevel)
         {
-            upgradeType = eUpgradeType.None;
+            // 캐릭 스텟 업그레이드
+            randomIndex = 1;
         }
 
-        switch (upgradeType)
+        // 현재 무기 개수가 최대 개수일 경우
+        if(Weapon.WeaponCount >= Weapon.MaxWeaponCount)
         {
-            case eUpgradeType.None:
-                // TODO : 로직 추가 예정
-                upgradeInfoText.text = "아무것도 없다";
-                break;
-            case eUpgradeType.Ammo:
-                InitData();
-                upgradeInfoText.text = $" 탄창 {Ammo} 증가 ";
-                break;
-            case eUpgradeType.Count:
-                InitData();
-                upgradeInfoText.text = $"무기 투사체 수 {count} 증가";
-                break;
-            case eUpgradeType.Damage:
-                InitData();
-                damagePercent = weapon.LuckDice();
-                upgradeInfoText.text = $"무기 데미지 {damagePercent * 10} 증가";
-                break;
-            case eUpgradeType.Reload:
-                InitData();
-                reloadPercent = weapon.LuckDice();
-                upgradeInfoText.text = $"무기 재장전 {reloadPercent * 10} 증가";
-                break;
-            case eUpgradeType.Range:
-                InitData();
-                rangePercent = weapon.LuckDice();
-                upgradeInfoText.text = $"무기 사거리 {rangePercent * 10} 증가";
-                break;
-            case eUpgradeType.Rate:
-                InitData();
-                ratePercent = weapon.LuckDice();
-                upgradeInfoText.text = $"무기 연사속도 {ratePercent * 10} 증가";
-                break;
+            int randomWeaponTypeRest = Random.Range((int)eUpgradeWeaponType.Ammo, (int)eUpgradeWeaponType.Max_Value);
+            upgradeWeaponType = (eUpgradeWeaponType)randomWeaponTypeRest;
         }
+
+        // 현재 행운수치가 최대 수치일 경우
+        if(PlayerMain.luck >= PlayerMain.maxLuck)
+        {
+            int randomPlayerTypeRest = Random.Range((int)eUpgradePlayerType.MoveSpeed, (int)eUpgradePlayerType.Max_Value);
+            upgradePlayerType = (eUpgradePlayerType)randomPlayerTypeRest;
+        }
+
+        // 무기 업그레이드
+        if (randomIndex == 0)
+        {
+            InitWeaponData();
+            weaponPercent = Weapon.LuckDicePercent();
+            weaponInt = Weapon.LuckDiceInt();
+
+            switch (upgradeWeaponType)
+            {
+                case eUpgradeWeaponType.Count:
+                    upgradeInfoText.text = $"무기 투사체 수 {1} 증가";
+                    break;
+                case eUpgradeWeaponType.Ammo:
+                    upgradeInfoText.text = $" 탄창 {weaponInt} 증가 ";
+                    break; 
+                case eUpgradeWeaponType.Damage:
+                    upgradeInfoText.text = $"무기 데미지 {weaponPercent * 10} 증가";
+                    break;
+                case eUpgradeWeaponType.Reload:
+                    upgradeInfoText.text = $"무기 재장전 {weaponPercent * 10} 증가";
+                    break;
+                case eUpgradeWeaponType.Range:
+                    upgradeInfoText.text = $"무기 사거리 {weaponPercent * 10} 증가";
+                    break;
+                case eUpgradeWeaponType.Rate:
+                    upgradeInfoText.text = $"무기 연사속도 {weaponPercent * 10} 증가";
+                    break;
+            }
+        }
+        // 캐릭 스텟 업그레이드
+        else if (randomIndex == 1)
+        {
+            InitPlayerData();
+            playerPercent = PlayerMain.LuckDicePercent();
+
+            switch (upgradePlayerType)
+            {
+                case eUpgradePlayerType.Luck:
+                    upgradeInfoText.text = $"행운 {playerPercent * 10} 증가";
+                    break;
+                case eUpgradePlayerType.MoveSpeed:
+                    upgradeInfoText.text = $"이동속도 {playerPercent * 10} 증가";
+                    break;
+                case eUpgradePlayerType.MaxHp:
+                    upgradeInfoText.text = $"최대체력 {playerPercent * 10} 증가";
+                    break;
+                case eUpgradePlayerType.itemPickRange:
+                    upgradeInfoText.text = $"아이템수집 범위 {playerPercent * 10} 증가";
+                    break; 
+            }
+        }
+        
     } 
 
     /** 버튼을 클릭했을때 발생하는 업그레이드 */
     public void OnClickUpgrade()
     {
-        switch (upgradeType)
+        if(randomIndex == 0)
         {
-            case eUpgradeType.None:
-                // TODO : 로직 추가 예정
-                break;
-            case eUpgradeType.Ammo:
-                weapon.AmmoUpgrade(Ammo);
-                break;
-            case eUpgradeType.Count:
-                weapon.CountUpgrade(count);
-                break;
-            case eUpgradeType.Damage:
-                weapon.DamageUpgrade(damagePercent);
-                break;
-            case eUpgradeType.Reload:
-                weapon.ReloadTimeUpgrade(reloadPercent);
-                break;
-            case eUpgradeType.Range:
-                weapon.RangeUpgrade(rangePercent);
-                break;
-            case eUpgradeType.Rate:
-                weapon.RateUpgrade(ratePercent);
-                break;
-        }
+            switch (upgradeWeaponType)
+            {
+                case eUpgradeWeaponType.Ammo:
+                    Weapon.AmmoUpgrade(weaponInt);
+                    break;
+                case eUpgradeWeaponType.Count:
+                    Weapon.CountUpgrade(1);
+                    break;
+                case eUpgradeWeaponType.Damage:
+                    Weapon.DamageUpgrade(weaponPercent);
+                    break;
+                case eUpgradeWeaponType.Reload:
+                    Weapon.ReloadTimeUpgrade(weaponPercent);
+                    break;
+                case eUpgradeWeaponType.Range:
+                    Weapon.RangeUpgrade(weaponPercent);
+                    break;
+                case eUpgradeWeaponType.Rate:
+                    Weapon.RateUpgrade(weaponPercent);
+                    break;
+            }
 
-        weapon.LevelUpgrade();
+            Weapon.LevelUpgrade();
+        }
+        else if(randomIndex == 1)
+        {
+            switch (upgradePlayerType)
+            {
+                case eUpgradePlayerType.MoveSpeed:
+                    break;
+                case eUpgradePlayerType.MaxHp:
+                    break;
+                case eUpgradePlayerType.itemPickRange:
+                    break;
+                case eUpgradePlayerType.Luck:
+                    break;
+            }
+        }  
     }
     #endregion // 함수
 }

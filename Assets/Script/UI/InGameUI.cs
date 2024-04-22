@@ -12,8 +12,13 @@ public class InGameUI : MonoBehaviour
     #endregion // 변수
 
     #region 함수
-    private void Start()
+    public void InitEquipSlot(List<Weapon> weaponList)
     {
+        if(weaponList.Count != 3) { return; }
+
+        equipSlot_1.GetComponent<EquipSlotUI>().itemImg.sprite = weaponList[0].WeaponSprite;
+        equipSlot_2.GetComponent<EquipSlotUI>().itemImg.sprite = weaponList[1].WeaponSprite;
+        equipSlot_3.GetComponent<EquipSlotUI>().itemImg.sprite = weaponList[2].WeaponSprite;
     }
     #endregion // 함수
 }

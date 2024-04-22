@@ -18,6 +18,7 @@ public class Weapon : MonoBehaviour
     public int Level { get; set; } = 0;
     public int MaxAmmo { get; set; } = 0;
     public int Ammo { get; set; } = 0;
+    public int MaxWeaponCount { get; set; } = 0;
     public int WeaponCount { get; set; } = 0;
     public int Penetrate { get; set;} = 0; // 관통
     public float Damage { get; set; } = 0f;
@@ -26,6 +27,7 @@ public class Weapon : MonoBehaviour
     public float Rate { get; set; } = 0f; // 연사속도
     public float bulletVelocity { get; set; } = 0f; // 탄속
     public GameObject prefab { get; set; } = null;
+    public Sprite WeaponSprite { get; set; } = null;
 
     public PlayerScanner PlayerScanner { get; set; }
     public PlayerMain PlayerMain { get; set; }
@@ -54,6 +56,7 @@ public class Weapon : MonoBehaviour
         Level = equipWeaponDataSO.baseLevel;
         MaxLevel = equipWeaponDataSO.maxLevel;
         MaxAmmo = equipWeaponDataSO.baseMaxAmmo;
+        MaxWeaponCount = equipWeaponDataSO.MaxWeaponCount;
         WeaponCount = equipWeaponDataSO.baseWeaponCount;
         Penetrate = equipWeaponDataSO.basePenetrate;
         Damage = equipWeaponDataSO.baseDamage;
@@ -62,6 +65,7 @@ public class Weapon : MonoBehaviour
         Rate = equipWeaponDataSO.baseRate;
         bulletVelocity = equipWeaponDataSO.baseBulletVelocity;
         prefab = equipWeaponDataSO.prefab;
+        WeaponSprite = equipWeaponDataSO.weaponSprite;
     }
 
     /** 무기를 사용한다 */
@@ -71,7 +75,7 @@ public class Weapon : MonoBehaviour
     }
 
     /** 플레이어 행운 수치에 따라 업그레이드 수치가 달라진다 */
-    public float LuckDice()
+    public float LuckDicePercent()
     {
         if (UnityEngine.Random.Range(0, 101) < PlayerMain.luck)
         {
@@ -96,6 +100,34 @@ public class Weapon : MonoBehaviour
         }
 
         return 0.1f;
+    }
+
+    /** 플레이어 행운 수치에 따라 업그레이드 수치가 달라진다 */
+    public int LuckDiceInt()
+    {
+        if (UnityEngine.Random.Range(0, 101) < PlayerMain.luck)
+        {
+            int dice = UnityEngine.Random.Range(0, 101);
+
+            if (dice <= 5) // 5 %
+            {
+                return 5;
+            }
+            else if (dice <= 30) // 25 %
+            {
+                return 4;
+            }
+            else if (dice <= 60) // 30 %
+            {
+                return 3;
+            }
+            else if (dice <= 100) // 40 %
+            {
+                return 2;
+            }
+        }
+
+        return 1;
     }
 
     /** 레벨 업그레이드 */

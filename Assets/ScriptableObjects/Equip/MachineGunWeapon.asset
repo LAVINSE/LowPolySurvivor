@@ -26,3 +26,4 @@ MonoBehaviour:
   baseRate: 1
   baseBulletVelocity: 12
   prefab: {fileID: 1068629646387193732, guid: fe306fcfafe2e8247ba1d8264350f36e, type: 3}
+  weaponSprite: {fileID: 168674171, guid: 58f0532fd77ed224b81cdd7c1f629470, type: 3}

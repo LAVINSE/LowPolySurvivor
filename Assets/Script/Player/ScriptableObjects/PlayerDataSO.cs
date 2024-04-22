@@ -9,5 +9,6 @@ public class PlayerDataSO : ScriptableObject
     public float moveSpeed; // 이동 속도
     public float itemPickRange; // 아이템 수집 범위
     public float expPercent; // 경험치 배율
+    public int maxLuck; // 최대 행운
     public int luck; // 행운
 }

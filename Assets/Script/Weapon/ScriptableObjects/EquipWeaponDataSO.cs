@@ -34,6 +34,7 @@ public class EquipWeaponDataSO : ScriptableObject
     [Tooltip(" 무기 최대 탄창 ")] public int baseMaxAmmo = 0; // 최대 탄창
 
     [Header("=====> 무기 개수 <=====")]
+    [Tooltip(" 무기 개수 ")] public int MaxWeaponCount = 0; // 개수
     [Tooltip(" 무기 개수 ")] public int baseWeaponCount = 0; // 개수
 
     [Header("=====> 무기 관통 <=====")]
@@ -56,4 +57,7 @@ public class EquipWeaponDataSO : ScriptableObject
 
     [Header("=====> 무기 프리팹 <=====")]
     [Tooltip(" 무기 프리팹 ")] public GameObject prefab;
+
+    [Header("=====> 무기 이미지 <=====")]
+    [Tooltip(" 무기 프리팹 ")] public Sprite weaponSprite;
 }

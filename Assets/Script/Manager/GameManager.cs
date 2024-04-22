@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GameObject> playerPrefabsList = new List<GameObject>();
     [SerializeField] private ObjectPoolManager poolManager;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private InGameUI inGameUI;
+    [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_1;
+    [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_2;
+    [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_3;
 
     [SerializeField] private int playerId = -1;
     #endregion // 변수
@@ -52,6 +56,16 @@ public class GameManager : MonoBehaviour
 
             virtualCamera.Follow = playerObject.transform;
             virtualCamera.GetComponent<TransparentObjectCamera>().Player = playerObject;
+
+            inGameUI.InitEquipSlot(PlayerMain.WeaponList);
+
+            selectUpgradeButtonUI_1.PlayerMain = PlayerMain;
+            selectUpgradeButtonUI_2.PlayerMain = PlayerMain;
+            selectUpgradeButtonUI_3.PlayerMain = PlayerMain;
+
+            selectUpgradeButtonUI_1.Weapon = PlayerMain.WeaponList[0];
+            selectUpgradeButtonUI_1.Weapon = PlayerMain.WeaponList[1];
+            selectUpgradeButtonUI_1.Weapon = PlayerMain.WeaponList[2];
         }
 
         // TODO : 확인용

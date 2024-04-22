@@ -14,6 +14,7 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float itemPickRange;
     [SerializeField] private float expPercent;
+    [SerializeField] public int maxLuck;
     [SerializeField] public int luck;
 
     private PlayerMovement playerMovement;
@@ -53,6 +54,7 @@ public class PlayerMain : MonoBehaviour
         itemPickRange = playerDataSO.itemPickRange;
         expPercent = playerDataSO.expPercent;
         luck = playerDataSO.luck;
+        maxLuck = playerDataSO.maxLuck;
 
         CurrentHp = maxHp;
         playerMovement.moveSpeed = moveSpeed;
@@ -106,6 +108,34 @@ public class PlayerMain : MonoBehaviour
             weapon.SetActive(true);
             WeaponList.Add(weapon.GetComponent<Weapon>());
         }
+    }
+
+    /** 플레이어 행운 수치에 따라 업그레이드 수치가 달라진다 */
+    public float LuckDicePercent()
+    {
+        if (UnityEngine.Random.Range(0, 101) < luck)
+        {
+            int dice = UnityEngine.Random.Range(0, 101);
+
+            if (dice <= 5) // 5 %
+            {
+                return 0.5f;
+            }
+            else if (dice <= 30) // 25 %
+            {
+                return 0.4f;
+            }
+            else if (dice <= 60) // 30 %
+            {
+                return 0.3f;
+            }
+            else if (dice <= 100) // 40 %
+            {
+                return 0.2f;
+            }
+        }
+
+        return 0.1f;
     }
     #endregion // 함수
 }
