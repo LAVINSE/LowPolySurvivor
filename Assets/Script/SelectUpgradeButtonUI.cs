@@ -40,6 +40,7 @@ public class SelectUpgradeButtonUI : MonoBehaviour
     private int weaponInt = 0;
 
     private float playerPercent = 0;
+    private int playerInt = 0;
     #endregion // 변수
 
     #region 프로퍼티
@@ -130,6 +131,7 @@ public class SelectUpgradeButtonUI : MonoBehaviour
         {
             InitPlayerData();
             playerPercent = PlayerMain.LuckDicePercent();
+            playerInt = PlayerMain.LuckDiceInt();
 
             switch (upgradePlayerType)
             {
@@ -155,6 +157,7 @@ public class SelectUpgradeButtonUI : MonoBehaviour
     {
         if(randomIndex == 0)
         {
+            // 무기 업글
             switch (upgradeWeaponType)
             {
                 case eUpgradeWeaponType.Ammo:
@@ -181,15 +184,20 @@ public class SelectUpgradeButtonUI : MonoBehaviour
         }
         else if(randomIndex == 1)
         {
+            // 플레이어 스텟 업글
             switch (upgradePlayerType)
             {
                 case eUpgradePlayerType.MoveSpeed:
+                    PlayerMain.MoveSpeedUpgrade(playerPercent);
                     break;
                 case eUpgradePlayerType.MaxHp:
+                    PlayerMain.MaxHpUpgrade(playerPercent);
                     break;
                 case eUpgradePlayerType.itemPickRange:
+                    PlayerMain.ItemPickRange(playerPercent);
                     break;
                 case eUpgradePlayerType.Luck:
+                    PlayerMain.LuckUpgrade(playerInt);
                     break;
             }
         }  

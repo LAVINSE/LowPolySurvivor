@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMain : MonoBehaviour
@@ -10,12 +11,15 @@ public class PlayerMain : MonoBehaviour
 
     [Header("=====> 플레이어 정보 <=====")]
     [SerializeField] private PlayerDataSO playerDataSO;
-    [SerializeField] private float maxHp;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float itemPickRange;
-    [SerializeField] private float expPercent;
-    [SerializeField] public int maxLuck;
-    [SerializeField] public int luck;
+    [SerializeField] private float maxHp; // 최대 체력
+    [SerializeField] private float moveSpeed; // 움직이는 속도
+    [SerializeField] private float itemPickRange; // 아이템 수집 범위
+    [SerializeField] private float expPercent; // 경험치 배율
+    [SerializeField] private float exp; // 경험치 량
+    [SerializeField] private int maxLevel; // 최대 레벨
+    [SerializeField] private int level; // 레벨
+    [SerializeField] public int maxLuck; // 최대 행운
+    [SerializeField] public int luck; // 행운
 
     private PlayerMovement playerMovement;
 
@@ -53,8 +57,13 @@ public class PlayerMain : MonoBehaviour
         moveSpeed = playerDataSO.moveSpeed;
         itemPickRange = playerDataSO.itemPickRange;
         expPercent = playerDataSO.expPercent;
-        luck = playerDataSO.luck;
+        maxLevel = playerDataSO.maxLevel;
         maxLuck = playerDataSO.maxLuck;
+
+        // TODO : 영구 업그레이드 적용 만들어야함
+        level = 0;
+        luck = 0;
+        exp = 0;
 
         CurrentHp = maxHp;
         playerMovement.moveSpeed = moveSpeed;
@@ -136,6 +145,54 @@ public class PlayerMain : MonoBehaviour
         }
 
         return 0.1f;
+    }
+
+    /** 플레이어 행운 수치에 따라 업그레이드 수치가 달라진다 */
+    public int LuckDiceInt()
+    {
+        if (UnityEngine.Random.Range(0, 101) < luck)
+        {
+            int dice = UnityEngine.Random.Range(0, 101);
+
+            if (dice <= 5) // 5 %
+            {
+                return 5;
+            }
+            else if (dice <= 30) // 25 %
+            {
+                return 4;
+            }
+            else if (dice <= 60) // 30 %
+            {
+                return 3;
+            }
+            else if (dice <= 100) // 40 %
+            {
+                return 2;
+            }
+        }
+
+        return 1;
+    }
+
+    public void MoveSpeedUpgrade(float increaseSpeed)
+    {
+
+    }
+
+    public void MaxHpUpgrade(float increaseMaxHp)
+    {
+
+    }
+
+    public void ItemPickRange(float increaseRange)
+    {
+
+    }
+
+    public void LuckUpgrade(float increaseLuck)
+    {
+
     }
     #endregion // 함수
 }
