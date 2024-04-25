@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMain : MonoBehaviour
 {
@@ -16,9 +17,8 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] private float itemPickRange; // 아이템 수집 범위
     [SerializeField] private float[] expArray; // 경험치 통
     [SerializeField] private float expPercent; // 경험치 배율
-    [SerializeField] private float exp; // 경험치 량
     [SerializeField] private int maxLevel; // 최대 레벨
-    [SerializeField] private int level; // 레벨
+    [SerializeField] private int currentLevel; // 레벨
     [SerializeField] public int maxLuck; // 최대 행운
     [SerializeField] public int luck; // 행운
 
@@ -33,9 +33,13 @@ public class PlayerMain : MonoBehaviour
     #endregion // 변수
 
     #region 프로퍼티
+    public Image CharcaterImg { get; private set; }
     public List<Weapon> WeaponList { get; set; } = new List<Weapon>();
     public int MaxHp => maxHp;
     public int CurrentHp { get; set; }
+    public float[] ExpArray => expArray;
+    public float CurrentExp { get; set; } = 0;
+    public int CurrentLevel => currentLevel;
     #endregion // 프로퍼티
 
     #region 함수
@@ -61,11 +65,12 @@ public class PlayerMain : MonoBehaviour
         expPercent = playerDataSO.expPercent;
         maxLevel = playerDataSO.maxLevel;
         maxLuck = playerDataSO.maxLuck;
+        CharcaterImg = playerDataSO.characterImg;
 
         // TODO : 영구 업그레이드 적용 만들어야함
-        level = 0;
+        currentLevel = 0;
         luck = 0;
-        exp = 0;
+        CurrentExp = 0;
 
         CurrentHp = maxHp;
         playerMovement.moveSpeed = moveSpeed;
@@ -75,10 +80,13 @@ public class PlayerMain : MonoBehaviour
     /** 데미지를 받는다 */
     public void TakeDamage(float damage)
     {
+        // 애니메이션
         animator.SetTrigger("hitTrigger");
 
         // TODO : 임시 변환
         CurrentHp -= (int)damage;
+
+        // 체력바 갱신
         GameManager.Instance.InGameUI.UpdateHpBar(maxHp, CurrentHp);
 
         if (CurrentHp <= 0)
@@ -86,6 +94,41 @@ public class PlayerMain : MonoBehaviour
             // 죽음
             Die();
         }
+    }
+
+    /** 경험치를 얻는다 */
+    public void GetExp(float getExp)
+    {
+        CurrentExp += getExp * (1f + expPercent);
+        GameManager.Instance.InGameUI.UpdateExpBar(expArray[currentLevel], CurrentExp);
+
+        // 현재 경험치가 현재 레벨 경험치 통보다 클 경우
+        if (CurrentExp >= expArray[currentLevel])
+        {
+            // 레벨이 최대레벨일 경우
+            if(currentLevel == maxLevel)
+            {
+                // 경험치를 가득 채운다
+                CurrentExp = expArray[currentLevel];
+                GameManager.Instance.InGameUI.UpdateExpBar(expArray[currentLevel], CurrentExp);
+                return;
+            }
+
+            // 현재 레벨 경험치 통만큼 뺀다
+            CurrentExp -= expArray[currentLevel];
+            GameManager.Instance.InGameUI.UpdateExpBar(expArray[currentLevel], CurrentExp);
+
+            LevelUP();
+        }
+    }
+
+    /** 레벨업 */
+    public void LevelUP()
+    {
+        // 레벨업
+        currentLevel++;
+        GameManager.Instance.InGameUI.UpdateLevelText(CurrentLevel);
+        GameManager.Instance.ShowUpgradeUI(true);
     }
 
     /** 플레이어 죽음 */

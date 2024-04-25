@@ -49,6 +49,11 @@ public class SelectUpgradeButtonUI : MonoBehaviour
     #endregion // 프로퍼티
 
     #region 함수
+    public void ActiveUpgrade()
+    {
+        GameManager.Instance.ShowUpgradeUI(false);
+    }
+
     /** 플레이어 이미지 기본 설정 */
     private void InitPlayerData()
     {

@@ -6,10 +6,18 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     #region 변수
+    [Header("=====> 플레이어 리스트 <=====")]
     [SerializeField] private List<GameObject> playerPrefabsList = new List<GameObject>();
+
+    [Header("=====> 오브젝트 풀 <=====")]
     [SerializeField] private ObjectPoolManager poolManager;
+
+    [Header("=====> 카메라 <=====")]
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
+
+    [Header("=====> UI <=====")]
     [SerializeField] private InGameUI inGameUI;
+    [SerializeField] private GameObject upgradeObject;
     [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_1;
     [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_2;
     [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_3;
@@ -61,9 +69,12 @@ public class GameManager : MonoBehaviour
             virtualCamera.Follow = playerObject.transform;
             virtualCamera.GetComponent<TransparentObjectCamera>().Player = playerObject;
 
-            // 장착 장비 UI 설정
+            // UI 설정
             inGameUI.InitEquipSlot(PlayerMain.WeaponList);
             inGameUI.UpdateHpBar(PlayerMain.MaxHp, PlayerMain.CurrentHp) ;
+            inGameUI.UpdateExpBar(PlayerMain.ExpArray[PlayerMain.CurrentLevel], PlayerMain.CurrentExp);
+            inGameUI.UpdateLevelText(PlayerMain.CurrentLevel);
+            inGameUI.InitCharacterImg(PlayerMain.CharcaterImg);
 
             // 업그레이드 UI 설정
             selectUpgradeButtonUI_1.PlayerMain = PlayerMain;
@@ -80,6 +91,13 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log(" 캐릭터 선택값이 없습니다 ");
         }
+    }
+
+    /** 업그레이드 UI를 활성화/비활성화 한다 */
+    public void ShowUpgradeUI(bool isShow)
+    {
+        Time.timeScale = isShow == true ? 0 : 1;
+        upgradeObject.SetActive(isShow);
     }
     #endregion // 변수
 }
