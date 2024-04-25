@@ -16,4 +16,6 @@ MonoBehaviour:
   moveSpeed: 10
   itemPickRange: 0
   expPercent: 0
-  luck: 0
+  maxLevel: 0
+  maxLuck: 0
+  expArray: 00000000000000000000000000000000000000000000000000000000000000000000000000000000

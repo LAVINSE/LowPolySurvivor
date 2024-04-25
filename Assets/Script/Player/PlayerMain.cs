@@ -14,6 +14,7 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] private int maxHp; // 최대 체력
     [SerializeField] private float moveSpeed; // 움직이는 속도
     [SerializeField] private float itemPickRange; // 아이템 수집 범위
+    [SerializeField] private float[] expArray; // 경험치 통
     [SerializeField] private float expPercent; // 경험치 배율
     [SerializeField] private float exp; // 경험치 량
     [SerializeField] private int maxLevel; // 최대 레벨
@@ -68,6 +69,7 @@ public class PlayerMain : MonoBehaviour
 
         CurrentHp = maxHp;
         playerMovement.moveSpeed = moveSpeed;
+        expArray = playerDataSO.expArray;
     }
 
     /** 데미지를 받는다 */
