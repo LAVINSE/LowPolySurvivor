@@ -11,7 +11,7 @@ public class PlayerMain : MonoBehaviour
 
     [Header("=====> 플레이어 정보 <=====")]
     [SerializeField] private PlayerDataSO playerDataSO;
-    [SerializeField] private float maxHp; // 최대 체력
+    [SerializeField] private int maxHp; // 최대 체력
     [SerializeField] private float moveSpeed; // 움직이는 속도
     [SerializeField] private float itemPickRange; // 아이템 수집 범위
     [SerializeField] private float expPercent; // 경험치 배율
@@ -33,7 +33,8 @@ public class PlayerMain : MonoBehaviour
 
     #region 프로퍼티
     public List<Weapon> WeaponList { get; set; } = new List<Weapon>();
-    public float CurrentHp;
+    public int MaxHp => maxHp;
+    public int CurrentHp { get; set; }
     #endregion // 프로퍼티
 
     #region 함수
@@ -74,7 +75,9 @@ public class PlayerMain : MonoBehaviour
     {
         animator.SetTrigger("hitTrigger");
 
-        CurrentHp -= damage;
+        // TODO : 임시 변환
+        CurrentHp -= (int)damage;
+        GameManager.Instance.InGameUI.UpdateHpBar(maxHp, CurrentHp);
 
         if (CurrentHp <= 0)
         {

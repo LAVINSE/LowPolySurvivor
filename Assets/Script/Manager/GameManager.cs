@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public ObjectPoolManager PoolManager => poolManager;
     public PlayerMain PlayerMain { get; private set; }
+    public InGameUI InGameUI { get; private set; }
 
     public int EquipIndex_1 { get; private set; }
     public int EquipIndex_2 { get; private set; }
@@ -46,19 +47,25 @@ public class GameManager : MonoBehaviour
             GameObject playerObject = Instantiate(playerPrefabsList[playerId]);
             PlayerMain = playerObject.GetComponent<PlayerMain>();
 
+            // 장비 슬롯 설정
             EquipIndex_1 = PlayerPrefs.GetInt("EquipType_1");
             EquipIndex_2 = PlayerPrefs.GetInt("EquipType_2");
             EquipIndex_3 = PlayerPrefs.GetInt("EquipType_3");
 
+            // 장비 추가
             PlayerMain.ActiveAddWeapon((eEquipType)EquipIndex_1);
             PlayerMain.ActiveAddWeapon((eEquipType)EquipIndex_2);
             PlayerMain.ActiveAddWeapon((eEquipType)EquipIndex_3);
 
+            // 카메라 설정
             virtualCamera.Follow = playerObject.transform;
             virtualCamera.GetComponent<TransparentObjectCamera>().Player = playerObject;
 
+            // 장착 장비 UI 설정
             inGameUI.InitEquipSlot(PlayerMain.WeaponList);
+            inGameUI.UpdateHpBar(PlayerMain.MaxHp, PlayerMain.CurrentHp) ;
 
+            // 업그레이드 UI 설정
             selectUpgradeButtonUI_1.PlayerMain = PlayerMain;
             selectUpgradeButtonUI_2.PlayerMain = PlayerMain;
             selectUpgradeButtonUI_3.PlayerMain = PlayerMain;
