@@ -35,7 +35,6 @@ public class PlayerMain : MonoBehaviour
     #endregion // 변수
 
     #region 프로퍼티
-    public Image CharcaterImg { get; private set; }
     public List<Weapon> WeaponList { get; set; } = new List<Weapon>(); // 장착 무기
     public int MaxHp => maxHp;
     public int CurrentHp { get; set; }
@@ -67,7 +66,7 @@ public class PlayerMain : MonoBehaviour
         expPercent = playerDataSO.expPercent;
         maxLevel = playerDataSO.maxLevel;
         maxLuck = playerDataSO.maxLuck;
-        CharcaterImg.sprite = playerDataSO.characterImg;
+        playerDataSO.Stats();
 
         // TODO : 영구 업그레이드 적용 만들어야함
         currentLevel = 0;
@@ -90,6 +89,7 @@ public class PlayerMain : MonoBehaviour
 
         // 체력바 갱신
         GameManager.Instance.InGameUI.UpdateHpBar(maxHp, CurrentHp);
+        Debug.Log(CurrentHp);
 
         if (CurrentHp <= 0)
         {
@@ -225,24 +225,38 @@ public class PlayerMain : MonoBehaviour
         return 1;
     }
 
+    /** 이동속도 업그레이드 */
     public void MoveSpeedUpgrade(float increaseSpeed)
     {
-
+        moveSpeed *= (1f + increaseSpeed);
+        playerMovement.moveSpeed = moveSpeed;
     }
 
+    /** 최대 체력 업그레이드 */
     public void MaxHpUpgrade(float increaseMaxHp)
     {
+        float maxhp = maxHp;
+        maxhp *= (1f + increaseMaxHp);
 
+        int addHp = Mathf.RoundToInt(maxhp) - this.maxHp;
+
+        this.maxHp = Mathf.RoundToInt(maxhp);
+        CurrentHp += addHp;
     }
 
+    /** 아이템 수집 범위 업그레이드 */
     public void ItemPickRange(float increaseRange)
     {
-
+        itemPickRange *= (1f + increaseRange);
     }
 
+    /** 행운 업그레이드 */
     public void LuckUpgrade(float increaseLuck)
     {
+        float luck = this.luck;
+        luck *= (1f + increaseLuck);
 
+        this.luck = Mathf.RoundToInt(luck);
     }
     #endregion // 함수
 }

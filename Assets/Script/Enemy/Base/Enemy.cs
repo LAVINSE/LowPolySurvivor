@@ -39,6 +39,8 @@ public class Enemy : MonoBehaviour
     public Transform MeshTransform => rootTransform; // 위치 정보
     public Rigidbody Rigid => rigid;
 
+    public SpawnManager SpawnManager { get; set; }
+
     public bool IsTracking { get; set; } = false; // 추적 확인
     public bool IsAttack { get; set; } = false; // 공격 확인
     public bool isDamage { get; set; } = false;
@@ -192,6 +194,7 @@ public class Enemy : MonoBehaviour
 
         isDie = true;
         Animator.SetBool("isDie", true);
+        SpawnManager.SpawnCount--;
     }
 
     /** 드랍 아이템 리스트에서 아이템을 생성한다 */

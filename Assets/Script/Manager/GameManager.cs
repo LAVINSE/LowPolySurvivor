@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public ObjectPoolManager PoolManager => poolManager;
     public PlayerMain PlayerMain { get; private set; }
-    public InGameUI InGameUI { get; private set; }
+    public InGameUI InGameUI => inGameUI;
 
     public int EquipIndex_1 { get; private set; }
     public int EquipIndex_2 { get; private set; }
@@ -77,11 +77,11 @@ public class GameManager : MonoBehaviour
             inGameUI.UpdateHpBar(PlayerMain.MaxHp, PlayerMain.CurrentHp) ;
             inGameUI.UpdateExpBar(PlayerMain.ExpArray[PlayerMain.CurrentLevel], PlayerMain.CurrentExp);
             inGameUI.UpdateLevelText(PlayerMain.CurrentLevel);
-            inGameUI.InitCharacterImg(PlayerMain.CharcaterImg);
 
             // TODO : 스테이지 이름
+            miniMapCamera.Target = PlayerMain.transform;
             miniMapUI.MiniMapCamera = miniMapCamera.GetComponent<Camera>();
-            miniMapUI.MapNameText.text = "맵이름";
+            miniMapUI.Init("맵 이름");
 
             // 업그레이드 UI 설정
             selectUpgradeButtonUI_1.PlayerMain = PlayerMain;

@@ -7,14 +7,19 @@ public class SpawnManager : MonoBehaviour
 {
     #region 변수
     [SerializeField] private Transform playerPos;
-    [SerializeField] private float spawTime; // 소환 시간?
     [SerializeField] private float spawnRadius; // 소환 범위
     [SerializeField] private float dectectRange = 1f; // 감지 범위
     [SerializeField] private string tagName = "Building";
     [SerializeField] private float correctPosY = 0.2f; // 보정값
-    [SerializeField] private int spawnCount = 0;
+    [SerializeField] private int maxSpawnCount = 0;
     [SerializeField] private float minSpawnRadius = 3f; // 플레이어와의 거리 최소값
+    [SerializeField] private float spawnRate = 1f; // 소환 시간?
+    [SerializeField] private float stageTimer = 0f;
     #endregion // 변수
+
+    #region 프로퍼티
+    public int SpawnCount { get; set; } = 0;
+    #endregion // 프로퍼티
 
     #region 함수
     private void OnDrawGizmos()
@@ -26,6 +31,12 @@ public class SpawnManager : MonoBehaviour
         Gizmos.DrawWireSphere(playerPos.position, minSpawnRadius);
     }
 
+    /** 초기화 */
+    private void Awake()
+    {
+    }
+
+    /** 초기화 */
     private void Start()
     {
         StartCoroutine(sdf());
@@ -36,6 +47,8 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitUntil(() => SpawnCount < maxSpawnCount);
+
             // 플레이어 주변에서 소환 위치를 찾아 소환
             Vector3 spawnPosition = FindSpawnPosition();
 
@@ -43,7 +56,8 @@ public class SpawnManager : MonoBehaviour
             if (spawnPosition != Vector3.zero)
             {
                 SpawnEnemy(spawnPosition);
-                yield return new WaitForSeconds(1f);
+                SpawnCount++;
+                yield return new WaitForSeconds(spawnRate);
             }
         }
     }
@@ -83,10 +97,11 @@ public class SpawnManager : MonoBehaviour
     }
 
     /** 적을 소환한다 */
-    private void SpawnEnemy(Vector3 spawnPos)
+    private Enemy SpawnEnemy(Vector3 spawnPos)
     {
         GameObject enemy = GameManager.Instance.PoolManager.GetEnemy(0, spawnPos);
         enemy.GetComponent<Enemy>().Player = playerPos.GetComponent<PlayerMain>();
+        return enemy.GetComponent<Enemy>();
     }
 
     /** 주변에 건물이 있는지 확인한다 */

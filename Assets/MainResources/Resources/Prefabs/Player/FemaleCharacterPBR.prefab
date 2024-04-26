@@ -2396,13 +2396,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponObject: {fileID: 8650293738821347191}
-  playerDataSO: {fileID: 11400000, guid: 6f072139d688b2344af5ec4359f3b3d3, type: 2}
+  playerDataSO: {fileID: 11400000, guid: 9d85137b002a8cb4f9866c90ae4bf539, type: 2}
   maxHp: 100
   moveSpeed: 0
   itemPickRange: 0
+  expArray: []
   expPercent: 0
+  maxLevel: 0
+  currentLevel: 0
+  maxLuck: 0
   luck: 0
-  CurrentHp: 0
 --- !u!114 &2032767000
 MonoBehaviour:
   m_ObjectHideFlags: 0
