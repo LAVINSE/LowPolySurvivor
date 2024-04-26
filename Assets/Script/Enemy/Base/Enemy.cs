@@ -161,8 +161,7 @@ public class Enemy : MonoBehaviour
             KnockBack();
         }
 
-        CurrentHp -= damage;
-        Debug.Log("ÇÇ°Ý");
+        CurrentHp -= Mathf.RoundToInt(damage);
 
         if(CurrentHp <= 0)
         { 

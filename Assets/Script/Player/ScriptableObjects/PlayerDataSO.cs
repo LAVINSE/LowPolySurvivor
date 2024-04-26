@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "PlayerDataSO", menuName = "Scriptable Objects/PlayerDataSO/PlayerData")]
 public class PlayerDataSO : ScriptableObject
 {
-    public Image characterImg; // 캐릭터 이미지
+    public Sprite characterImg; // 캐릭터 이미지
     public int maxHp; // 최대 체력
     public float moveSpeed; // 이동 속도
     public float itemPickRange; // 아이템 수집 범위

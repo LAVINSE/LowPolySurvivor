@@ -10,8 +10,10 @@ public class PlayerMain : MonoBehaviour
     [Header("=====> 장착 장비 <=====")]
     [SerializeField] private GameObject weaponObject;
 
-    [Header("=====> 플레이어 정보 <=====")]
+    [Header("=====> 플레이어 데이터 <=====")]
     [SerializeField] private PlayerDataSO playerDataSO;
+
+    [Header("=====> 플레이어 스텟 <=====")]
     [SerializeField] private int maxHp; // 최대 체력
     [SerializeField] private float moveSpeed; // 움직이는 속도
     [SerializeField] private float itemPickRange; // 아이템 수집 범위
@@ -34,7 +36,7 @@ public class PlayerMain : MonoBehaviour
 
     #region 프로퍼티
     public Image CharcaterImg { get; private set; }
-    public List<Weapon> WeaponList { get; set; } = new List<Weapon>();
+    public List<Weapon> WeaponList { get; set; } = new List<Weapon>(); // 장착 무기
     public int MaxHp => maxHp;
     public int CurrentHp { get; set; }
     public float[] ExpArray => expArray;
@@ -65,7 +67,7 @@ public class PlayerMain : MonoBehaviour
         expPercent = playerDataSO.expPercent;
         maxLevel = playerDataSO.maxLevel;
         maxLuck = playerDataSO.maxLuck;
-        CharcaterImg = playerDataSO.characterImg;
+        CharcaterImg.sprite = playerDataSO.characterImg;
 
         // TODO : 영구 업그레이드 적용 만들어야함
         currentLevel = 0;
@@ -84,7 +86,7 @@ public class PlayerMain : MonoBehaviour
         animator.SetTrigger("hitTrigger");
 
         // TODO : 임시 변환
-        CurrentHp -= (int)damage;
+        CurrentHp -= Mathf.RoundToInt(damage);
 
         // 체력바 갱신
         GameManager.Instance.InGameUI.UpdateHpBar(maxHp, CurrentHp);

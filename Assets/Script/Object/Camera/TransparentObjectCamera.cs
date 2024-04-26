@@ -5,8 +5,11 @@ using UnityEngine;
 public class TransparentObjectCamera : MonoBehaviour
 {
     #region 변수
-    public GameObject Player;
     #endregion // 변수
+
+    #region 프로퍼티
+    public GameObject Player { get; set; }
+    #endregion // 프로퍼티
 
     /** 초기화 => 상태를 갱신한다 */
     private void LateUpdate()

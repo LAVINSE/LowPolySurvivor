@@ -1,5 +1,6 @@
 using Cinemachine;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,10 +14,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ObjectPoolManager poolManager;
 
     [Header("=====> 카메라 <=====")]
-    [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [Tooltip(" 플레이어 추적 카메라 ")][SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [Tooltip(" 미니맵 카메라 ")][SerializeField] private MiniMapCamera miniMapCamera;
 
     [Header("=====> UI <=====")]
     [SerializeField] private InGameUI inGameUI;
+    [SerializeField] private MiniMapUI miniMapUI;
     [SerializeField] private GameObject upgradeObject;
     [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_1;
     [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_2;
@@ -75,6 +78,10 @@ public class GameManager : MonoBehaviour
             inGameUI.UpdateExpBar(PlayerMain.ExpArray[PlayerMain.CurrentLevel], PlayerMain.CurrentExp);
             inGameUI.UpdateLevelText(PlayerMain.CurrentLevel);
             inGameUI.InitCharacterImg(PlayerMain.CharcaterImg);
+
+            // TODO : 스테이지 이름
+            miniMapUI.MiniMapCamera = miniMapCamera.GetComponent<Camera>();
+            miniMapUI.MapNameText.text = "맵이름";
 
             // 업그레이드 UI 설정
             selectUpgradeButtonUI_1.PlayerMain = PlayerMain;

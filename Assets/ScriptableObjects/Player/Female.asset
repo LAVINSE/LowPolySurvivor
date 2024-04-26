@@ -12,10 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407783054b3383844901333fb475eb06, type: 3}
   m_Name: Female
   m_EditorClassIdentifier: 
+  characterImg: {fileID: 21300000, guid: 2ac58b6ca21de894abca6f54a207a2e5, type: 3}
   maxHp: 100
   moveSpeed: 10
   itemPickRange: 0
   expPercent: 0
   maxLevel: 0
   maxLuck: 0
-  expArray: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  expArray:
+  - 10
+  - 20
+  - 40
+  - 60
+  - 100
+  - 150
