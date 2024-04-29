@@ -36,12 +36,6 @@ public class GrenadeGunBullet : PlayerAttack
         rigid.velocity = Vector3.zero;
         this.gameObject.SetActive(false);
     }
-
-    private void Active()
-    {
-        rigid.velocity = Vector3.zero;
-        this.gameObject.SetActive(false);
-    }
     #endregion // 함수
 
     #region 코루틴
@@ -50,7 +44,6 @@ public class GrenadeGunBullet : PlayerAttack
     {
         // 3초 대기
         yield return new WaitForSeconds(3f);
-        Debug.Log(" 펑 ");
         sphereCollider.GetComponent<PlayerWeaponAttack>().Init(AttackDamage);
 
         rigid.velocity = Vector3.zero;
@@ -63,7 +56,7 @@ public class GrenadeGunBullet : PlayerAttack
 
         sphereCollider.enabled = false;
 
-        Active();
+        Ground();
     }
     #endregion // 코루틴
 }

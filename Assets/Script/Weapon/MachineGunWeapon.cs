@@ -57,7 +57,7 @@ public class MachineGunWeapon : Weapon
                 direction.y = 0;
 
                 // ±â°üÃÑ ÃÑ¾Ë
-                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.MachineGunBullet, this.transform.position);
+                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)PoolBulletType.MachineGunBullet, this.transform.position);
 
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
                 bullet.transform.rotation = Quaternion.FromToRotation(Vector3.left, direction);

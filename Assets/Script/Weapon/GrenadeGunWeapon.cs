@@ -85,7 +85,7 @@ public class GrenadeGunWeapon : Weapon
                 Vector3 targetPos = PlayerScanner.NearTargetArray[count].position;
 
                 // ¼ö·ùÅº ÃÑ¾Ë
-                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.GrenadeBullet, this.transform.position);
+                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)PoolBulletType.GrenadeBullet, this.transform.position);
                 Vector3 velocitay = GetVelocity(this.transform.position, targetPos, 45f);
 
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, velocitay, bulletVelocity);

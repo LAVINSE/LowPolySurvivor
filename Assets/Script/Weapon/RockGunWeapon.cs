@@ -54,11 +54,12 @@ public class RockGunWeapon : Weapon
                 Vector3 targetPos = PlayerScanner.NearTargetArray[count].position;
                 Vector3 direction = targetPos - this.transform.position;
                 direction = direction.normalized;
+                direction.y = 0;
 
-                // ¼ö·ùÅº ÃÑ¾Ë
-                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.RockBullet, this.transform.position);
-                bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
-                Quaternion.FromToRotation(Vector3.up, direction);
+                // ÃÑ¾Ë
+                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)PoolBulletType.RockBullet, this.transform.position);
+                bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity, Range, PlayerMain);
+                bullet.transform.rotation = Quaternion.FromToRotation(Vector3.left, direction);
 
                 Ammo--;
             }

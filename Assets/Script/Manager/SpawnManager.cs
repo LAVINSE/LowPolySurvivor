@@ -14,10 +14,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private int maxSpawnCount = 0;
     [SerializeField] private float minSpawnRadius = 3f; // 플레이어와의 거리 최소값
     [SerializeField] private float spawnRate = 1f; // 소환 시간?
-    [SerializeField] private float stageTimer = 0f;
+    //[SerializeField] private float stageTimer = 0f;
     #endregion // 변수
 
     #region 프로퍼티
+    public int StageLevel { get; set; } = 0;
     public int SpawnCount { get; set; } = 0;
     #endregion // 프로퍼티
 

@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
     public int Penetrate { get; set;} = 0; // 관통
     public float Damage { get; set; } = 0f;
     public float ReloadTime { get; set; } = 0f;
-    public float Range { get; set; } = 0f;
+    public float Range { get; set; } = 0f; // 사거리
     public float Rate { get; set; } = 0f; // 연사속도
     public float bulletVelocity { get; set; } = 0f; // 탄속
     public GameObject prefab { get; set; } = null;

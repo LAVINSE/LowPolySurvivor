@@ -29,9 +29,21 @@ public class SlimeEnemy : Enemy
 
         capsuleCollider = GetComponent<CapsuleCollider>();
         attackCollider.enabled = false;
-        attackCollider.radius = attackRange;
 
         complete = OnCompleteBasicAttack;
+    }
+
+    /** 초기화 */
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        attackCollider.radius = attackRange;
+    }
+
+    /** 초기화 */
+    protected override void OnDisable()
+    {
+        base.OnDisable();
     }
 
     /** 공격한다 */

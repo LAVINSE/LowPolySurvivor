@@ -57,7 +57,7 @@ public class SubmachineGunWeapon : Weapon
                 direction.y = 0;
 
                 // ±â°ü´ÜÃÑ ÃÑ¾Ë
-                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)BulletType.SubmachineGunBullet, this.transform.position);
+                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)PoolBulletType.SubmachineGunBullet, this.transform.position);
 
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
                 bullet.transform.rotation = Quaternion.FromToRotation(Vector3.left, direction);

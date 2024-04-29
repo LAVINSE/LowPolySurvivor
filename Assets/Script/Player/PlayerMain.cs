@@ -24,6 +24,9 @@ public class PlayerMain : MonoBehaviour
     [SerializeField] public int maxLuck; // 최대 행운
     [SerializeField] public int luck; // 행운
 
+    [Header("=====> 플레이어 자석 <=====")]
+    [SerializeField] private SphereCollider sphereCollider;
+
     private PlayerMovement playerMovement;
 
     private Dictionary<eEquipType, GameObject> weaponDict = new Dictionary<eEquipType, GameObject>();
@@ -76,6 +79,8 @@ public class PlayerMain : MonoBehaviour
         CurrentHp = maxHp;
         playerMovement.moveSpeed = moveSpeed;
         expArray = playerDataSO.expArray;
+
+        sphereCollider.radius = itemPickRange;
     }
 
     /** 데미지를 받는다 */

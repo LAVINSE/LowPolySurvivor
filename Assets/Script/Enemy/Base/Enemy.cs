@@ -11,11 +11,10 @@ public class Enemy : MonoBehaviour
     #region 변수
     [Header("=====> 데이터 <=====")]
     [SerializeField] protected EnemyDataSO enemyDataSO; // 데이터
-    [SerializeField] protected List<ItemDataSO> dropItemList = new List<ItemDataSO>(); // 드랍 아이템
+    [SerializeField] protected List<ItemDropSO> dropItemList = new List<ItemDropSO>(); // 드랍 아이템
 
     [Header("=====> Enemy 변수 <=====")]
     [SerializeField] private Transform rootTransform;
-    [SerializeField] private float correctStoppingDistance = 0.20f; // 보정값 0.26f 이하로
 
     [Header("=====> 인스펙터 확인 <=====")]
     [Space]
@@ -67,6 +66,18 @@ public class Enemy : MonoBehaviour
 
         // TODO : 테스트
         Init(0); 
+    }
+
+    /** 초기화 */
+    protected virtual void OnEnable()
+    {
+        //Init(SpawnManager.StageLevel);
+    }
+     
+    /** 초기화 */
+    protected virtual void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     /** 초기화 상태를 갱신한다 */
@@ -164,8 +175,9 @@ public class Enemy : MonoBehaviour
         }
 
         CurrentHp -= Mathf.RoundToInt(damage);
+        Debug.Log(CurrentHp);
 
-        if(CurrentHp <= 0)
+        if (CurrentHp <= 0)
         { 
             // 죽음
             Die();
@@ -194,39 +206,38 @@ public class Enemy : MonoBehaviour
 
         isDie = true;
         Animator.SetBool("isDie", true);
-        SpawnManager.SpawnCount--;
+        //SpawnManager.SpawnCount--;
     }
 
     /** 드랍 아이템 리스트에서 아이템을 생성한다 */
     protected void InstantiateDropItem(Vector3 spawnPosition)
     {
         // 드랍 아이템 리스트를 반환한다
-        List<ItemDataSO> dropItemList = GetDropItem();
+        List<ItemDropSO> dropItemList = GetDropItem();
+
+        // 플레이어 위치 + 0.2 보정값
+        spawnPosition.y = Player.transform.position.y + 0.2f;
 
         if (dropItemList.Count == 0) { return; }
 
-        foreach (ItemDataSO dropItemData in dropItemList)
+        foreach (ItemDropSO dropItemData in dropItemList)
         {
             // 아이템 프리팹을 생성한다
-            GameObject dropItem = Instantiate(dropItemData.itemPrefab, spawnPosition, Quaternion.identity);
-
-            // 드랍할때 가할 힘의 세기와 방향 설정
-            float dropForce = 5f;
-            Vector3 dropDirection = new Vector3(UnityEngine.Random.Range(-1f, 1f), 3f, UnityEngine.Random.Range(-1f, 1f));
-            dropItem.GetComponent<Rigidbody>().AddForce(dropDirection * dropForce, ForceMode.Impulse);
+            GameObject dropItem = GameManager.Instance.PoolManager.GetItem((int)dropItemData.itemType, spawnPosition);
         }
     }
 
     /** 드랍 아이템 리스트를 반환한다 */
-    private List<ItemDataSO> GetDropItem()
+    private List<ItemDropSO> GetDropItem()
     {
         // 아이템을 담을 리스트 생성
-        List<ItemDataSO> pickitems = new List<ItemDataSO>();
+        List<ItemDropSO> pickitems = new List<ItemDropSO>();
 
-        foreach(ItemDataSO item in dropItemList)
+        foreach(ItemDropSO item in dropItemList)
         {
             // 랜덤 숫자가 아이템의 드랍 확률보다 작거나 같을경우
             if(UnityEngine.Random.Range(1, 101) <= item.dropChance)
+
             {
                 // 해당 아이템을 추가한다
                 pickitems.Add(item);

@@ -5,12 +5,16 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     #region 변수
+    protected int Penetrate;
+
+    protected float attackRange;
+    protected float AttackDamage;
+
     protected Rigidbody rigid;
+    protected PlayerMain playerMain;
     #endregion // 변수
 
     #region 프로퍼티
-    public int Penetrate { get; set; }
-    public float AttackDamage { get; set; }
     #endregion // 프로퍼티
 
     #region 함수
@@ -26,11 +30,13 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
+    /** 초기화 */
     protected virtual void OnEnable()
     {
 
     }
 
+    /** 초기화 */
     protected virtual void OnDisable()
     {
         StopAllCoroutines();
@@ -73,10 +79,13 @@ public class PlayerAttack : MonoBehaviour
     public virtual void Ground() { }
 
     /** 기본설정 */
-    public void Init(float attackDamage, int Penetrate, Vector3 direction, float rate = 0)
+    public void Init(float attackDamage, int Penetrate, Vector3 direction, float rate = 0,
+        float attackRange = -1, PlayerMain playerMain = null)
     {
         this.AttackDamage = attackDamage;
         this.Penetrate = Penetrate;
+        this.attackRange = attackRange;
+        this.playerMain = playerMain;
 
         rigid.velocity = direction * rate;
     }
