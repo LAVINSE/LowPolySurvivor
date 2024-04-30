@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     #region 변수
+    [Header("=====> 소환 매니저 <=====")]
+    [SerializeField] private SpawnManager spawnManager;
+
     [Header("=====> 플레이어 리스트 <=====")]
     [SerializeField] private List<GameObject> playerPrefabsList = new List<GameObject>();
 
