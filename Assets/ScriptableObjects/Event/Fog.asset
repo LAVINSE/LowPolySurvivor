@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e580c5765c2bdf44b02cf5fd218593a, type: 3}
+  m_Name: Fog
+  m_EditorClassIdentifier: 
+  stageEventType: 3
+  prefab: {fileID: 5399753997931284089, guid: 486432095ddb9d945afafe9fb0e6a533, type: 3}
+  eventName: "\uC548\uAC1C"
+  eventDesc: "\uC548\uAC1C"
+  eventImg: {fileID: -330768740, guid: 86d194ed4f7ce6e4a918c2db923bfc79, type: 3}

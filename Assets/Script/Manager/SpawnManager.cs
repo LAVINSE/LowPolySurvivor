@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.EventSystems.PointerEventData;
 
 public enum eStageEventType
 {
@@ -27,7 +29,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private string tagName = "Building";
 
     [Header("=====> 소환 설정 <=====")]
-    [SerializeField] private int maxSpawnCount = 0;
+    [SerializeField] private int maxSpawnCount = 100;
     [SerializeField] private float spawnRate = 1f; // 소환 시간?
     [SerializeField] private float stageTimer = 360f;
 
@@ -38,13 +40,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private SelectEventButtonUI selectEventButtonUI_3;
 
     [Header("=====> 자연재해 <=====")]
-    [SerializeField] private GameObject rainPrefab;
+    [SerializeField] private List<EventDataSO> eventList = new List<EventDataSO>();
 
     private List<float> stageEventTimerList = new List<float>();
-
-    private eStageEventType stageEventType = eStageEventType.None;
-
     private List<int> randomIndexList = new List<int>();
+    private List<EventDataSO> selectEventList = new List<EventDataSO>();
     #endregion // 변수
 
     #region 프로퍼티
@@ -53,6 +53,7 @@ public class SpawnManager : MonoBehaviour
     public int SpawnCount { get; set; } = 0;
 
     public Dictionary<eStageEventType, bool> stageEventDict = new Dictionary<eStageEventType, bool>();
+    public List<EventDataSO> EventDataSOList { get; set; } = new List<EventDataSO>();
     #endregion // 프로퍼티
 
     #region 함수
@@ -70,7 +71,7 @@ public class SpawnManager : MonoBehaviour
     {
         for(int i = 0; i < 7; i++)
         {
-            stageEventTimerList.Add(stageTimer - (60 * i));
+            stageEventTimerList.Add(stageTimer - ((stageTimer/6) * i));
         }
 
         StageLevel = 0;
@@ -87,48 +88,7 @@ public class SpawnManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(StageCO());
-    }
-
-    /** 테스트 코드 */
-    private IEnumerator StageCO()
-    {
-        while (true)
-        {
-            yield return new WaitUntil(() => SpawnCount < maxSpawnCount);
-
-            // 플레이어 주변에서 소환 위치를 찾아 소환
-            Vector3 spawnPosition = FindSpawnPosition();
-
-            stageTimer -= Time.deltaTime;
-
-            // Vector3.zero가 아닐 경우
-            if (spawnPosition != Vector3.zero)
-            {
-                SpawnEnemy(spawnPosition);
-                SpawnCount++;
-                yield return new WaitForSeconds(spawnRate);
-
-                // 스테이지 이벤트 처리
-                for (int i = 1; i <= 6; i++)
-                {
-                    if (stageEventTimerList[i] >= stageTimer && StageLevel < i)
-                    {
-                        StageLevel = i;
-                        Time.timeScale = 0;
-
-                        // 선택창 실행
-                        ShowStageEventSelect();
-
-                        break; // 선택 창 실행 후에는 루프를 빠져나옴
-                    }
-                }
-
-                if(StageLevel == 6)
-                {
-                    // 보스소환
-                }
-            }
-        }
+        StartCoroutine(StageEventCO());
     }
 
     /** 소환할 위치를 찾는다 */
@@ -143,7 +103,7 @@ public class SpawnManager : MonoBehaviour
         while (attempts > 0)
         {
             // 플레이어 주변 랜덤 위치 계산, 소환될 높이는 지정
-            Vector3 randomDirection = Random.insideUnitSphere * spawnRadius;
+            Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * spawnRadius;
             randomDirection += playerPosition;
             randomDirection.y = playerPosition.y + correctPosY;
 
@@ -194,68 +154,191 @@ public class SpawnManager : MonoBehaviour
         return false; 
     }
 
-    /** 스테이지 이벤트 선택창을 활성화/비활성화 한다 */
-    private void ShowStageEventSelect()
+    /** 랜덤으로 이벤트 3개를 고른다 */
+    private bool RandomSelectEvent()
     {
-        stageEventObject.SetActive(!stageEventObject.activeSelf);
+        randomIndexList.Clear();
+        EventDataSOList.Clear();
 
+        int falseCount = 0;
+
+        foreach(var count in stageEventDict)
+        {
+            if (count.Value == false)
+            {
+                falseCount++;
+            }
+        }
+
+        if(falseCount < 3)
+        {
+            return false;
+        }
+
+        while (randomIndexList.Count < 3)
+        {
+            int randomIndex = UnityEngine.Random.Range((int)eStageEventType.None + 1, (int)eStageEventType.MaxValue);
+
+            // stageEventDict가 true이면 해당 인덱스를 제외하고 다시 랜덤으로 선택
+            if (!randomIndexList.Contains(randomIndex) && (!stageEventDict.ContainsKey((eStageEventType)randomIndex)
+                || !stageEventDict[(eStageEventType)randomIndex]))
+            {
+                randomIndexList.Add(randomIndex);
+            }
+        }
+
+        for (int i = 0; i < eventList.Count; i++)
+        {
+            for (int k = 0; k < randomIndexList.Count; k++)
+            {
+                if (eventList[i].stageEventType == (eStageEventType)randomIndexList[k])
+                {
+                    
+                    EventDataSOList.Add(eventList[i]);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /** 자연재해 버튼 기본설정을 한다 */
+    private void InitButton()
+    {
+        selectEventButtonUI_1.EventDataSO = EventDataSOList[0];
+        selectEventButtonUI_1.Init();
+        selectEventButtonUI_1.Button.onClick.AddListener(() => 
+        {
+            StageEventStart(selectEventButtonUI_1.EventDataSO);
+            StageEventTimeScaleStart();
+        });
+
+        selectEventButtonUI_2.EventDataSO = EventDataSOList[1];
+        selectEventButtonUI_2.Init();
+        selectEventButtonUI_2.Button.onClick.AddListener(() =>
+        {
+            StageEventStart(selectEventButtonUI_2.EventDataSO);
+            StageEventTimeScaleStart();
+        });
+
+        selectEventButtonUI_3.EventDataSO = EventDataSOList[2];
+        selectEventButtonUI_3.Init();
+        selectEventButtonUI_3.Button.onClick.AddListener(() =>
+        {
+            StageEventStart(selectEventButtonUI_3.EventDataSO);
+            StageEventTimeScaleStart();
+        });
     }
 
     /** 스테이지 이벤트를 실행한다 */
-    private void StageEventStart(eStageEventType stageEventType)
+    private void StageEventStart(EventDataSO eventDataSO)
     {
-        if(!stageEventDict.ContainsKey(stageEventType)) { return; }
+        if(!stageEventDict.ContainsKey(eventDataSO.stageEventType)) { return; }
 
-        if (stageEventDict.ContainsKey(stageEventType))
+        if (stageEventDict.ContainsKey(eventDataSO.stageEventType))
         {
-            if(stageEventDict[stageEventType] == true)
+            if(stageEventDict[eventDataSO.stageEventType] == true)
             {
                 return;
             }
         }
 
-        switch (stageEventType)
+        switch (eventDataSO.stageEventType)
         {
             case eStageEventType.Rain:
-                StageEventRain();
+                StageEventRain(eventDataSO);
+                break;
+            case eStageEventType.Poison:
+                break;
+            case eStageEventType.Fog:
                 break;
         }
 
-        stageEventDict[stageEventType] = true;
+        stageEventDict[eventDataSO.stageEventType] = true;
     }
 
-    /** 랜덤으로 이벤트 3개를 고른다 */
-    private void RandomSelectEvent()
+    /** 스테이지 이벤트 선택창을 활성화한다 */
+    private void ShowStageEventSelect()
     {
-        while(randomIndexList.Count < 3)
-        {
-            int randomIndex = Random.Range((int)eStageEventType.None + 1, (int)eStageEventType.MaxValue);
+        if(RandomSelectEvent() == false) { Time.timeScale = 1; return; }
 
-            if (!randomIndexList.Contains(randomIndex))
-            {
-                randomIndexList.Add(randomIndex);
-            }
-        }
+        InitButton();
+
+        stageEventObject.SetActive(true);
+    }
+
+    /** 일시정시 해제 */
+    public void StageEventTimeScaleStart()
+    {
+        Time.timeScale = 1;
+        stageEventObject.SetActive(false);
     }
 
     /** 자연재해 "비"를 생성한다 */
-    private void StageEventRain()
+    private void StageEventRain(EventDataSO eventDataSO)
     {
-        float x = Random.Range(stageSO.minPos.x, stageSO.maxPos.x);
-        float z = Random.Range(stageSO.minPos.z, stageSO.maxPos.z);
+        float x = UnityEngine.Random.Range(stageSO.minPos.x, stageSO.maxPos.x);
+        float z = UnityEngine.Random.Range(stageSO.minPos.z, stageSO.maxPos.z);
         float y = 20f;
 
         Vector3 spawnPos = new Vector3(x, y, z);
 
-        GameObject rainObject = Instantiate(rainPrefab);
+        GameObject rainObject = Instantiate(eventDataSO.prefab);
         rainObject.transform.position = spawnPos;
     }
-
-    /** 일시정시 해제 */
-    public void TimeScaleStart()
-    {
-        Time.timeScale = 1;
-    }
     #endregion // 함수
+
+    #region 코루틴
+    /** 스테이지 소환 */
+    private IEnumerator StageCO()
+    {
+        while (true)
+        {
+            yield return new WaitUntil(() => SpawnCount < maxSpawnCount);
+
+            // 플레이어 주변에서 소환 위치를 찾아 소환
+            Vector3 spawnPosition = FindSpawnPosition();
+
+            // Vector3.zero가 아닐 경우
+            if (spawnPosition != Vector3.zero)
+            {
+                SpawnEnemy(spawnPosition);
+                SpawnCount++;
+                yield return new WaitForSeconds(spawnRate);
+            }
+        }
+    }
+
+    /** 스테이지 이벤트 타이머 */
+    private IEnumerator StageEventCO()
+    {
+        while (true)
+        {
+            stageTimer -= Time.deltaTime;
+
+            // 스테이지 이벤트 처리
+            for (int i = 1; i <= 6; i++)
+            {
+                if (stageEventTimerList[i] >= stageTimer && StageLevel < i)
+                {
+                    StageLevel = i;
+                    Time.timeScale = 0;
+
+                    // 선택창 실행
+                    ShowStageEventSelect();
+                    break; // 선택 창 실행 후에는 루프를 빠져나옴
+                }
+            }
+
+            if (StageLevel == 6)
+            {
+                // 보스소환
+                yield break;
+            }
+
+            yield return null; // 다음 프레임까지 대기
+        }
+    }
+    #endregion // 코루틴
 }
 

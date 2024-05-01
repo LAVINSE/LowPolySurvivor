@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -34,5 +35,16 @@ public class SelectEventButtonUI : MonoBehaviour
         get => descText;
         set => descText = value;
     }
+
+    public EventDataSO EventDataSO { get; set; }
     #endregion // 프로퍼티
+
+    #region 함수
+    public void Init()
+    {
+        Image.sprite = EventDataSO.eventImg;
+        NameText.text = EventDataSO.eventName;
+        DescText.text = EventDataSO.eventDesc;
+    }
+    #endregion // 함수
 }
