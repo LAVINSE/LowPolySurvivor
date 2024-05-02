@@ -26,6 +26,7 @@ public class CharacterSelectManager : MonoBehaviour
     [SerializeField] private Image mainMenuBackground;
     [SerializeField] private GameObject selectStageGroup;
     [SerializeField] private GameObject buttonGroup;
+    [SerializeField] private GameObject leaveButton;
 
     [Header("=====> 케릭터 선택 UI, Object <=====")]
     [SerializeField] private GameObject characterSelectUI;
@@ -166,10 +167,11 @@ public class CharacterSelectManager : MonoBehaviour
         mainMenuBackground.color = color;
     }
 
-    /** 스테이지 버튼을 누른다 */
+    /** 스테이지/나가기 버튼을 누른다 */
     public void SelectStageButton(float percent)
     {
         ButtonSelectStageActive();
+        leaveButton.SetActive(!leaveButton.activeSelf);
         BackgroundTransparent(percent);
     }
 

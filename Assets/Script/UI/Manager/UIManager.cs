@@ -5,7 +5,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     #region 프로퍼티
-    public GameObject UiRoot { get; private set; }
+    public GameObject UIRoot { get; private set; }
     #endregion // 프로퍼티
 
     #region 함수
@@ -16,8 +16,8 @@ public class UIManager : MonoBehaviour
 
         for (int i = 0; i < RootObjs.Length; i++)
         {
-            this.UiRoot = this.UiRoot ??
-                RootObjs[i].transform.Find("Canvas/UiRoot")?.gameObject;
+            this.UIRoot = this.UIRoot ??
+                RootObjs[i].transform.Find("Canvas/UIs/UIRoot")?.gameObject;
         }
     }
 
@@ -33,9 +33,8 @@ public class UIManager : MonoBehaviour
         // Esc 키를 눌렀을 경우
         if (Input.GetKeyDown(KeyCode.Escape) || IsClick == true)
         {
-            //var Option = UiRoot.GetComponentInChildren<OptionPopup>();
+            var Option = UIRoot.GetComponentInChildren<OptionPopupUI>();
 
-            /*
             // 옵션 팝업이 존재 할 경우
             if (Option != null)
             {
@@ -43,9 +42,10 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                //Option = OptionPopup.CreateOptionPopup("옵션", UiRoot);
+                Option = OptionPopupUI.CreateOptionPopup(UIRoot);
+
+                Option.PopupShow();
             }
-            */
         }
     }
     #endregion // 함수
