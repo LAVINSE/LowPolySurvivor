@@ -33,6 +33,8 @@ public class OptionPopupUI : PopupUI
 
         mainAudioMixer.GetFloat("SFXVolume", out float sfxVolume);
         sfxVolumeSlider.value = sfxVolume;
+
+        graphicsDropDown.value = QualitySettings.GetQualityLevel();
     }
 
     /** 그래픽 설정을 변경한다 */
