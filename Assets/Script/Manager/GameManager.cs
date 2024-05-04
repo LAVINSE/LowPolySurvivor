@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_1;
     [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_2;
     [SerializeField] private SelectUpgradeButtonUI selectUpgradeButtonUI_3;
+    [SerializeField] private Image coolTimeImg;
+    [SerializeField] private Image coolTimeImg_1;
+    [SerializeField] private Image coolTimeImg_2;
 
     [SerializeField] private int playerId = -1;
     #endregion // 변수
@@ -94,6 +97,10 @@ public class GameManager : MonoBehaviour
             selectUpgradeButtonUI_1.Weapon = PlayerMain.WeaponList[0];
             selectUpgradeButtonUI_1.Weapon = PlayerMain.WeaponList[1];
             selectUpgradeButtonUI_1.Weapon = PlayerMain.WeaponList[2];
+
+            PlayerMain.WeaponList[0].skillImage = coolTimeImg;
+            PlayerMain.WeaponList[1].skillImage = coolTimeImg_1;
+            PlayerMain.WeaponList[2].skillImage = coolTimeImg_2;
         }
 
         // TODO : 확인용

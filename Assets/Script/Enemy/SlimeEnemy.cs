@@ -38,6 +38,9 @@ public class SlimeEnemy : Enemy
     {
         base.OnEnable();
         attackCollider.radius = attackRange;
+
+        rigid.useGravity = true;
+        capsuleCollider.enabled = true;
     }
 
     /** √ ±‚»≠ */

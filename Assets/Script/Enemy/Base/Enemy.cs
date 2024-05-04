@@ -38,8 +38,6 @@ public class Enemy : MonoBehaviour
     public Transform MeshTransform => rootTransform; // 위치 정보
     public Rigidbody Rigid => rigid;
 
-    public SpawnManager SpawnManager { get; set; }
-
     public bool IsTracking { get; set; } = false; // 추적 확인
     public bool IsAttack { get; set; } = false; // 공격 확인
     public bool isDamage { get; set; } = false;
@@ -63,15 +61,12 @@ public class Enemy : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
-
-        // TODO : 테스트
-        Init(0); 
     }
 
     /** 초기화 */
     protected virtual void OnEnable()
     {
-        //Init(SpawnManager.StageLevel);
+        
     }
      
     /** 초기화 */
@@ -98,8 +93,10 @@ public class Enemy : MonoBehaviour
     } 
 
     /** 적 데이터 세팅 */
-    public void Init(int stageLevel = 0)
+    public void Init(PlayerMain playerMain, int stageLevel = 0)
     {
+        this.Player= playerMain;
+
         moveSpeed = enemyDataSO.enemyDataStruct[stageLevel].moveSpeed;
         maxHp = enemyDataSO.enemyDataStruct[stageLevel].maxHp;
         attackDelay = enemyDataSO.enemyDataStruct[stageLevel].attackDelay;

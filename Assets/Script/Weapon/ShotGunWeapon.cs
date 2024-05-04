@@ -81,7 +81,7 @@ public class ShotGunWeapon : Weapon
             yield return new WaitForSeconds(Rate);
         }
 
-        StartCoroutine(CoolDownCO(ReloadTime, coroutin));
+        StartCoroutine(CoolDownCO(ReloadTime, coroutin, skillImage));
         // TODO : 厚劝己拳肺 包府
     }
     #endregion // 内风凭

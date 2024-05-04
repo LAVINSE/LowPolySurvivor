@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.EventSystems.PointerEventData;
 
 public enum eStageEventType
 {
@@ -23,10 +21,10 @@ public class SpawnManager : MonoBehaviour
     [Header("=====> 몬스터 소환 위치 <=====")]
     [SerializeField] private Transform playerPos;
     [SerializeField] private float correctPosY = 0.2f; // 보정값
-    [SerializeField] private float spawnRadius; // 소환 범위
-    [SerializeField] private float dectectRange = 1f; // 감지 범위
-    [SerializeField] private float minSpawnRadius = 3f; // 플레이어와의 거리 최소값
-    [SerializeField] private string tagName = "Building";
+    [SerializeField] private float spawnRadius = 30; // 소환 범위
+    [SerializeField] private float dectectRange = 1f; // 건물 감지 범위
+    [SerializeField] private float minSpawnRadius = 15f; // 플레이어와의 거리 최소값
+    [SerializeField] private string tagName = "NoSpawn"; // 건물
 
     [Header("=====> 소환 설정 <=====")]
     [SerializeField] private int maxSpawnCount = 100;
@@ -42,9 +40,14 @@ public class SpawnManager : MonoBehaviour
     [Header("=====> 자연재해 <=====")]
     [SerializeField] private List<EventDataSO> eventList = new List<EventDataSO>();
 
+    [Header("=====> 보스 몹 <=====")]
+    [SerializeField] private GameObject bossPrefab;
+
     private List<float> stageEventTimerList = new List<float>();
     private List<int> randomIndexList = new List<int>();
     private List<EventDataSO> selectEventList = new List<EventDataSO>();
+
+    private bool isSpawnBoss = false;
     #endregion // 변수
 
     #region 프로퍼티
@@ -128,9 +131,18 @@ public class SpawnManager : MonoBehaviour
     /** 적을 소환한다 */
     private Enemy SpawnEnemy(Vector3 spawnPos)
     {
-        GameObject enemy = GameManager.Instance.PoolManager.GetEnemy(0, spawnPos);
-        enemy.GetComponent<Enemy>().Player = playerPos.GetComponent<PlayerMain>();
-        enemy.GetComponent<Enemy>().SpawnManager = this;
+        int randomIndex = UnityEngine.Random.Range((int)PoolEnemyType.Beholder, (int)PoolEnemyType.Turtle + 1);
+        GameObject enemy = GameManager.Instance.PoolManager.GetEnemy(randomIndex, spawnPos);
+        enemy.GetComponent<Enemy>().Init(playerPos.GetComponent<PlayerMain>(), StageLevel);
+        return enemy.GetComponent<Enemy>();
+    }
+
+    /** 적을 소환한다 */
+    private Enemy SpawnBossEnemy(Vector3 spawnPos)
+    {
+        GameObject enemy = Instantiate(bossPrefab);
+        enemy.transform.position = spawnPos;
+        enemy.GetComponent<Enemy>().Init(playerPos.GetComponent<PlayerMain>(), 0);
         return enemy.GetComponent<Enemy>();
     }
 
@@ -332,7 +344,19 @@ public class SpawnManager : MonoBehaviour
 
             if (StageLevel == 6)
             {
-                // 보스소환
+                while (isSpawnBoss == false)
+                {
+                    // 플레이어 주변에서 소환 위치를 찾아 소환
+                    Vector3 spawnPosition = FindSpawnPosition();
+
+                    // Vector3.zero가 아닐 경우
+                    if (spawnPosition != Vector3.zero)
+                    {
+                        SpawnBossEnemy(spawnPosition);
+                        isSpawnBoss = true;
+                    }
+                }
+
                 yield break;
             }
 

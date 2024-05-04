@@ -28,6 +28,7 @@ public class Weapon : MonoBehaviour
     public float bulletVelocity { get; set; } = 0f; // Åº¼Ó
     public GameObject prefab { get; set; } = null;
     public Sprite WeaponSprite { get; set; } = null;
+    public Image skillImage { get; set; } = null;
 
     public PlayerScanner PlayerScanner { get; set; }
     public PlayerMain PlayerMain { get; set; }

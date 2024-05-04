@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OptionPopupUI : PopupUI
@@ -28,13 +29,25 @@ public class OptionPopupUI : PopupUI
         mainAudioMixer.GetFloat("MasterVolume", out float masterVolume);
         masterVolumeSlider.value = masterVolume;
 
-        mainAudioMixer.GetFloat("MusicVolume", out float musicVolume);
+        mainAudioMixer.GetFloat("BGMVolume", out float musicVolume);
         musicVolumeSlider.value = musicVolume;
 
         mainAudioMixer.GetFloat("SFXVolume", out float sfxVolume);
         sfxVolumeSlider.value = sfxVolume;
 
         graphicsDropDown.value = QualitySettings.GetQualityLevel();
+    }
+
+    /** 메인메뉴로 이동 */
+    public void ChangeSceneStartScene()
+    {
+        if(SceneManager.GetActiveScene().name == "StartScene")
+        {
+            PopupClose();
+            return;
+        }
+
+        SceneManager.LoadScene("StartScene");
     }
 
     /** 그래픽 설정을 변경한다 */
@@ -52,7 +65,7 @@ public class OptionPopupUI : PopupUI
     /** 음악 사운드를 변경한다 */
     public void ChangeMusicVolume()
     {
-        mainAudioMixer.SetFloat("MusicVolume", musicVolumeSlider.value);
+        mainAudioMixer.SetFloat("BGMVolume", musicVolumeSlider.value);
     }
 
     /** 효과음 사운드를 변경한다 */

@@ -26,6 +26,15 @@ public class BeholderEnemy : Enemy
         complete = OnCompleteBasicAttack;
     }
 
+    /** 초기화 */
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        rigid.useGravity = true;
+        capsuleCollider.enabled = true;
+    }
+
     /** 공격한다 */
     public override void Attack(RaycastHit hit)
     {

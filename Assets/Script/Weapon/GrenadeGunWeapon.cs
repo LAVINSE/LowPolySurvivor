@@ -96,7 +96,7 @@ public class GrenadeGunWeapon : Weapon
             yield return new WaitForSeconds(Rate);
         }
 
-        StartCoroutine(CoolDownCO(ReloadTime, coroutin));
+        StartCoroutine(CoolDownCO(ReloadTime, coroutin, skillImage));
     }
     #endregion // ÄÚ·çÆ¾
 }
