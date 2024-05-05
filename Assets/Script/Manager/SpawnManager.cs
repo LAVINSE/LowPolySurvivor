@@ -48,6 +48,7 @@ public class SpawnManager : MonoBehaviour
     private List<EventDataSO> selectEventList = new List<EventDataSO>();
 
     private bool isSpawnBoss = false;
+    private Enemy bossEnemy;
     #endregion // 변수
 
     #region 프로퍼티
@@ -92,6 +93,13 @@ public class SpawnManager : MonoBehaviour
     {
         StartCoroutine(StageCO());
         StartCoroutine(StageEventCO());
+    }
+
+    /** 초기화 => 상태를 갱신한다 */
+    private void Update()
+    {
+        if(bossEnemy == null) { return; }
+        GameManager.Instance.InGameUI.BossHpBarUpdate(bossEnemy.MaxHp, bossEnemy.CurrentHp);
     }
 
     /** 소환할 위치를 찾는다 */
@@ -327,6 +335,7 @@ public class SpawnManager : MonoBehaviour
         while (true)
         {
             stageTimer -= Time.deltaTime;
+            GameManager.Instance.InGameUI.UpdateTimerText(stageTimer);
 
             // 스테이지 이벤트 처리
             for (int i = 1; i <= 6; i++)
@@ -352,7 +361,7 @@ public class SpawnManager : MonoBehaviour
                     // Vector3.zero가 아닐 경우
                     if (spawnPosition != Vector3.zero)
                     {
-                        SpawnBossEnemy(spawnPosition);
+                        bossEnemy = SpawnBossEnemy(spawnPosition);
                         isSpawnBoss = true;
                     }
                 }

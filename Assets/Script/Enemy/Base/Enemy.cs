@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
     public bool IsAttack { get; set; } = false; // 공격 확인
     public bool isDamage { get; set; } = false;
 
+    public float MaxHp => maxHp;
     public float CurrentHp { get; set; } = 0; // 현재 체력
 
     public PlayerMain Player; // 플레이어

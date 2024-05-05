@@ -121,19 +121,23 @@ public class PlayerMain : MonoBehaviour
                 return;
             }
 
+            float saveExp = expArray[currentLevel] - CurrentExp;
+
             // 현재 레벨 경험치 통만큼 뺀다
-            CurrentExp -= expArray[currentLevel];
             GameManager.Instance.InGameUI.UpdateExpBar(expArray[currentLevel], CurrentExp);
 
-            LevelUP();
+            LevelUP(saveExp);
         }
     }
 
     /** 레벨업 */
-    public void LevelUP()
+    public void LevelUP(float saveExp)
     {
         // 레벨업
         currentLevel++;
+        CurrentExp = 0;
+        CurrentExp += saveExp;
+
         GameManager.Instance.InGameUI.UpdateLevelText(CurrentLevel);
         GameManager.Instance.ShowUpgradeUI(true);
     }

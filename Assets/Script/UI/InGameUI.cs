@@ -13,6 +13,10 @@ public class InGameUI : MonoBehaviour
     [Header("=====> 체력바 <=====")]
     [SerializeField] private Image hpBarImg = null;
 
+    [Header("=====> 보스 체력바 <=====")]
+    [SerializeField] private GameObject bossHpbarObject = null;
+    [SerializeField] private Image bosshpbarImg = null;
+
     [Header("=====> 경험치 바 <=====")]
     [SerializeField] private Image expBarImg = null;
 
@@ -23,6 +27,9 @@ public class InGameUI : MonoBehaviour
     [SerializeField] private Button equipSlot_1 = null;
     [SerializeField] private Button equipSlot_2 = null;
     [SerializeField] private Button equipSlot_3 = null;
+
+    [Header("=====> 타이머 <=====")]
+    [SerializeField] private TMP_Text timerText = null;
     #endregion // 변수
 
     #region 함수
@@ -58,6 +65,32 @@ public class InGameUI : MonoBehaviour
     public void InitCharacterImg(Image characterImg)
     {
         this.characterImg = characterImg;
+    }
+
+    /** 타이머를 갱신한다 */
+    public void UpdateTimerText(float timer)
+    {
+        int min = Mathf.FloorToInt((timer % 3600) / 60);
+        int second = Mathf.FloorToInt(timer % 60);
+
+        if(min <= 0 && second <= 0)
+        {
+            timerText.gameObject.SetActive(false);
+        }
+
+        timerText.text = $"{min:00}:{second:00}";
+    }
+
+    /** 보스 체력바를 활성화/비활성화 한다 */
+    public void ActiveBossHpbar(bool isActive)
+    {
+        bossHpbarObject.SetActive(isActive);
+    }
+
+    /** 보스 체력바를 갱신한다 */
+    public void BossHpBarUpdate(float maxExp, float currentExp)
+    {
+        expBarImg.fillAmount = currentExp / maxExp;
     }
     #endregion // 함수
 }
