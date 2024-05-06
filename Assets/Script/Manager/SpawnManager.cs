@@ -98,8 +98,11 @@ public class SpawnManager : MonoBehaviour
     /** 초기화 => 상태를 갱신한다 */
     private void Update()
     {
-        if(bossEnemy == null) { return; }
-        GameManager.Instance.InGameUI.BossHpBarUpdate(bossEnemy.MaxHp, bossEnemy.CurrentHp);
+        if(bossEnemy != null)
+        {
+            GameManager.Instance.InGameUI.BossHpBarUpdate(bossEnemy.MaxHp, bossEnemy.CurrentHp);
+        }
+        
     }
 
     /** 소환할 위치를 찾는다 */
@@ -362,6 +365,7 @@ public class SpawnManager : MonoBehaviour
                     if (spawnPosition != Vector3.zero)
                     {
                         bossEnemy = SpawnBossEnemy(spawnPosition);
+                        GameManager.Instance.InGameUI.ActiveBossHpbar(true);
                         isSpawnBoss = true;
                     }
                 }
