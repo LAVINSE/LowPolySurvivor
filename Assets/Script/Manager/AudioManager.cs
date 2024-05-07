@@ -76,8 +76,8 @@ public class AudioManager : Singleton<AudioManager>
     /** 효과음을 재생한다 */
     public void PlaySFX(string soundName)
     {
-        Sound sound = Array.Find(bgmSound, x => x.soundName == soundName);
-        if (sound == null) { Debug.Log(" 배경음이 없습니다 "); return; }
+        Sound sound = Array.Find(sfxSound, x => x.soundName == soundName);
+        if (sound == null) { Debug.Log(" 효과음이 없습니다 "); return; }
 
         sfxAudioSource.PlayOneShot(sound.soundClip);
     }

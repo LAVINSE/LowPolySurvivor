@@ -89,10 +89,9 @@ public class GrenadeGunWeapon : Weapon
                 Vector3 velocitay = GetVelocity(this.transform.position, targetPos, 45f);
 
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, velocitay, bulletVelocity);
-                Debug.Log(" ¼ö·ùÅº ");
+                AudioManager.Inst.PlaySFX("GunSoundSFX_1");
                 Ammo--;
             }
-
             yield return new WaitForSeconds(Rate);
         }
 

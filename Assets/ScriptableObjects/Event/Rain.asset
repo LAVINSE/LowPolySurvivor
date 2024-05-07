@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageEventType: 1
   prefab: {fileID: 5399753997931284089, guid: 486432095ddb9d945afafe9fb0e6a533, type: 3}
-  eventName: "\uBE44"
-  eventDesc: "\uBE44"
+  eventName: "\uC0B0\uC131\uBE44"
+  eventDesc: "3\uCD08\uB9C8\uB2E4 \"2\"\uC758 \uD53C\uD574\uB97C \uC785\uB294\uB2E4"
   eventImg: {fileID: -330768740, guid: 86d194ed4f7ce6e4a918c2db923bfc79, type: 3}

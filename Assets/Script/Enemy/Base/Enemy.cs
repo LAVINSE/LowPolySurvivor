@@ -112,6 +112,11 @@ public class Enemy : MonoBehaviour
     /** NavMesh 플레이어를 추적한다 */
     public void NavMeshSetDestination()
     {
+        if(this.transform.position.y < -10f)
+        {
+            this.gameObject.SetActive(false);
+        }
+
         navMeshAgent.SetDestination(Player.transform.position);
     }
 
@@ -173,7 +178,6 @@ public class Enemy : MonoBehaviour
         }
 
         CurrentHp -= Mathf.RoundToInt(damage);
-        Debug.Log(CurrentHp);
 
         if (CurrentHp <= 0)
         { 
@@ -186,7 +190,6 @@ public class Enemy : MonoBehaviour
 
     public void KnockBack()
     {
-        Debug.Log(" 넉백");
         rigid.velocity = Vector3.zero;
         Vector3 direction = this.transform.position - Player.transform.position;
         navMeshAgent.isStopped = true;

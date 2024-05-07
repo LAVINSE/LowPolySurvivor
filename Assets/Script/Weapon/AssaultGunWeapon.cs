@@ -61,7 +61,7 @@ public class AssaultGunWeapon : Weapon
 
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity);
                 bullet.transform.rotation = Quaternion.FromToRotation(Vector3.left, direction);
-
+                AudioManager.Inst.PlaySFX("GunSoundSFX_1");
                 Ammo--;
             }
 

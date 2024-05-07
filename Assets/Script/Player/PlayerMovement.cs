@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     #endregion // 변수
 
     #region 프로퍼티
+    public VariableJoystick Joystick { get; set; }
     public float moveSpeed { get; set; } // 이동 속도
     #endregion // 프로퍼티
 
@@ -30,25 +31,31 @@ public class PlayerMovement : MonoBehaviour
     /** 초기화 => 상태를 갱신한다 */
     private void Update()
     {
-        // 플레이어 입력처리
-        PlayerInput();
+        if(Joystick != null)
+        {
+            // 플레이어 입력처리
+            PlayerInput();
+        }
     }
 
     /** 초기화 => 상태를 갱신한다 */
     private void FixedUpdate()
     {
-        // 플레이어 이동
-        PlayerMove();
-        // 플레이어 이동 애니메이션
-        PlayerMoveAnimation();
+        if (Joystick != null)
+        {
+            // 플레이어 이동
+            PlayerMove();
+            // 플레이어 이동 애니메이션
+            PlayerMoveAnimation();
+        }
     }
 
     /** 플레이어 입력처리 */
     private void PlayerInput()
     {
         // 움직임
-        moveDirection.x = Input.GetAxisRaw("Horizontal");
-        moveDirection.z = Input.GetAxisRaw("Vertical");
+        moveDirection.x = Joystick.Horizontal;
+        moveDirection.z = Joystick.Vertical;
         moveDirection.Normalize();
     }
 

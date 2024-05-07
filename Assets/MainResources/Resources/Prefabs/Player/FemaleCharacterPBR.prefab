@@ -2324,6 +2324,7 @@ GameObject:
   - component: {fileID: 686389185219152338}
   - component: {fileID: 951347685882663227}
   - component: {fileID: 2032767000}
+  - component: {fileID: 8803398975414246527}
   m_Layer: 8
   m_Name: FemaleCharacterPBR
   m_TagString: Player
@@ -2475,6 +2476,18 @@ MonoBehaviour:
   nearTargetArray: []
   forwardNearTargetArray: []
   forwardNearTarget: {fileID: 0}
+--- !u!114 &8803398975414246527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7647134206250791342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d5e6d45b1fc88c4bb3152d0744c0ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7667767699941656935
 GameObject:
   m_ObjectHideFlags: 0

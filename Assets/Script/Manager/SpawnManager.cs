@@ -9,6 +9,7 @@ public enum eStageEventType
     Rain,
     Poison,
     Fog,
+    ItemPickRangeBuff,
     MaxValue,
 }
 
@@ -22,7 +23,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Transform playerPos;
     [SerializeField] private float correctPosY = 0.2f; // 보정값
     [SerializeField] private float spawnRadius = 30; // 소환 범위
-    [SerializeField] private float dectectRange = 1f; // 건물 감지 범위
+    [SerializeField] private float dectectRange = 1.5f; // 건물 감지 범위
     [SerializeField] private float minSpawnRadius = 15f; // 플레이어와의 거리 최소값
     [SerializeField] private string tagName = "NoSpawn"; // 건물
 
@@ -45,7 +46,6 @@ public class SpawnManager : MonoBehaviour
 
     private List<float> stageEventTimerList = new List<float>();
     private List<int> randomIndexList = new List<int>();
-    private List<EventDataSO> selectEventList = new List<EventDataSO>();
 
     private bool isSpawnBoss = false;
     private Enemy bossEnemy;
@@ -53,6 +53,8 @@ public class SpawnManager : MonoBehaviour
 
     #region 프로퍼티
     public PlayerMain PlayerMain { get; set; }
+    public PlayerStatusEffect PlayerStatusEffect { get; set; }
+
     public int StageLevel { get; set; } = 0;
     public int SpawnCount { get; set; } = 0;
 
@@ -91,18 +93,10 @@ public class SpawnManager : MonoBehaviour
     /** 초기화 */
     private void Start()
     {
+        playerPos = PlayerMain.transform;
+
         StartCoroutine(StageCO());
         StartCoroutine(StageEventCO());
-    }
-
-    /** 초기화 => 상태를 갱신한다 */
-    private void Update()
-    {
-        if(bossEnemy != null)
-        {
-            GameManager.Instance.InGameUI.BossHpBarUpdate(bossEnemy.MaxHp, bossEnemy.CurrentHp);
-        }
-        
     }
 
     /** 소환할 위치를 찾는다 */
@@ -113,7 +107,7 @@ public class SpawnManager : MonoBehaviour
 
         Vector3 spawnPosition = Vector3.zero;
         Vector3 playerPosition = playerPos.position;
-        
+
         while (attempts > 0)
         {
             // 플레이어 주변 랜덤 위치 계산, 소환될 높이는 지정
@@ -124,12 +118,16 @@ public class SpawnManager : MonoBehaviour
             // 플레이어와의 거리 계산
             float distance = Vector3.Distance(randomDirection, playerPosition);
 
-            // 건물이 주변에 있는지 확인
-            if (distance >= minSpawnRadius && !BuildingCheck(randomDirection))
+            // 바닥이 있는지 확인
+            if (IsGrounded(randomDirection))
             {
-                // 위치 반환
-                spawnPosition = randomDirection;
-                break;
+                // 건물이 주변에 있는지 확인
+                if (distance >= minSpawnRadius && !BuildingCheck(randomDirection))
+                {
+                    // 위치 반환
+                    spawnPosition = randomDirection;
+                    break;
+                }
             }
 
             attempts--;
@@ -137,6 +135,19 @@ public class SpawnManager : MonoBehaviour
 
         // Vector3.zero
         return spawnPosition;
+    }
+
+    /** 주어진 위치가 바닥에 있는지 확인 */
+    private bool IsGrounded(Vector3 position)
+    {
+        // 아래쪽으로 레이캐스트를 쏴서 바닥 검사
+        if (Physics.Raycast(position, Vector3.down, out RaycastHit hit, 1f))
+        {
+            // 바닥이 발견되었는지 확인
+            return hit.collider.CompareTag("Ground");
+        }
+
+        return false;
     }
 
     /** 적을 소환한다 */
@@ -269,11 +280,16 @@ public class SpawnManager : MonoBehaviour
         switch (eventDataSO.stageEventType)
         {
             case eStageEventType.Rain:
-                StageEventRain(eventDataSO);
+                CreateStageEvent(eventDataSO, 20f);
                 break;
             case eStageEventType.Poison:
+                CreateStageEvent(eventDataSO, 3f);
                 break;
             case eStageEventType.Fog:
+                CreateStageEvent(eventDataSO, 3f);
+                break;
+            case eStageEventType.ItemPickRangeBuff:
+                ItemPickRangeBuff(eventDataSO);
                 break;
         }
 
@@ -297,17 +313,27 @@ public class SpawnManager : MonoBehaviour
         stageEventObject.SetActive(false);
     }
 
-    /** 자연재해 "비"를 생성한다 */
-    private void StageEventRain(EventDataSO eventDataSO)
+    /** 자연재해를 생성한다 */
+    private void CreateStageEvent(EventDataSO eventDataSO, float posY)
     {
         float x = UnityEngine.Random.Range(stageSO.minPos.x, stageSO.maxPos.x);
         float z = UnityEngine.Random.Range(stageSO.minPos.z, stageSO.maxPos.z);
-        float y = 20f;
 
-        Vector3 spawnPos = new Vector3(x, y, z);
+        Vector3 spawnPos = new Vector3(x, posY, z);
 
         GameObject rainObject = Instantiate(eventDataSO.prefab);
+        rainObject.GetComponent<EventAttack>().PlayerMain = PlayerMain;
         rainObject.transform.position = spawnPos;
+    }
+
+    /** 버프를 사용한다 */
+    private void ItemPickRangeBuff(EventDataSO eventDataSO)
+    {
+        if(PlayerStatusEffect == null) { return; }
+        if(PlayerMain == null) { return; }
+
+        PlayerStatusEffect.ApplyBuff(new StatusEffectItemPickRange(eventDataSO.duration, eventDataSO.delay, PlayerMain,
+            eventDataSO.creaseValue));
     }
     #endregion // 함수
 
@@ -350,6 +376,9 @@ public class SpawnManager : MonoBehaviour
 
                     // 선택창 실행
                     ShowStageEventSelect();
+
+                    yield return null;
+
                     break; // 선택 창 실행 후에는 루프를 빠져나옴
                 }
             }
@@ -366,11 +395,11 @@ public class SpawnManager : MonoBehaviour
                     {
                         bossEnemy = SpawnBossEnemy(spawnPosition);
                         GameManager.Instance.InGameUI.ActiveBossHpbar(true);
+                        AudioManager.Inst.PlaySFX("BossSpawnSFX");
                         isSpawnBoss = true;
+                        yield break;
                     }
-                }
-
-                yield break;
+                }   
             }
 
             yield return null; // 다음 프레임까지 대기

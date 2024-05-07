@@ -2,11 +2,15 @@ using Cinemachine;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     #region 변수
+    [Header("=====> 소환 매니저 <=====")]
+    [SerializeField] private VariableJoystick joystick;
+
     [Header("=====> 소환 매니저 <=====")]
     [SerializeField] private SpawnManager spawnManager;
 
@@ -49,7 +53,7 @@ public class GameManager : MonoBehaviour
     /** 초기화 */
     private void Awake()
     {
-        Instance = this; 
+        Instance = this;
     }
 
     private void Start()
@@ -63,6 +67,10 @@ public class GameManager : MonoBehaviour
             // 캐릭터 생성
             GameObject playerObject = Instantiate(playerPrefabsList[playerId]);
             PlayerMain = playerObject.GetComponent<PlayerMain>();
+            playerObject.GetComponent<PlayerMovement>().Joystick = joystick;
+
+            spawnManager.PlayerMain = PlayerMain;
+            spawnManager.PlayerStatusEffect = PlayerMain.GetComponent<PlayerStatusEffect>();
 
             // 장비 슬롯 설정
             EquipIndex_1 = PlayerPrefs.GetInt("EquipType_1");
@@ -80,7 +88,7 @@ public class GameManager : MonoBehaviour
 
             // UI 설정
             inGameUI.InitEquipSlot(PlayerMain.WeaponList);
-            inGameUI.UpdateHpBar(PlayerMain.MaxHp, PlayerMain.CurrentHp) ;
+            inGameUI.UpdateHpBar(PlayerMain.MaxHp, PlayerMain.CurrentHp);
             inGameUI.UpdateExpBar(PlayerMain.ExpArray[PlayerMain.CurrentLevel], PlayerMain.CurrentExp);
             inGameUI.UpdateLevelText(PlayerMain.CurrentLevel);
 
@@ -95,16 +103,18 @@ public class GameManager : MonoBehaviour
             selectUpgradeButtonUI_3.PlayerMain = PlayerMain;
 
             selectUpgradeButtonUI_1.Weapon = PlayerMain.WeaponList[0];
-            selectUpgradeButtonUI_1.Weapon = PlayerMain.WeaponList[1];
-            selectUpgradeButtonUI_1.Weapon = PlayerMain.WeaponList[2];
+            selectUpgradeButtonUI_2.Weapon = PlayerMain.WeaponList[1];
+            selectUpgradeButtonUI_3.Weapon = PlayerMain.WeaponList[2];
 
             PlayerMain.WeaponList[0].skillImage = coolTimeImg;
             PlayerMain.WeaponList[1].skillImage = coolTimeImg_1;
             PlayerMain.WeaponList[2].skillImage = coolTimeImg_2;
+
+            spawnManager.gameObject.SetActive(true);
         }
 
         // TODO : 확인용
-        if(playerId == -1)
+        if (playerId == -1)
         {
             Debug.Log(" 캐릭터 선택값이 없습니다 ");
         }
@@ -114,6 +124,11 @@ public class GameManager : MonoBehaviour
     public void ShowUpgradeUI(bool isShow)
     {
         Time.timeScale = isShow == true ? 0 : 1;
+
+        selectUpgradeButtonUI_1.InitButton();
+        selectUpgradeButtonUI_2.InitButton();
+        selectUpgradeButtonUI_3.InitButton();
+
         upgradeObject.SetActive(isShow);
     }
     #endregion // 변수

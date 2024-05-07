@@ -10,4 +10,8 @@ public class EventDataSO : ScriptableObject
     public string eventName;
     public string eventDesc;
     public Sprite eventImg;
+
+    public float duration;
+    public float delay;
+    public float creaseValue;
 }

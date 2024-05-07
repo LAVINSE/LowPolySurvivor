@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5399753997931284091}
   - component: {fileID: 5399753997931284088}
   - component: {fileID: 320176217622227156}
+  - component: {fileID: 7888408051683639134}
   m_Layer: 0
   m_Name: RainParticleSystem
   m_TagString: Untagged
@@ -4827,6 +4828,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 29.032248
   m_Center: {x: 1.1452465, y: -0.65623635, z: -11.491776}
+--- !u!114 &7888408051683639134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399753997931284089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1554f3a0de80f4b8b6a1d367e2f4ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  attackDamage: 2
 --- !u!1001 &5823013981387750759
 PrefabInstance:
   m_ObjectHideFlags: 0

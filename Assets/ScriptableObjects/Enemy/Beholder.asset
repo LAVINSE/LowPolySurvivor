@@ -13,16 +13,32 @@ MonoBehaviour:
   m_Name: Beholder
   m_EditorClassIdentifier: 
   enemyDataStruct:
-  - maxHp: 10
+  - maxHp: 100
     moveSpeed: 3.5
     attackDelay: 4
-    attackDamage: 0
-  - maxHp: 10
+    attackDamage: 2
+  - maxHp: 150
     moveSpeed: 4
-    attackDelay: 4
-    attackDamage: 5
-  - maxHp: 10
+    attackDelay: 3
+    attackDamage: 2
+  - maxHp: 200
     moveSpeed: 4
-    attackDelay: 4
-    attackDamage: 7
+    attackDelay: 3
+    attackDamage: 2
+  - maxHp: 250
+    moveSpeed: 4
+    attackDelay: 33
+    attackDamage: 4
+  - maxHp: 300
+    moveSpeed: 4
+    attackDelay: 2
+    attackDamage: 4
+  - maxHp: 350
+    moveSpeed: 4
+    attackDelay: 2
+    attackDamage: 4
+  - maxHp: 400
+    moveSpeed: 4
+    attackDelay: 2
+    attackDamage: 6
   attackRange: 0.99

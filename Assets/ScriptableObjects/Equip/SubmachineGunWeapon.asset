@@ -14,16 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipType: 1
   weaponName: "\uAE30\uAD00\uB2E8\uCD1D"
-  weaponDesc: "\uAE30\uAD00\uB2E8\uCD1D"
+  weaponDesc: "\uBE60\uB978\uC18D\uB3C4\uB85C \uCD1D\uC54C\uC744 \uBC1C\uC0AC\uD55C\uB2E4"
   maxLevel: 30
   baseLevel: 0
-  baseMaxAmmo: 6
+  baseMaxAmmo: 25
+  MaxWeaponCount: 0
   baseWeaponCount: 1
   basePenetrate: 0
-  baseReloadTime: 2
+  baseReloadTime: 6
   baseRange: -1
-  baseDamage: 0
-  baseRate: 1
-  baseBulletVelocity: 15
+  baseDamage: 42
+  baseRate: 0.7
+  baseBulletVelocity: 16
   prefab: {fileID: 7221961804468371141, guid: 447f665a2036cc04fb9182669e78984e, type: 3}
   weaponSprite: {fileID: 2034847726, guid: 98ff49679e37bfe44b773acf781f3b2f, type: 3}

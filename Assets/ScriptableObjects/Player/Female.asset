@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407783054b3383844901333fb475eb06, type: 3}
   m_Name: Female
   m_EditorClassIdentifier: 
-  maxHp: 100
-  moveSpeed: 10
+  maxHp: 210
+  moveSpeed: 5
   itemPickRange: 4
   expPercent: 0
-  maxLevel: 0
-  maxLuck: 0
+  maxLevel: 6
+  maxLuck: 20
   expArray:
   - 10
   - 20

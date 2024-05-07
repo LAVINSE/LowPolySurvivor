@@ -17,6 +17,9 @@ public class OptionPopupUI : PopupUI
     [SerializeField] private AudioMixer mainAudioMixer;
 
     [SerializeField] private GameObject popupUIObject;
+
+    [SerializeField] private Button mainMenuButton;
+    [SerializeField] private Button cancelButton;
     #endregion // 변수
 
     #region 함수
@@ -36,6 +39,9 @@ public class OptionPopupUI : PopupUI
         sfxVolumeSlider.value = sfxVolume;
 
         graphicsDropDown.value = QualitySettings.GetQualityLevel();
+
+        mainMenuButton.onClick.AddListener(() => AudioManager.Inst.PlaySFX("ClickSFX"));
+        cancelButton.onClick.AddListener(() => AudioManager.Inst.PlaySFX("ClickSFX"));
     }
 
     /** 메인메뉴로 이동 */

@@ -10,8 +10,10 @@ public class UIManager : MonoBehaviour
 
     #region 함수
     /** 초기화 */
-    private void Awake()
+    protected virtual void Awake()
     {
+        Application.targetFrameRate = 60;
+
         var RootObjs = this.gameObject.scene.GetRootGameObjects();
 
         for (int i = 0; i < RootObjs.Length; i++)
@@ -22,7 +24,7 @@ public class UIManager : MonoBehaviour
     }
 
     /** 초기화 => 상태를 갱신한다 */
-    private void Update()
+    protected virtual void Update()
     {
         OptionShow();
     }

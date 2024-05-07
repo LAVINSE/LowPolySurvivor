@@ -8,6 +8,5 @@ public class PlayerDataFemaleSO : PlayerDataSO
     public override void Stats()
     {
         base.Stats();
-        Debug.Log(" Å×½ºÆ® 1");
     }
 }

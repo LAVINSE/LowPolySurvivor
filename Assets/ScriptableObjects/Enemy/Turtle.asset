@@ -13,16 +13,32 @@ MonoBehaviour:
   m_Name: Turtle
   m_EditorClassIdentifier: 
   enemyDataStruct:
-  - maxHp: 10
-    moveSpeed: 3.5
-    attackDelay: 4
-    attackDamage: 0
-  - maxHp: 10
-    moveSpeed: 4
-    attackDelay: 4
-    attackDamage: 5
-  - maxHp: 10
-    moveSpeed: 4
-    attackDelay: 4
-    attackDamage: 7
+  - maxHp: 140
+    moveSpeed: 2
+    attackDelay: 2.2
+    attackDamage: 4
+  - maxHp: 190
+    moveSpeed: 2
+    attackDelay: 2.2
+    attackDamage: 4
+  - maxHp: 240
+    moveSpeed: 2
+    attackDelay: 2.2
+    attackDamage: 4
+  - maxHp: 290
+    moveSpeed: 2
+    attackDelay: 2.2
+    attackDamage: 4
+  - maxHp: 340
+    moveSpeed: 2.5
+    attackDelay: 2.2
+    attackDamage: 4
+  - maxHp: 390
+    moveSpeed: 2.5
+    attackDelay: 2.2
+    attackDamage: 9
+  - maxHp: 440
+    moveSpeed: 2.5
+    attackDelay: 2.2
+    attackDamage: 9
   attackRange: 4

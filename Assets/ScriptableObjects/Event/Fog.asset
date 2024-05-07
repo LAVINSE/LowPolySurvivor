@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Fog
   m_EditorClassIdentifier: 
   stageEventType: 3
-  prefab: {fileID: 5399753997931284089, guid: 486432095ddb9d945afafe9fb0e6a533, type: 3}
+  prefab: {fileID: 8337738992841924104, guid: 8f5ead3be97e8d648ba1abc7a412665b, type: 3}
   eventName: "\uC548\uAC1C"
-  eventDesc: "\uC548\uAC1C"
+  eventDesc: "\uC548\uAC1C \uC548\uC5D0 \uC788\uC744 \uACBD\uC6B0 \uC2DC\uC57C\uAC00
+    \uC904\uC5B4\uB4E0\uB2E4"
   eventImg: {fileID: -330768740, guid: 86d194ed4f7ce6e4a918c2db923bfc79, type: 3}

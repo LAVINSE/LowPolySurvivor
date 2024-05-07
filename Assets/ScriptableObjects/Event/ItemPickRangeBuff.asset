@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e580c5765c2bdf44b02cf5fd218593a, type: 3}
+  m_Name: ItemPickRangeBuff
+  m_EditorClassIdentifier: 
+  stageEventType: 4
+  prefab: {fileID: 0}
+  eventName: "\uC790\uC11D \uBC94\uC704 \uBC84\uD504"
+  eventDesc: "30\uCD08\uB3D9\uC548 \uC218\uC9D1 \uBC94\uC704\uAC00 20% \uC99D\uAC00\uD55C\uB2E4"
+  eventImg: {fileID: -330768740, guid: 86d194ed4f7ce6e4a918c2db923bfc79, type: 3}
+  duration: 30
+  delay: 0
+  creaseValue: 0.2

@@ -60,7 +60,7 @@ public class RockGunWeapon : Weapon
                 GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)PoolBulletType.RockBullet, this.transform.position);
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, direction, bulletVelocity, Range, PlayerMain);
                 bullet.transform.rotation = Quaternion.FromToRotation(Vector3.left, direction);
-
+                AudioManager.Inst.PlaySFX("GunSoundSFX_1");
                 Ammo--;
             }
 

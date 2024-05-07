@@ -74,7 +74,7 @@ public class ShotGunWeapon : Weapon
                 // 해당 위치로 부채꼴 공격
                 bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, directionPos, bulletVelocity);
                 bullet.GetComponent<ShotGunBullet>().InitShotGun(knockBackPower);
-
+                AudioManager.Inst.PlaySFX("GunSoundSFX_1");
                 Ammo--;
             }
 

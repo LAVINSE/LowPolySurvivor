@@ -3719,6 +3719,8 @@ MonoBehaviour:
   sfxVolumeSlider: {fileID: 270273957420202571}
   mainAudioMixer: {fileID: 24100000, guid: a0eef1bb87a62b04db6f235b6b233357, type: 2}
   popupUIObject: {fileID: 9108717141525882044}
+  mainMenuButton: {fileID: 5818927197500468239}
+  cancelButton: {fileID: 8985481172764439222}
 --- !u!1 &9176839934284070268
 GameObject:
   m_ObjectHideFlags: 0

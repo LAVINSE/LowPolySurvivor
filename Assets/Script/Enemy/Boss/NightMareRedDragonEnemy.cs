@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine.SceneManagement;
 
 public class NightMareRedDragonEnemy : Enemy
 {
@@ -17,6 +17,7 @@ public class NightMareRedDragonEnemy : Enemy
     private bool isBasicAttack = false; // 기본 공격 확인
 
     private BoxCollider boxCollider; // 콜라이더
+    private int clearCount;
     #endregion // 변수
 
     #region 함수
@@ -36,6 +37,11 @@ public class NightMareRedDragonEnemy : Enemy
         screamAttackCollider.enabled = false;
 
         complete = OnCompleteBasicAttack;
+
+        if (PlayerPrefs.HasKey("ClearStage"))
+        {
+            clearCount = PlayerPrefs.GetInt("ClearStage");
+        }
     }
 
     /** 공격한다 */
@@ -54,17 +60,14 @@ public class NightMareRedDragonEnemy : Enemy
 
             if (random <= 10) // 10%
             {
-                Debug.Log("비명");
                 StartCoroutine(ScreamAttackCO());
             }
             else if (random <= 35) // 25%
             {
-                Debug.Log("점프");
                 StartCoroutine(JumpAttackCO());
             }
             else // 65 %
             {
-                Debug.Log("기본");
                 StartCoroutine(ClawAttackCO());
             }
         }
@@ -74,6 +77,8 @@ public class NightMareRedDragonEnemy : Enemy
     public override void TakeDamage(float damage, float knockBackPower = 0, bool isKnockBack = false)
     {
         base.TakeDamage(damage, knockBackPower, isKnockBack);
+
+        GameManager.Instance.InGameUI.BossHpBarUpdate(maxHp, CurrentHp);
     }
 
     /** 몬스터 죽음 */
@@ -81,12 +86,17 @@ public class NightMareRedDragonEnemy : Enemy
     {
         base.Die();
 
+        AudioManager.Inst.PlaySFX("BossDieSFX");
+
         // TODO : 중력 X, 콜라이더 isTrigger 해제 설정해야됨 
         rigid.useGravity = false;
         boxCollider.enabled = false;
 
         // 아이템 드랍
         InstantiateDropItem(this.transform.position);
+
+        PlayerPrefs.SetInt("ClearStage", clearCount++);
+        Invoke("ChangeStarMenu", 3f);
 
         // TODO : 비활성화 처리, 테스트용으로 삭제 처리함
         this.gameObject.SetActive(false);
@@ -96,6 +106,11 @@ public class NightMareRedDragonEnemy : Enemy
     private void OnCompleteBasicAttack()
     {
         isBasicAttack = false;
+    }
+
+    private void ChangeStarMenu()
+    {
+        SceneManager.LoadScene("StartScene");
     }
     #endregion // 함수
 
@@ -145,6 +160,8 @@ public class NightMareRedDragonEnemy : Enemy
     private IEnumerator ClawAttackCO()
     {
         clawAttackCollider.GetComponent<EnemyAttack>().Init(attackDamage);
+
+        AudioManager.Inst.PlaySFX("BossAttackSFX");
 
         Animator.SetTrigger("clawAttackTrigger");
         yield return new WaitForSeconds(1.6f);

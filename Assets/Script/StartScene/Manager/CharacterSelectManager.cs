@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -28,6 +29,9 @@ public class CharacterSelectManager : MonoBehaviour
     [SerializeField] private GameObject buttonGroup;
     [SerializeField] private GameObject leaveButton;
 
+    [Header("=====> 클리어 횟수 <=====")]
+    [SerializeField] private TMP_Text clearCountTExt;
+    
     [Header("=====> 케릭터 선택 UI, Object <=====")]
     [SerializeField] private GameObject characterSelectUI;
     [SerializeField] private GameObject characterSelectObject;
@@ -45,7 +49,10 @@ public class CharacterSelectManager : MonoBehaviour
     /** 초기화 */
     private void Awake()
     {
-        
+        if (PlayerPrefs.HasKey("ClearStage"))
+        {
+            clearCountTExt.text = "클리어 : " + PlayerPrefs.GetInt("ClearStage").ToString();
+        }     
     }
 
     /** 초기화 */
@@ -89,7 +96,7 @@ public class CharacterSelectManager : MonoBehaviour
 
         // TODO : 스테이지가 추가되면 변경 예정
         // 씬 변경
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene(stageName);
     }
 
     /** 무기 데이터를 저장하고 확인한다 */
@@ -197,5 +204,10 @@ public class CharacterSelectManager : MonoBehaviour
     public void QuitUnityGame()
     {
         Application.Quit();
+    }
+
+    public void LoadStartScene()
+    {
+        SceneManager.LoadScene("StartScene");
     }
 }

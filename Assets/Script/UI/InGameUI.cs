@@ -46,13 +46,13 @@ public class InGameUI : MonoBehaviour
     /** 플레이어 체력바 이미지를 갱신한다 */
     public void UpdateHpBar(int maxHp, int currentHp)
     {
-        hpBarImg.fillAmount = currentHp / maxHp;
+        hpBarImg.fillAmount = (float)currentHp / maxHp;
     }
 
     /** 플레이어 경험치바 이미지를 갱신한다 */
     public void UpdateExpBar(float maxExp, float currentExp)
     {
-        expBarImg.fillAmount = currentExp / maxExp;
+        expBarImg.fillAmount = (float)currentExp / maxExp;
     }
 
     /** 플레이어 레벨 텍스트를 갱신한다 */
@@ -88,9 +88,9 @@ public class InGameUI : MonoBehaviour
     }
 
     /** 보스 체력바를 갱신한다 */
-    public void BossHpBarUpdate(float maxExp, float currentExp)
+    public void BossHpBarUpdate(float maxHp, float currentHp)
     {
-        expBarImg.fillAmount = currentExp / maxExp;
+        bosshpbarImg.fillAmount = (float)currentHp / maxHp;
     }
     #endregion // 함수
 }

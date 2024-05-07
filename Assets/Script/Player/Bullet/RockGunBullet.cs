@@ -59,7 +59,6 @@ public class RockGunBullet : PlayerAttack
             this.transform.localScale = Vector3.one * scaleValue;
             rigid.AddTorque(this.transform.right * angularPower, ForceMode.Acceleration);
 
-            Debug.Log(playerMain);
             if(attackRange < Vector3.Distance(this.transform.position, playerMain.transform.position))
             {
                 Ground();

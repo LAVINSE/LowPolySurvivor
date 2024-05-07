@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerMain : MonoBehaviour
@@ -91,10 +92,12 @@ public class PlayerMain : MonoBehaviour
 
         // TODO : 임시 변환
         CurrentHp -= Mathf.RoundToInt(damage);
+        AudioManager.Inst.PlaySFX("PlayerHeatSFX");
+
+        Debug.Log(CurrentHp);
 
         // 체력바 갱신
         GameManager.Instance.InGameUI.UpdateHpBar(maxHp, CurrentHp);
-        Debug.Log(CurrentHp);
 
         if (CurrentHp <= 0)
         {
@@ -106,54 +109,49 @@ public class PlayerMain : MonoBehaviour
     /** 경험치를 얻는다 */
     public void GetExp(float getExp)
     {
+        if (getExp <= 0) { return; }
+
         CurrentExp += getExp * (1f + expPercent);
-        GameManager.Instance.InGameUI.UpdateExpBar(expArray[currentLevel], CurrentExp);
+        AudioManager.Inst.PlaySFX("ExpSFX");
 
-        // 현재 경험치가 현재 레벨 경험치 통보다 클 경우
-        if (CurrentExp >= expArray[currentLevel])
+        if (CurrentExp == ExpArray[currentLevel])
         {
-            // 레벨이 최대레벨일 경우
-            if(currentLevel == maxLevel)
-            {
-                // 경험치를 가득 채운다
-                CurrentExp = expArray[currentLevel];
-                GameManager.Instance.InGameUI.UpdateExpBar(expArray[currentLevel], CurrentExp);
-                return;
-            }
-
-            float saveExp = expArray[currentLevel] - CurrentExp;
-
-            // 현재 레벨 경험치 통만큼 뺀다
-            GameManager.Instance.InGameUI.UpdateExpBar(expArray[currentLevel], CurrentExp);
-
-            LevelUP(saveExp);
+            LevelUP();
         }
+
+        // 경험치 바 업데이트
+        GameManager.Instance.InGameUI.UpdateExpBar(expArray[currentLevel], CurrentExp);
     }
 
     /** 레벨업 */
-    public void LevelUP(float saveExp)
+    public void LevelUP()
     {
         // 레벨업
+        AudioManager.Inst.PlaySFX("LevelUpSFX");
         currentLevel++;
         CurrentExp = 0;
-        CurrentExp += saveExp;
 
-        GameManager.Instance.InGameUI.UpdateLevelText(CurrentLevel);
+        GameManager.Instance.InGameUI.UpdateLevelText(currentLevel);
+        GameManager.Instance.InGameUI.UpdateExpBar(expArray[currentLevel], CurrentExp);
         GameManager.Instance.ShowUpgradeUI(true);
     }
 
     /** 플레이어 죽음 */
     private void Die()
     {
-        // TODO : 테스트용 코드
         if (isDie == true) { return; }
 
         isDie = true;
         animator.SetBool("isDie", true);
 
+        AudioManager.Inst.PlaySFX("PlayerDieSFX");
+
         // TODO : 중력 X, 콜라이더 isTrigger 해제 설정해야됨 
         rigid.useGravity = false;
         capsuleCollider.enabled = false;
+
+        Invoke("GameOverSound", 1f);
+        Invoke("ChangeStarMenu", 3f);
     }
 
     /** 무기 데이터 설정 및 딕셔너리에 추가한다 */
@@ -257,6 +255,14 @@ public class PlayerMain : MonoBehaviour
     public void ItemPickRange(float increaseRange)
     {
         itemPickRange *= (1f + increaseRange);
+        sphereCollider.radius = itemPickRange;
+    }
+
+    /** 아이템 수집 범위 감소 */
+    public void DeItemPickRange(float decreaseRange)
+    {
+        itemPickRange /= (1f + decreaseRange);
+        sphereCollider.radius = itemPickRange;
     }
 
     /** 행운 업그레이드 */
@@ -266,6 +272,16 @@ public class PlayerMain : MonoBehaviour
         luck *= (1f + increaseLuck);
 
         this.luck = Mathf.RoundToInt(luck);
+    }
+
+    private void GameOverSound()
+    {
+        AudioManager.Inst.PlaySFX("GameOverSFX");
+    }
+
+    private void ChangeStarMenu()
+    {
+        SceneManager.LoadScene("StartScene");
     }
     #endregion // 함수
 }

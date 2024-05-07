@@ -13,16 +13,32 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   enemyDataStruct:
-  - maxHp: 10
+  - maxHp: 160
     moveSpeed: 3.5
-    attackDelay: 4
-    attackDamage: 0
-  - maxHp: 10
-    moveSpeed: 4
-    attackDelay: 4
-    attackDamage: 5
-  - maxHp: 10
-    moveSpeed: 4
-    attackDelay: 4
-    attackDamage: 7
+    attackDelay: 4.5
+    attackDamage: 10
+  - maxHp: 160
+    moveSpeed: 3.5
+    attackDelay: 4.5
+    attackDamage: 10
+  - maxHp: 160
+    moveSpeed: 3.5
+    attackDelay: 4.5
+    attackDamage: 10
+  - maxHp: 360
+    moveSpeed: 3.5
+    attackDelay: 4.5
+    attackDamage: 10
+  - maxHp: 360
+    moveSpeed: 3.5
+    attackDelay: 4.5
+    attackDamage: 10
+  - maxHp: 360
+    moveSpeed: 5.5
+    attackDelay: 4.5
+    attackDamage: 10
+  - maxHp: 600
+    moveSpeed: 5.5
+    attackDelay: 4.5
+    attackDamage: 10
   attackRange: 2
