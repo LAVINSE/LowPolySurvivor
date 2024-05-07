@@ -47,17 +47,25 @@ public class CharacterSelectManager : MonoBehaviour
     #endregion // 프로퍼티
 
     /** 초기화 */
-    private void Awake()
+    private void OnEnable()
     {
         if (PlayerPrefs.HasKey("ClearStage"))
         {
             clearCountTExt.text = "클리어 : " + PlayerPrefs.GetInt("ClearStage").ToString();
-        }     
+        }
+        else
+        {
+            PlayerPrefs.SetInt("ClearStage", 0);
+            clearCountTExt.text = "클리어 : " + 0;
+        }
     }
 
     /** 초기화 */
     private void Start()
     {
+        AudioManager.Inst.StopBGM();
+        AudioManager.Inst.PlayBGM("MainBGM");
+
         foreach (GameObject models in modelList)
         {
             // 모델 비활성화

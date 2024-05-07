@@ -95,7 +95,8 @@ public class NightMareRedDragonEnemy : Enemy
         // 아이템 드랍
         InstantiateDropItem(this.transform.position);
 
-        PlayerPrefs.SetInt("ClearStage", clearCount++);
+        clearCount++;
+        PlayerPrefs.SetInt("ClearStage", clearCount);
         Invoke("ChangeStarMenu", 3f);
 
         // TODO : 비활성화 처리, 테스트용으로 삭제 처리함

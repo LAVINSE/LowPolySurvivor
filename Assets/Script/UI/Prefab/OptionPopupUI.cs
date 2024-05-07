@@ -9,15 +9,21 @@ using UnityEngine.UI;
 public class OptionPopupUI : PopupUI
 {
     #region 변수
+    [Header("=====> 드롭다운 <=====")]
     [SerializeField] private TMP_Dropdown graphicsDropDown;
 
+    [Header("=====> 슬라이더 <=====")]
     [SerializeField] private Slider masterVolumeSlider;
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
+
+    [Header("=====> 오디오 믹서 <=====")]
     [SerializeField] private AudioMixer mainAudioMixer;
 
+    [Header("=====> 오브젝트 <=====")]
     [SerializeField] private GameObject popupUIObject;
 
+    [Header("=====> 버튼 <=====")]
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button cancelButton;
     #endregion // 변수

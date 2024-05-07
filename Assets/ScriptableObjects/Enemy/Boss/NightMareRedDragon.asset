@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: NightMareRedDragon
   m_EditorClassIdentifier: 
   enemyDataStruct:
-  - maxHp: 1
-    moveSpeed: 3
-    attackDelay: 4.4
+  - maxHp: 1200
+    moveSpeed: 3.3
+    attackDelay: 2
     attackDamage: 8
   attackRange: 3.8

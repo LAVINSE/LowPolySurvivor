@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.089592054, g: 0.07276191, b: 0.14543547, a: 1}
+  m_IndirectSpecularColor: {r: 0.112020105, g: 0.09835042, b: 0.16274081, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6415,7 +6415,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Clear : 0'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 340dfb683adf926498ed178958f4f5c7, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -6479,7 +6479,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1544549985
@@ -7631,7 +7631,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: a0eef1bb87a62b04db6f235b6b233357, type: 2}
-  bgmSound: []
+  bgmSound:
+  - soundName: MainBGM
+    soundClip: {fileID: 8300000, guid: 057b3768236c7644e89c8efcb134db30, type: 3}
   bgmAudioSource: {fileID: 592483181}
   sfxSound:
   - soundName: BossAttackSFX

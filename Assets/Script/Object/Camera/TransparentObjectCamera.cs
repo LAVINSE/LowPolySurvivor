@@ -29,7 +29,7 @@ public class TransparentObjectCamera : MonoBehaviour
         // 충돌한 객체들을 반복
         for (int i = 0; i < hits.Length; i++)
         {
-            // 충동한 객체 안에 있는 컴포넌트 가져오기
+            // 충돌한 객체 안에 있는 컴포넌트 가져오기
             TransparentObject[] obj = hits[i].transform.GetComponentsInChildren<TransparentObject>();
 
             for (int j = 0; j < obj.Length; j++)

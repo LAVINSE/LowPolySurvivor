@@ -57,9 +57,9 @@ public class SelectUpgradeButtonUI : MonoBehaviour
     /** 플레이어 이미지 기본 설정 */
     private void InitPlayerData()
     {
-        //upgradeImg.sprite =
-        //upgradeNameText.text =
-        //upgradeDescText.text =
+        upgradeImg.sprite = null;
+        upgradeNameText.text = "캐릭터 스텟";
+        upgradeDescText.text = "캐릭터 스텟을 업그레이드 합니다";
     }
 
     /** 무기 이미지 기본 설정 */

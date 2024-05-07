@@ -1,11 +1,12 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class TransparentObject : MonoBehaviour
 {
     #region 변수
     // 오브젝트 렌더러 저장
-    private MeshRenderer[] meshRenderers; 
+    private MeshRenderer[] meshRenderers;
 
     // 변화하는 속도 및 초기화 지연속도를 나타내는 변수
     private WaitForSeconds delay = new WaitForSeconds(0.001f);
@@ -83,7 +84,7 @@ public class TransparentObject : MonoBehaviour
             // 진행중이던 타이머 체크 코루틴을 중지한다
             StopCoroutine(timeCheckCoroutine);
         }
-            
+
         // 타이머 체크 코루틴을 실행한다
         timeCheckCoroutine = StartCoroutine(CheckTimerCo());
     }
@@ -149,7 +150,7 @@ public class TransparentObject : MonoBehaviour
                     // 완료 X
                     isComplete = false;
                 }
-                    
+
                 // 알파값 감소
                 Color color = meshRenderers[i].material.color;
                 color.a -= Time.deltaTime;
