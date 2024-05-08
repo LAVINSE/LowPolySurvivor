@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
 
             // 카메라 설정
             virtualCamera.Follow = playerObject.transform;
-            virtualCamera.GetComponent<TransparentObjectCamera>().Player = playerObject;
+            //virtualCamera.GetComponent<TransparentObjectCamera>().Player = playerObject;
 
             // UI 설정
             inGameUI.InitEquipSlot(PlayerMain.WeaponList);
