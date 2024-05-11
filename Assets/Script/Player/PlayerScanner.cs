@@ -6,14 +6,19 @@ using UnityEngine;
 public class PlayerScanner : MonoBehaviour
 {
     #region 변수
-    [SerializeField] private float scanRange = 0f;
-    [SerializeField] private float sacnRangeForward = 0f;
-    [SerializeField] private float detectAngle = 45f;
-    [SerializeField] private LayerMask targetLayer;
-    [SerializeField] private Transform nearTarget;
-    [SerializeField] private Transform[] nearTargetArray;
-    [SerializeField] private Transform[] forwardNearTargetArray;
-    [SerializeField] private Transform forwardNearTarget;
+    [Header("=====> 수치 <=====")]
+    [SerializeField] private float scanRange = 0f; // 통합
+    [SerializeField] private float sacnRangeForward = 0f; // 정면
+    [SerializeField] private float detectAngle = 45f; // 감지 범위
+
+    [Header("=====> 레이어 설정 <=====")]
+    [SerializeField] private LayerMask targetLayer; // 레이어
+
+    [Header("=====> 인스펙터 확인 <=====")]
+    [SerializeField] private Transform nearTarget; // 가장 가까운 타겟
+    [SerializeField] private Transform[] nearTargetArray; // 가까운 타겟 배열
+    [SerializeField] private Transform[] forwardNearTargetArray; // 정면 타겟 배열
+    [SerializeField] private Transform forwardNearTarget; // 가장 가까운 정면 타겟
     #endregion // 변수
 
     #region 프로퍼티

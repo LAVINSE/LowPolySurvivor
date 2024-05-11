@@ -38,6 +38,21 @@ public class ShotGunWeapon : Weapon
         Ammo = MaxAmmo;
         StartCoroutine(ShotGunCO());
     }
+
+    private void CreateBullet(Quaternion rotation)
+    {
+        // 샷건 총알
+        GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)PoolBulletType.ShotGunBullet, this.transform.position);
+
+        bullet.transform.rotation = rotation;
+
+        Vector3 directionPos = bullet.transform.forward;
+        directionPos.y = 0;
+
+        // 해당 위치로 부채꼴 공격
+        bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, directionPos, bulletVelocity);
+        bullet.GetComponent<ShotGunBullet>().InitShotGun(knockBackPower);
+    }
     #endregion // 함수
 
     #region 코루틴
@@ -63,17 +78,9 @@ public class ShotGunWeapon : Weapon
                 float currentAngle = -shotAngle / 2f + i * angleStep;
                 Quaternion rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, currentAngle, 0);
 
-                // 샷건 총알
-                GameObject bullet = GameManager.Instance.PoolManager.GetBullet((int)PoolBulletType.ShotGunBullet, this.transform.position);
+                // 총알 생성
+                CreateBullet(rotation);
 
-                bullet.transform.rotation = rotation;
-
-                Vector3 directionPos = bullet.transform.forward;
-                directionPos.y = 0;
-
-                // 해당 위치로 부채꼴 공격
-                bullet.GetComponent<PlayerAttack>().Init(Damage, Penetrate, directionPos, bulletVelocity);
-                bullet.GetComponent<ShotGunBullet>().InitShotGun(knockBackPower);
                 AudioManager.Inst.PlaySFX("GunSoundSFX_1");
                 Ammo--;
             }
@@ -82,7 +89,6 @@ public class ShotGunWeapon : Weapon
         }
 
         StartCoroutine(CoolDownCO(ReloadTime, coroutin, skillImage));
-        // TODO : 비활성화로 관리
     }
     #endregion // 코루틴
 }
